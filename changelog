@@ -1,3 +1,5 @@
 # Changes
 # 0.0.1: Sat 10 May 2014 20:12:59 EST
 # Initial working version
+# 0.0.2: Wed 14 May 2014 08:29:47 EST
+# Got rid of deprecated File.exists?

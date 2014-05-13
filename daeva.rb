@@ -1,7 +1,7 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -w
 #
 # Name:         daeva (Download and Automatically Enable nightly VLC for Apple)
-# Version:      0.0.1
+# Version:      0.0.2
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -57,7 +57,7 @@ def print_usage(options)
 end
 
 def get_local_build_date(vlc_bin)
-  if File.exists?(vlc_bin)
+  if File.exist?(vlc_bin)
     local_build_date = %x[#{vlc_bin} --version 2>&1 |grep buildbot |cut -f2 -d'(' |cut -f1 -d')']
     local_build_date = DateTime.parse(local_build_date).to_date
   else
@@ -112,7 +112,7 @@ end
 def download_vlc(vlc_url,remote_build_date)
   zip_url  = vlc_url+"last"
   zip_file = $work_dir+"/vlc-nightly-"+remote_build_date.to_s+".zip"
-  if !File.exists?(zip_file)
+  if !File.exist?(zip_file)
     if $verbose == 1
       puts "Downloading "+zip_url+" to "+zip_file
     end
@@ -126,7 +126,7 @@ def download_vlc(vlc_url,remote_build_date)
 end
 
 def unzip_vlc(zip_file)
-  if File.exists?(zip_file)
+  if File.exist?(zip_file)
     zip_test = %x[unzip -q -t #{zip_file} 2>&1]
     zip_dir  = File.dirname(zip_file)
   else
@@ -155,7 +155,7 @@ def copy_vlc(zip_dir)
 end
 
 def install_vlc(zip_file)
-  if File.exists?(zip_file)
+  if File.exist?(zip_file)
     zip_dir = unzip_vlc(zip_file)
     copy_vlc(zip_dir)
   else
