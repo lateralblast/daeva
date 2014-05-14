@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -w
 #
 # Name:         daeva (Download and Automatically Enable nightly VLC for Apple)
-# Version:      0.0.2
+# Version:      0.0.3
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -18,7 +18,7 @@ require 'net/http'
 require 'uri'
 require 'date'
 
-options   = "cdghilrvVzZ"
+options   = "CcdghilrvVzZ"
 vlc_url   = "http://nightlies.videolan.org/build/macosx-intel/"
 vlc_app   = "/Applications/VLC.app"
 vlc_bin   = vlc_app+"/Contents/MacOS/VLC"
@@ -53,7 +53,21 @@ def print_usage(options)
   puts "-g:\tUpdate Gatekeeper and Quarantine information so application can run"
   puts "-z:\tClean up temporary directory (delete files older than "+$mtime+" days"
   puts "-Z:\tRemove existing VLC application"
+  puts "-C:\tRemove VLC crash reporter file"
   puts
+end
+
+def remove_crash()
+  user_name  = %x[whoami].chomp
+  crash_dir  = "/Users/"+user_name+"/Library/Application Support/CrashReporter"
+  crash_file = %x[find "#{crash_dir}" -name "VLC_*"].chomp
+  if File.exist?(crash_file)
+    if $verbose == 1
+      puts "Deleting crash file: "+crash_file
+    end
+    %x[rm "#{crash_file}"]
+  end
+  return
 end
 
 def get_local_build_date(vlc_bin)
@@ -195,6 +209,7 @@ def check_todays_date(local_build_date)
 end
 
 def download_and_install_vlc(vlc_app,vlc_bin,vlc_label,vlc_url)
+  remove_crash()
   cleanup_old_files()
   local_build_date = get_local_build_date(vlc_bin)
   check_todays_date(local_build_date)
@@ -289,4 +304,9 @@ end
 if opt["Z"]
   $verbose = 1
   remove_vlc(vlc_app)
+end
+
+if opt["C"]
+  $verbose = 1
+  remove_crash()
 end
