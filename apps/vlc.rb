@@ -1,5 +1,5 @@
 #
-# Routines for VirtualBox
+# Routines for VLC
 #
 
 def get_vlc_app_name()
