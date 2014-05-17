@@ -7,3 +7,5 @@
 # Added -C switch to delete crash reporter file
 # 0.0.4: Sat 17 May 2014 13:15:35 EST
 # Made code generic so any application can be added
+# 0.0.5: Sat 17 May 2014 16:20:32 EST
+# Created app module capability to make it easier to add applications

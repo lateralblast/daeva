@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -w
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.0.4
+# Version:      0.0.5
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -30,10 +30,20 @@ $pkg_info = {}
 $verbose  = 0
 $work_dir = "/tmp/daeva"
 $mtime    = "7"
+$pkg_dir  = File.dirname($0)+"/apps"
 
-# Add packages to hash
-# The Package name must be the same case as the package bundle in /Applications
-# The URL is the URL for the nightly build
+if !$pkg_dir =~ /\//
+  $pkg_dir = Dir.pwd+"/apps"
+end
+
+# Load package code
+
+if File.directory?($pkg_dir)
+  Dir.entries($pkg_dir).grep(/rb$/) do |pkg_code|
+    app_file = $pkg_dir+"/"+pkg_code
+    require app_file
+  end
+end
 
 $pkg_info["VLC"]    = "http://nightlies.videolan.org/build/macosx-intel/"
 $pkg_info["WebKit"] = "http://nightly.webkit.org/builds/trunk/mac/1"
@@ -83,26 +93,20 @@ def remove_crash(app_name)
 end
 
 def get_app_name(app_name)
-  real_name = ""
-  $pkg_info.each do |pkg_name,pkg_url|
-    if pkg_name.downcase == app_name.downcase
-      real_name = pkg_name
-    end
-  end
-  if real_name !~ /[A-z]/
+  app_file = $pkg_dir+"/"+app_name.downcase+".rb"
+  if File.exist?(app_file)
+    app_name = eval("get_#{app_name.downcase}_app_name()")
+  else
     puts "Application "+app_name+" not found"
   end
-  return real_name
+  return app_name
 end
 
 def get_app_url(app_name)
-  app_url = ""
-  $pkg_info.each do |pkg_name,pkg_url|
-    if pkg_name.downcase == app_name.downcase
-      app_url = pkg_url
-    end
-  end
-  if app_url !~ /[A-z]/
+  app_file = $pkg_dir+"/"+app_name.downcase+".rb"
+  if File.exist?(app_file)
+    app_url = eval("get_#{app_name.downcase}_app_url()")
+  else
     puts "Application "+app_name+" not found"
   end
   return app_url
@@ -136,18 +140,12 @@ def get_loc_date(app_name)
 end
 
 def get_rem_date(app_name)
-  app_url  = get_app_url(app_name)
+  app_url  = eval("get_#{app_name.downcase}_app_url()")
   if $verbose == 1
     puts "Getting date of latest release from "+app_url
   end
-  case app_name.downcase
-  when /vlc/
-    rem_date = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/last/)[0].split(/\s+/)[6..7].join(" ")
-    rem_date = DateTime.parse(rem_date).to_date
-  when /webkit/
-    rem_date = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/date/)[0].split(/>/)[1].split(/</)[0]
-    rem_date = DateTime.parse(rem_date).to_date
-  else
+  rem_date = eval("get_#{app_name.downcase}_rem_date(app_url)")
+  if rem_date.to_s !~ /[0-9]/
     puts "Remote build date not found"
     exit
   end
@@ -232,6 +230,9 @@ end
 def copy_app(app_name,tmp_dir)
   if File.directory?(tmp_dir)
     %x[cd #{tmp_dir} ; sudo cp -rp `find . -name #{app_name}.app` /Applications]
+    if $verbose == 1
+      puts "Copying Application from "+tmp_dir+" to /Application"
+    end
   else
     puts "Directory "+tmp_dir+" does not exist "
     exit
@@ -240,10 +241,6 @@ def copy_app(app_name,tmp_dir)
 end
 
 def attach_dmg(app_name,pkg_file)
-  tmp_dir = $work_dir+"/dmg"
-  if !File.directory?(tmp_dir)
-    Dir.mkdir(tmp_dir)
-  end
   tmp_dir = %x[sudo hdiutil attach #{pkg_file} |tail -1 |awk '{print $3}' ].chomp
   if tmp_dir !~ /[A-z]/
     tmp_dir = "/Volumes/"+app_name
@@ -251,8 +248,8 @@ def attach_dmg(app_name,pkg_file)
   return tmp_dir
 end
 
-def detach_dmg(dmg_dir)
-  %x[hdiutil detach #{dmg_dir}]
+def detach_dmg(tmp_dir)
+  %x[hdiutil detach #{tmp_dir}]
   return
 end
 
@@ -328,7 +325,7 @@ def remove_app(app_name)
   app_dir = get_app_dir(app_name)
   if File.directory?(app_dir)
     if $verbose == 1
-      puts "Removing "+app_name
+      puts "Removing "+app_dir
     end
     %x[rm -rf #{app_dir}]
   end
@@ -336,8 +333,14 @@ def remove_app(app_name)
 end
 
 def print_avail_pkgs()
-  $pkg_info.each do |pkg_name,pkg_url|
-    puts pkg_name+"\t[ "+pkg_url+" ]"
+  pkg_list = Dir.entries($pkg_dir)
+  pkg_list.each do |file_name|
+    if file_name =~ /rb$/
+      pkg_name = File.basename(file_name,".rb")
+      app_name = eval("get_#{pkg_name}_app_name()")
+      app_url  = eval("get_#{pkg_name}_app_url()")
+      puts app_name+"\t[ "+app_url+" ]"
+    end
   end
   return
 end
@@ -390,8 +393,8 @@ if opt["r"]
   $verbos    = 1
   app_name = opt["r"]
   app_name = get_app_name(app_name)
-  remote_date = get_rem_date(app_name)
-  puts remote_date
+  rem_date = get_rem_date(app_name)
+  puts rem_date
   exit
 end
 
