@@ -19,20 +19,20 @@ Usage
 
 Information about using daeva:
 
-https://github.com/richardatlateralblast/daeva/Usage
+https://github.com/richardatlateralblast/daeva/wiki/Usage
 
 Examples
 ========
 
 Examples of usage:
 
-https://github.com/richardatlateralblast/daeva/Examples
+https://github.com/richardatlateralblast/daeva/wiki/Examples
 
 Packages
 ========
 
 Information about available packages and creating your own packages:
 
-https://github.com/richardatlateralblast/daeva/Packages
+https://github.com/richardatlateralblast/daeva/wiki/Packages
 
 
