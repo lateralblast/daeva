@@ -9,3 +9,5 @@
 # Made code generic so any application can be added
 # 0.0.5: Sat 17 May 2014 16:20:32 EST
 # Created app module capability to make it easier to add applications
+# 0.0.6: Sat 17 May 2014 17:10:43 EST
+# Added chromium package and fixed some bugs

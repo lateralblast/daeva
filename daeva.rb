@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -w
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.0.5
+# Version:      0.0.6
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -175,24 +175,14 @@ def compare_build_dates(loc_date,rem_date)
 end
 
 def get_pkg_url(app_name)
-  app_url  = get_app_url(app_name)
-  case app_name.downcase
-  when /vlc/
-    pkg_url = app_url+"last"
-  when /webkit/
-    pkg_url = Net::HTTP.get(URI.parse(app_url))
-    pkg_url  = URI.extract(pkg_url,"http")[0]
-  end
+  app_url = ""
+  app_url = eval("get_#{app_name.downcase}_app_url()")
+  pkg_url = eval("get_#{app_name.downcase}_pkg_url(app_url)")
   return pkg_url
 end
 
 def download_app(app_name,pkg_url,rem_date)
-  case app_name.downcase
-  when /vlc/
-    suffix = "zip"
-  when /webkit/
-    suffix = "dmg"
-  end
+  suffix = eval("get_#{app_name.downcase}_pkg_type()")
   pkg_file = $work_dir+"/"+app_name.downcase+"-"+rem_date.to_s+"."+suffix
   if !File.exist?(pkg_file)
     if $verbose == 1
@@ -291,9 +281,14 @@ def cleanup_old_files()
   end
 end
 
-def check_todays_date(loc_date)
+def get_todays_date()
   todays_date = DateTime.now.to_s
   todays_date = DateTime.parse(todays_date).to_date
+  return todays_date
+end
+
+def check_todays_date(loc_date)
+  todays_date = get_todays_date()
   if todays_date.to_time == loc_date.to_time
     puts "Today's build is already installed"
     exit

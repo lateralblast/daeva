@@ -22,3 +22,8 @@ def get_webkit_rem_date(app_url)
   rem_date = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/date/)[0].split(/>/)[1].split(/</)[0]
   rem_date = DateTime.parse(rem_date).to_date
 end
+
+def get_webkit_pkg_type()
+  pkg_type = "dmg"
+  return pkg_type
+end

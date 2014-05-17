@@ -22,3 +22,8 @@ def get_vlc_rem_date(app_url)
   rem_date = DateTime.parse(rem_date).to_date
   return rem_date
 end
+
+def get_vlc_pkg_type()
+  pkg_type = "zip"
+  return pkg_type
+end
