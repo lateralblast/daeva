@@ -14,6 +14,12 @@ Features:
 - Checks remote version and local version before downloading
 - Installs and fixes Gatekeeper and Quarantine information so application runs without asking for approval
 
+Currently supported applications:
+
+- Chromium
+- VLC
+- WebKit
+
 Usage
 =====
 
