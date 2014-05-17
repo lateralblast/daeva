@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -w
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.0.6
+# Version:      0.0.7
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -334,7 +334,12 @@ def print_avail_pkgs()
       pkg_name = File.basename(file_name,".rb")
       app_name = eval("get_#{pkg_name}_app_name()")
       app_url  = eval("get_#{pkg_name}_app_url()")
-      puts app_name+"\t[ "+app_url+" ]"
+      if app_name.length < 8
+        spacer="\t "
+      else
+        spacer=" "
+      end
+      puts app_name+spacer+"[ "+app_url+" ]"
     end
   end
   return
