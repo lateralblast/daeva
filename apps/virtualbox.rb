@@ -50,7 +50,7 @@ def do_virtualbox_post_install(app_name)
       if $verbose == 1
         puts "Installing VirtualBox Extensions Pack"
       end
-      %x[#{vbox_bin} extpack install #{pkg_file}]
+      %x[sudo #{vbox_bin} extpack install #{pkg_file}]
     end
   else
     puts "File "+pkg_file+" does not exist"

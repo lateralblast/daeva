@@ -385,6 +385,7 @@ def download_and_install_app(app_name)
     pkg_file = download_app(app_name,pkg_url,rem_ver)
     install_app(app_name,pkg_file)
     fix_gatekeeper(app_name)
+    post_install(app_name)
   end
   return
 end
@@ -395,7 +396,9 @@ def remove_app(app_name)
     if $verbose == 1
       puts "Removing "+app_dir
     end
-    %x[rm -rf #{app_dir}]
+    if app_dir =~ /[A-z]/
+      %x[sudo rm -rf #{app_dir}]
+    end
   end
   return
 end
