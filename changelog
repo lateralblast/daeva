@@ -13,3 +13,5 @@
 # Added chromium package and fixed some bugs
 # 0.0.7: Sat 17 May 2014 17:23:03 EST
 # Updated README and cleaned up output of available packages
+# 0.0.8: Sat 17 May 2014 19:44:27 EST
+# Added VirtualBox and post install function

@@ -19,6 +19,7 @@ Currently supported applications:
 - Chromium
 - VLC
 - WebKit
+- VirtualBox
 
 Usage
 =====

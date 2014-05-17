@@ -1,7 +1,7 @@
-#!/usr/bin/env ruby -w
+#!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.0.7
+# Version:      0.0.8
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -19,10 +19,11 @@ require 'getopt/std'
 require 'net/http'
 require 'uri'
 require 'date'
+require 'versionomy'
 
 # Variables
 
-options  = "aC:c:d:ghi:l:p:r:vVzZ:"
+options  = "aC:c:d:ghi:l:p:P:r:vVzZ:"
 
 # Global variables
 
@@ -76,6 +77,7 @@ def print_usage(options)
   puts "-z:\tClean up temporary directory (delete files older than "+$mtime+" days"
   puts "-Z:\tRemove existing application"
   puts "-C:\tRemove crash reporter file"
+  puts "-P:\tPerform post install"
   puts
 end
 
@@ -117,59 +119,92 @@ def get_app_dir(app_name)
   return app_dir
 end
 
-def get_loc_date(app_name)
+def get_app_ver(app_name)
+  app_dir  = get_app_dir(app_name)
+  ver_file = app_dir+"/Contents/Info.plist"
+  if File.exist?(ver_file)
+    app_ver = %x[defaults read #{ver_file} CFBundleShortVersionString].chomp
+  else
+    if $verbose == 1
+      puts "Application information file "+ver_file+" does not exist"
+    end
+    app_ver = "Not Installed"
+  end
+  return app_ver
+end
+
+def get_app_date(app_name)
   app_dir = get_app_dir(app_name)
   app_bin = app_dir+"/Contents/MacOS/"+app_name
   if File.directory?(app_dir)
     if File.exist?(app_bin)
-      loc_date = File.mtime(app_bin)
-      loc_date = DateTime.parse(loc_date.to_s).to_date
+      app_date = File.mtime(app_bin)
+      app_date = DateTime.parse(app_date.to_s).to_date
     else
-      loc_date = "Not Installed"
+      app_date = "Not Installed"
       if $verbose == 1
         puts "Application "+app_bin+" does not exist"
       end
     end
   else
-    loc_date = "Not Installed"
+    app_date = "Not Installed"
     if $verbose == 1
       puts "Directory "+app_dir+" does not exist"
     end
   end
-  return loc_date
+  return app_date
 end
 
-def get_rem_date(app_name)
+def get_loc_ver(app_name)
+  loc_ver = eval("get_#{app_name.downcase}_loc_ver(app_name)")
+  return loc_ver
+end
+
+def get_rem_ver(app_name)
   app_url  = eval("get_#{app_name.downcase}_app_url()")
   if $verbose == 1
     puts "Getting date of latest release from "+app_url
   end
-  rem_date = eval("get_#{app_name.downcase}_rem_date(app_url)")
-  if rem_date.to_s !~ /[0-9]/
-    puts "Remote build date not found"
+  rem_ver = eval("get_#{app_name.downcase}_rem_ver(app_url)")
+  if rem_ver.to_s !~ /[0-9]/
+    puts "Remote build date or version not found"
     exit
   end
-  return rem_date
+  return rem_ver
 end
 
-def compare_build_dates(loc_date,rem_date)
-  if loc_date == "Not Installed"
+def compare_build_vers(loc_ver,rem_ver)
+  if loc_ver == "Not Installed"
     result = 0
   else
-    if rem_date.to_time > loc_date.to_time
-      result = 0
+    if rem_ver.to_s =~ /-/
+      if $verbose == 1
+        puts "Local build date:  "+loc_ver.to_s
+        puts "Remote build date: "+rem_ver.to_s
+      end
+      if rem_ver.to_time > loc_ver.to_time
+        result = 0
+      else
+        result = 1
+      end
     else
-      result = 1
+      if $verbose == 1
+        puts "Local build version:  "+loc_ver
+        puts "Remote build version: "+rem_ver
+      end
+      loc_ver = Versionomy.parse(loc_ver)
+      rem_ver = Versionomy.parse(rem_ver)
+      if rem_ver > loc_ver
+        result = 0
+      else
+        result = 1
+      end
     end
   end
-  if $verbose == 1
-    puts "Local build date:  "+loc_date.to_s
-    puts "Remote build date: "+rem_date.to_s
-    if result == 0
-      puts "Remote version of build is newer than local"
-    else
-      puts "Local version of build is up to date"
-    end
+  if result == 0
+    puts "Remote version of build is newer than local"
+  else
+    puts "Local version of build is up to date"
   end
   return result
 end
@@ -181,14 +216,27 @@ def get_pkg_url(app_name)
   return pkg_url
 end
 
-def download_app(app_name,pkg_url,rem_date)
-  suffix = eval("get_#{app_name.downcase}_pkg_type()")
-  pkg_file = $work_dir+"/"+app_name.downcase+"-"+rem_date.to_s+"."+suffix
+def get_pkg_file(pkg_url,pkg_file)
+  if !File.exist?(pkg_file)
+    %x[curl -o "#{pkg_file}" "#{pkg_url}"]
+  else
+    puts "File "+pkg_file+" already exits"
+  end
+  return
+end
+
+def download_app(app_name,pkg_url,rem_ver)
+  if pkg_url =~ /dmg$|zip$/
+    suffix = pkg_url.split(/\./)[-1]
+  else
+    suffix = eval("get_#{app_name.downcase}_pkg_type()")
+  end
+  pkg_file = $work_dir+"/"+app_name.downcase+"-"+rem_ver.to_s+"."+suffix
   if !File.exist?(pkg_file)
     if $verbose == 1
       puts "Downloading "+pkg_url+" to "+pkg_file
     end
-    %x[curl -o "#{pkg_file}" "#{pkg_url}"]
+    get_pkg_file(pkg_url,pkg_file)
   else
     if $verbose == 1
       puts pkg_file+" already exists"
@@ -219,9 +267,20 @@ end
 
 def copy_app(app_name,tmp_dir)
   if File.directory?(tmp_dir)
-    %x[cd #{tmp_dir} ; sudo cp -rp `find . -name #{app_name}.app` /Applications]
-    if $verbose == 1
-      puts "Copying Application from "+tmp_dir+" to /Application"
+    pkg_dir = tmp_dir+"/"+app_name+".app"
+    if File.directory?(pkg_dir)
+      if $verbose == 1
+        puts "Copying Application from "+tmp_dir+" to /Application"
+      end
+      %x[cd #{tmp_dir} ; sudo cp -rp #{pkg_dir} /Applications]
+    else
+      pkg_bin = tmp_dir+"/"+app_name+".pkg"
+      if File.exist?(pkg_bin)
+        if $verbose == 1
+          puts "Installing Application from "+pkg_bin+" to /Application"
+        end
+        %x[sudo /usr/sbin/installer -pkg #{pkg_bin} -target /]
+      end
     end
   else
     puts "Directory "+tmp_dir+" does not exist "
@@ -247,12 +306,24 @@ def install_app(app_name,pkg_file)
   if File.exist?(pkg_file)
     case pkg_file
     when /zip$/
-      tmp_dir = unzip_app(pkg_file)
-      copy_app(app_name,tmp_dir)
+      file_type = %x[file #{pkg_file}].chomp
+      if file_type =~ /Zip archive/
+        tmp_dir = unzip_app(pkg_file)
+        copy_app(app_name,tmp_dir)
+      else
+        puts "File "+pkg_file+" is not a ZIP file"
+        exit
+      end
     when /dmg$/
-      tmp_dir = attach_dmg(app_name,pkg_file)
-      copy_app(app_name,tmp_dir)
-      detach_dmg(tmp_dir)
+      file_type = %x[file #{pkg_file}].chomp
+      if file_type =~ /compressed data/
+        tmp_dir = attach_dmg(app_name,pkg_file)
+        copy_app(app_name,tmp_dir)
+        detach_dmg(tmp_dir)
+      else
+        puts "File "+pkg_file+" is not a DMG file"
+        exit
+      end
     end
   else
     puts "Package file "+pkg_file+" does not exist"
@@ -287,9 +358,9 @@ def get_todays_date()
   return todays_date
 end
 
-def check_todays_date(loc_date)
+def check_todays_date(loc_ver)
   todays_date = get_todays_date()
-  if todays_date.to_time == loc_date.to_time
+  if todays_date.to_time == loc_ver.to_time
     puts "Today's build is already installed"
     exit
   end
@@ -299,17 +370,19 @@ end
 def download_and_install_app(app_name)
   remove_crash(app_name)
   cleanup_old_files()
-  loc_date = get_loc_date(app_name)
-  rem_date = get_rem_date(app_name)
-  if loc_date == "Not Installed"
+  loc_ver = get_loc_ver(app_name)
+  rem_ver = get_rem_ver(app_name)
+  if loc_ver == "Not Installed"
     result = 0
   else
-    check_todays_date(loc_date)
-    result = compare_build_dates(loc_date,rem_date)
+    if loc_ver.to_s =~ /-/
+      check_todays_date(loc_ver)
+    end
+    result = compare_build_vers(loc_ver,rem_ver)
   end
   if result == 0
     pkg_url  = get_pkg_url(app_name)
-    pkg_file = download_app(app_name,pkg_url,rem_date)
+    pkg_file = download_app(app_name,pkg_url,rem_ver)
     install_app(app_name,pkg_file)
     fix_gatekeeper(app_name)
   end
@@ -324,6 +397,11 @@ def remove_app(app_name)
     end
     %x[rm -rf #{app_dir}]
   end
+  return
+end
+
+def post_install(app_name)
+  eval("do_#{app_name.downcase}_post_install(app_name)")
   return
 end
 
@@ -384,8 +462,8 @@ if opt["l"]
   $verbos  = 1
   app_name = opt['l']
   app_name = get_app_name(app_name)
-  loc_date = get_loc_date(app_name)
-  puts loc_date
+  loc_ver = get_loc_ver(app_name)
+  puts loc_ver
   exit
 end
 
@@ -393,8 +471,8 @@ if opt["r"]
   $verbos    = 1
   app_name = opt["r"]
   app_name = get_app_name(app_name)
-  rem_date = get_rem_date(app_name)
-  puts rem_date
+  rem_ver = get_rem_ver(app_name)
+  puts rem_ver
   exit
 end
 
@@ -402,9 +480,9 @@ if opt["c"]
   $verbose = 1
   app_name = opt["c"]
   app_name = get_app_name(app_name)
-  loc_date = get_loc_date(app_name)
-  rem_date = get_rem_date(app_name)
-  compare_build_dates(loc_date,rem_date)
+  loc_ver = get_loc_ver(app_name)
+  rem_ver = get_rem_ver(app_name)
+  compare_build_vers(loc_ver,rem_ver)
   exit
 end
 
@@ -412,8 +490,8 @@ if opt["d"]
   $verbose = 1
   app_name = opt["d"]
   pkg_url  = get_pkg_url(app_name)
-  rem_date = get_rem_date(app_name)
-  download_app(app_name,pkg_url,rem_date)
+  rem_ver = get_rem_ver(app_name)
+  download_app(app_name,pkg_url,rem_ver)
   exit
 end
 
@@ -456,6 +534,13 @@ if opt["C"]
   app_name = opt["C"]
   app_name = get_app_name(app_name)
   remove_crash(app_name)
+end
+
+if opt["P"]
+  $verbose = 1
+  app_name = opt["P"]
+  app_name = get_app_name(app_name)
+  post_install(app_name)
 end
 
 if opt["a"]
