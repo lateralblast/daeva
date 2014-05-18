@@ -7,12 +7,6 @@ Download and Automatically Enable Various Applications (for OS X)
 
 Ruby script to download and install latest build of an application.
 The code has been made generic so other apps can be added.
-Currently VLC and WebKit are supported.
-
-Features:
-
-- Checks remote version and local version before downloading
-- Installs and fixes Gatekeeper and Quarantine information so application runs without asking for approval
 
 Currently supported applications:
 
@@ -21,6 +15,11 @@ Currently supported applications:
 - WebKit
 - VirtualBox
 - FirefoxNightly
+
+Features:
+
+- Checks remote version and local version before downloading (can handle package dates and versions)
+- Installs and fixes Gatekeeper and Quarantine information so application runs without asking for approval
 
 Usage
 =====
