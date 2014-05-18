@@ -18,6 +18,7 @@ Currently supported applications:
 - LibreOffice
 - Transmission
 - iTerm2
+- OpenOffice
 
 Features:
 

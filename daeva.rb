@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.1.2
+# Version:      0.1.3
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -287,7 +287,7 @@ def copy_app(app_name,tmp_dir)
       if $verbose == 1
         puts "Copying Application from "+tmp_dir+" to /Application"
       end
-      %x[cd #{tmp_dir} ; sudo cp -rp #{pkg_dir} /Applications]
+      %x[cd #{tmp_dir} ; sudo cp -rp #{pkg_dir} /Applications 2>&1]
     else
       pkg_bin = tmp_dir+"/"+app_name+".pkg"
       if File.exist?(pkg_bin)
@@ -297,9 +297,9 @@ def copy_app(app_name,tmp_dir)
         %x[sudo /usr/sbin/installer -pkg #{pkg_bin} -target /]
       end
     end
-    user_id = %s[whoami].chomp
+    user_id = %x[whoami].chomp
     app_dir = "/Applications/"+app_name+".app"
-    if File.directory(app_dir)
+    if File.directory?(app_dir)
       %x[sudo chown -R #{user_id} #{app_dir}]
     end
   else
@@ -336,7 +336,7 @@ def install_app(app_name,pkg_file)
       end
     when /dmg$/
       file_type = %x[file #{pkg_file}].chomp
-      if file_type =~ /compressed data/
+      if file_type =~ /compressed data|VAX COFF/
         tmp_dir = attach_dmg(app_name,pkg_file)
         copy_app(app_name,tmp_dir)
         detach_dmg(tmp_dir)
