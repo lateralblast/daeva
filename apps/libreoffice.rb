@@ -32,6 +32,7 @@ end
 
 def get_libreoffice_loc_ver(app_name)
   loc_ver = get_app_ver(app_name)
+  loc_ver = loc_ver.gsub(/00/,".")
   return loc_ver
 end
 
