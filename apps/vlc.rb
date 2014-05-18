@@ -33,6 +33,6 @@ def get_vlc_loc_ver(app_name)
   return loc_ver
 end
 
-def do_vlc_post_install()
+def do_vlc_post_install(app_name)
   return
 end

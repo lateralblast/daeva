@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.0.8
+# Version:      0.0.9
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -74,7 +74,7 @@ def print_usage(options)
   puts "-c:\tCompare local and remote build dates"
   puts "-a:\tShow available packages"
   puts "-g:\tUpdate Gatekeeper and Quarantine information so application can run"
-  puts "-z:\tClean up temporary directory (delete files older than "+$mtime+" days"
+  puts "-z:\tClean up temporary directory (delete files older than "+$mtime+" days)"
   puts "-Z:\tRemove existing application"
   puts "-C:\tRemove crash reporter file"
   puts "-P:\tPerform post install"
@@ -100,6 +100,12 @@ def get_app_name(app_name)
     app_name = eval("get_#{app_name.downcase}_app_name()")
   else
     puts "Application "+app_name+" not found"
+    puts
+    puts "Available Applications:"
+    puts
+    print_avail_pkgs()
+    puts
+    exit
   end
   return app_name
 end
@@ -298,7 +304,7 @@ def attach_dmg(app_name,pkg_file)
 end
 
 def detach_dmg(tmp_dir)
-  %x[hdiutil detach #{tmp_dir}]
+  %x[sudo hdiutil detach #{tmp_dir}]
   return
 end
 
@@ -412,13 +418,13 @@ def print_avail_pkgs()
   pkg_list = Dir.entries($pkg_dir)
   pkg_list.each do |file_name|
     if file_name =~ /rb$/
+      spacer   = ""
       pkg_name = File.basename(file_name,".rb")
       app_name = eval("get_#{pkg_name}_app_name()")
       app_url  = eval("get_#{pkg_name}_app_url()")
-      if app_name.length < 8
-        spacer="\t "
-      else
-        spacer=" "
+      counter  = 16 - app_name.length
+      counter.times do |x|
+        spacer = spacer+" "
       end
       puts app_name+spacer+"[ "+app_url+" ]"
     end

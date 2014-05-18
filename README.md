@@ -20,6 +20,7 @@ Currently supported applications:
 - VLC
 - WebKit
 - VirtualBox
+- FirefoxNightly
 
 Usage
 =====

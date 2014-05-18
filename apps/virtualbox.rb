@@ -13,7 +13,7 @@ def get_virtualbox_app_url()
 end
 
 def get_virtualbox_pkg_url(app_url)
-  rem_ver = get_virtualbox_rem_ver(app_url)
+  rem_ver  = get_virtualbox_rem_ver(app_url)
   base_url = app_url+rem_ver+"/"
   pkg_name = Net::HTTP.get(URI.parse(base_url)).split("\n").grep(/OSX/)[0].chomp.split(/"/)[1]
   sun_url  = "http://dlc.sun.com.edgesuite.net/virtualbox/"
