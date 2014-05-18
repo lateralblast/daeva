@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.1.3
+# Version:      0.1.4
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -233,7 +233,11 @@ end
 
 def get_pkg_file(pkg_url,pkg_file)
   if !File.exist?(pkg_file)
-    %x[curl -o "#{pkg_file}" "#{pkg_url}"]
+    if $verbose == 1
+      %x[curl -s -o "#{pkg_file}" "#{pkg_url}"]
+    else
+      %x[curl -o "#{pkg_file}" "#{pkg_url}"]
+    end
   else
     puts "File "+pkg_file+" already exits"
   end
@@ -299,7 +303,7 @@ def copy_app(app_name,tmp_dir)
     end
     user_id = %x[whoami].chomp
     app_dir = "/Applications/"+app_name+".app"
-    if File.directory?(app_dir)
+    if File.directory?(app_dir) and app_name != "VirtualBox"
       %x[sudo chown -R #{user_id} #{app_dir}]
     end
   else
