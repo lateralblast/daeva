@@ -17,6 +17,7 @@ Currently supported applications:
 - FirefoxNightly
 - LibreOffice
 - Transmission
+- iTerm2
 
 Features:
 

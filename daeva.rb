@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.1.1
+# Version:      0.1.2
 # Release:      1
 # License:      Open Source
 # Group:        System
