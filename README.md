@@ -15,6 +15,7 @@ Currently supported applications:
 - WebKit
 - VirtualBox
 - FirefoxNightly
+- LibreOffice
 
 Features:
 
