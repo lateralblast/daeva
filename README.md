@@ -16,6 +16,7 @@ Currently supported applications:
 - VirtualBox
 - FirefoxNightly
 - LibreOffice
+- Transmission
 
 Features:
 

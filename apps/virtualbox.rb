@@ -34,6 +34,7 @@ end
 
 def get_virtualbox_loc_ver(app_name)
   loc_ver = get_app_ver(app_name)
+  loc_ver = loc_ver.split(/,/)[0].gsub(/[A-z]/,"").gsub(/ /,"")
   return loc_ver
 end
 

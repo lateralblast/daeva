@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.1.0
+# Version:      0.1.1
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -129,7 +129,8 @@ def get_app_ver(app_name)
   app_dir  = get_app_dir(app_name)
   ver_file = app_dir+"/Contents/Info.plist"
   if File.exist?(ver_file)
-    app_ver = %x[defaults read #{ver_file} CFBundleShortVersionString].chomp
+    app_ver = %x[defaults read #{ver_file} CFBundleGetInfoString].chomp
+    app_ver = app_ver.gsub(/#{app_name} /,"")
   else
     if $verbose == 1
       puts "Application information file "+ver_file+" does not exist"
@@ -198,19 +199,27 @@ def compare_build_vers(loc_ver,rem_ver)
         puts "Local build version:  "+loc_ver
         puts "Remote build version: "+rem_ver
       end
-      loc_ver = Versionomy.parse(loc_ver)
-      rem_ver = Versionomy.parse(rem_ver)
-      if rem_ver > loc_ver
-        result = 0
+      if loc_ver !~ /No/
+        loc_ver = Versionomy.parse(loc_ver)
+        rem_ver = Versionomy.parse(rem_ver)
+        if rem_ver > loc_ver
+          result = 0
+        else
+          result = 1
+        end
       else
-        result = 1
+        result = 2
       end
     end
   end
   if result == 0
     puts "Remote version of build is newer than local"
   else
-    puts "Local version of build is up to date"
+    if result == 1
+      puts "Local version of build is up to date"
+    else
+      puts "Local version could not be accurately determined"
+    end
   end
   return result
 end
@@ -287,6 +296,11 @@ def copy_app(app_name,tmp_dir)
         end
         %x[sudo /usr/sbin/installer -pkg #{pkg_bin} -target /]
       end
+    end
+    user_id = %s[whoami].chomp
+    app_dir = "/Applications/"+app_name+".app"
+    if File.directory(app_dir)
+      %x[sudo chown -R #{user_id} #{app_dir}]
     end
   else
     puts "Directory "+tmp_dir+" does not exist "
@@ -378,7 +392,7 @@ def download_and_install_app(app_name)
   cleanup_old_files()
   loc_ver = get_loc_ver(app_name)
   rem_ver = get_rem_ver(app_name)
-  if loc_ver == "Not Installed"
+  if loc_ver =~ /No/
     result = 0
   else
     if loc_ver.to_s =~ /-/
