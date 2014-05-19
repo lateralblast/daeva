@@ -27,3 +27,5 @@
 # Added OpenOffice and fixed bugs
 # 0.1.4: Sun 18 May 2014 21:17:31 EST
 # Fixed VirtualBox installation
+# 0.1.5: Mon 19 May 2014 10:17:30 EST
+# Added GIMP and improved installation routine

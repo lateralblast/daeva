@@ -19,6 +19,7 @@ Currently supported applications:
 - Transmission
 - iTerm2
 - OpenOffice
+- GIMP
 
 Features:
 

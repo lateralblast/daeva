@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.1.4
+# Version:      0.1.5
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -234,9 +234,9 @@ end
 def get_pkg_file(pkg_url,pkg_file)
   if !File.exist?(pkg_file)
     if $verbose == 1
-      %x[curl -s -o "#{pkg_file}" "#{pkg_url}"]
-    else
       %x[curl -o "#{pkg_file}" "#{pkg_url}"]
+    else
+      %x[curl -s -o "#{pkg_file}" "#{pkg_url}"]
     end
   else
     puts "File "+pkg_file+" already exits"
@@ -285,6 +285,7 @@ def unzip_app(zip_file)
 end
 
 def copy_app(app_name,tmp_dir)
+  remove_app(app_dir)
   if File.directory?(tmp_dir)
     pkg_dir = tmp_dir+"/"+app_name+".app"
     if File.directory?(pkg_dir)
