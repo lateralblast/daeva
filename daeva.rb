@@ -121,7 +121,11 @@ def get_app_url(app_name)
 end
 
 def get_app_dir(app_name)
-  app_dir = "/Applications/"+app_name+".app"
+  if app_name.downcase =~ /xquartz/
+    app_dir = "/Applications/Utilities/"+app_name+".app"
+  else
+    app_dir = "/Applications/"+app_name+".app"
+  end
   return app_dir
 end
 
@@ -130,6 +134,9 @@ def get_app_ver(app_name)
   ver_file = app_dir+"/Contents/Info.plist"
   if File.exist?(ver_file)
     app_ver = %x[defaults read #{ver_file} CFBundleGetInfoString].chomp
+    if app_ver !~ /[0-9]\.[0-9]/
+      app_ver = %x[defaults read #{ver_file} CFBundleShortVersionString].chomp
+    end
     app_ver = app_ver.gsub(/#{app_name} /,"")
   else
     if $verbose == 1
@@ -234,9 +241,9 @@ end
 def get_pkg_file(pkg_url,pkg_file)
   if !File.exist?(pkg_file)
     if $verbose == 1
-      %x[curl -o "#{pkg_file}" "#{pkg_url}"]
+      %x[curl -o "#{pkg_file}" "#{pkg_url}" --location]
     else
-      %x[curl -s -o "#{pkg_file}" "#{pkg_url}"]
+      %x[curl -s -o "#{pkg_file}" "#{pkg_url}" --location]
     end
   else
     puts "File "+pkg_file+" already exits"
@@ -285,19 +292,20 @@ def unzip_app(zip_file)
 end
 
 def copy_app(app_name,tmp_dir)
+  app_dir = get_app_dir(app_name)
   remove_app(app_dir)
   if File.directory?(tmp_dir)
     pkg_dir = tmp_dir+"/"+app_name+".app"
     if File.directory?(pkg_dir)
       if $verbose == 1
-        puts "Copying Application from "+tmp_dir+" to /Application"
+        puts "Copying Application from "+tmp_dir+" to #{app_dir}"
       end
       %x[cd #{tmp_dir} ; sudo cp -rp #{pkg_dir} /Applications 2>&1]
     else
       pkg_bin = tmp_dir+"/"+app_name+".pkg"
       if File.exist?(pkg_bin)
         if $verbose == 1
-          puts "Installing Application from "+pkg_bin+" to /Application"
+          puts "Installing Application from "+pkg_bin+" to #{app_dir}"
         end
         %x[sudo /usr/sbin/installer -pkg #{pkg_bin} -target /]
       end

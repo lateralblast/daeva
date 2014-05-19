@@ -20,6 +20,7 @@ Currently supported applications:
 - iTerm2
 - OpenOffice
 - GIMP
+- XQuartz
 
 Features:
 

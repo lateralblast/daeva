@@ -29,3 +29,5 @@
 # Fixed VirtualBox installation
 # 0.1.5: Mon 19 May 2014 10:17:30 EST
 # Added GIMP and improved installation routine
+# 0.1.6: Mon 19 May 2014 11:18:43 EST
+# Added XQuartz and fixed some bugs
