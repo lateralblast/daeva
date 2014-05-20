@@ -31,3 +31,5 @@
 # Added GIMP and improved installation routine
 # 0.1.6: Mon 19 May 2014 11:18:43 EST
 # Added XQuartz and fixed some bugs
+# 0.1.7: Tue 20 May 2014 14:50:43 EST
+# Added code to code to try to match package name (e.g firefox find firefoxnightly)
