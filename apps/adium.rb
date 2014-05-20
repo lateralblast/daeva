@@ -29,7 +29,8 @@ def get_adium_pkg_type()
 end
 
 def get_adium_loc_ver(app_name)
-  loc_ver = get_app_date(app_name)
+  loc_ver = get_app_ver(app_name)
+  loc_ver = loc_ver.split(",")[0]
   return loc_ver
 end
 
