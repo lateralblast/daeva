@@ -37,3 +37,5 @@
 # Added Adium and updated DMG mount and copy to support mount names with spaces
 # 0.1.9: Wed 21 May 2014 04:26:10 EST
 # Fixed local version determination for Adium
+# 1.2.0: Wed 21 May 2014 05:10:46 EST
+# Added support for xCHM
