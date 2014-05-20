@@ -1,6 +1,6 @@
 ![alt tag](https://raw.githubusercontent.com/richardatlateralblast/daeva/master/Daevas.jpg)
 
-> A being of shining light
+> Daeva: A being of shining light
 > -- <cite>Avestan language<cite>
 
 daeva
