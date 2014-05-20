@@ -33,3 +33,5 @@
 # Added XQuartz and fixed some bugs
 # 0.1.7: Tue 20 May 2014 14:50:43 EST
 # Added code to code to try to match package name (e.g firefox find firefoxnightly)
+# 0.1.8: Tue 20 May 2014 16:37:55 EST
+# Added Adium and updated DMG mount and copy to support mount names with spaces

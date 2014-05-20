@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.1.7
+# Version:      0.1.8
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -288,9 +288,9 @@ def unzip_app(zip_file)
   end
   if zip_test =~ /No errors/
     if $verbose == 1
-      %x[cd #{$work_dir} ; unzip -d #{zip_dir} -o #{zip_file}]
+      %x[cd #{$work_dir} ; unzip -d "#{zip_dir}" -o #{zip_file}]
     else
-      %x[cd #{$work_dir} ; unzip -d #{zip_dir} -q -o #{zip_file} 2>&1 /dev/null]
+      %x[cd #{$work_dir} ; unzip -d "#{zip_dir}" -q -o #{zip_file} 2>&1 /dev/null]
     end
   else
     puts "Zip file "+zip_file+" contains errors"
@@ -308,20 +308,20 @@ def copy_app(app_name,tmp_dir)
       if $verbose == 1
         puts "Copying Application from "+tmp_dir+" to #{app_dir}"
       end
-      %x[cd #{tmp_dir} ; sudo cp -rp #{pkg_dir} /Applications 2>&1]
+      %x[cd "#{tmp_dir}" ; sudo cp -rp "#{pkg_dir}" /Applications 2>&1]
     else
       pkg_bin = tmp_dir+"/"+app_name+".pkg"
       if File.exist?(pkg_bin)
         if $verbose == 1
           puts "Installing Application from "+pkg_bin+" to #{app_dir}"
         end
-        %x[sudo /usr/sbin/installer -pkg #{pkg_bin} -target /]
+        %x[sudo /usr/sbin/installer -pkg "#{pkg_bin}" -target /]
       end
     end
     user_id = %x[whoami].chomp
     app_dir = "/Applications/"+app_name+".app"
     if File.directory?(app_dir) and app_name != "VirtualBox"
-      %x[sudo chown -R #{user_id} #{app_dir}]
+      %x[sudo chown -R #{user_id} "#{app_dir}"]
     end
   else
     puts "Directory "+tmp_dir+" does not exist "
@@ -331,15 +331,18 @@ def copy_app(app_name,tmp_dir)
 end
 
 def attach_dmg(app_name,pkg_file)
-  tmp_dir = %x[sudo hdiutil attach #{pkg_file} |tail -1 |awk '{print $3}' ].chomp
+  tmp_dir = %x[sudo hdiutil attach "#{pkg_file}" |tail -1 |cut -f3-].chomp
   if tmp_dir !~ /[A-z]/
     tmp_dir = "/Volumes/"+app_name
+  end
+  if $werbose == 1
+    puts "DMG mounted on "+tmp_dir
   end
   return tmp_dir
 end
 
 def detach_dmg(tmp_dir)
-  %x[sudo hdiutil detach #{tmp_dir}]
+  %x[sudo hdiutil detach "#{tmp_dir}"]
   return
 end
 

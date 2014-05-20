@@ -21,6 +21,7 @@ Currently supported applications:
 - OpenOffice
 - GIMP
 - XQuartz
+- Adium
 
 Features:
 
