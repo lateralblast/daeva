@@ -39,3 +39,5 @@
 # Fixed local version determination for Adium
 # 1.2.0: Wed 21 May 2014 05:10:46 EST
 # Added support for xCHM
+# 1.2.1: Wed  4 Jun 2014 09:10:34 EST
+# Added better handling for determining application source directory from zip files

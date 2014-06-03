@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.1.9
+# Version:      0.2.1
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -279,12 +279,13 @@ def download_app(app_name,pkg_url,rem_ver)
   return pkg_file
 end
 
-def unzip_app(zip_file)
+def unzip_app(app_name,zip_file)
   if File.exist?(zip_file)
     zip_test = %x[unzip -q -t #{zip_file} 2>&1]
     zip_dir  = File.dirname(zip_file)
   else
     puts "Zip file "+zip_file+" does not exist"
+    exit
   end
   if zip_test =~ /No errors/
     if $verbose == 1
@@ -294,6 +295,15 @@ def unzip_app(zip_file)
     end
   else
     puts "Zip file "+zip_file+" contains errors"
+    exit
+  end
+  app_dir = zip_dir+"/"+app_name+".app"
+  if !File.directory?(app_dir)
+    base_dir = %x[unzip -l #{zip_file} | awk '{print $4}' |grep '#{app_name}.app/$'].chomp.split(/\//)[0..-2].join("/")
+    zip_dir  = zip_dir+"/"+base_dir
+  end
+  if !File.directory?(zip_dir)
+    puts "Warning:\tSource directory could not be found for "+app_name
     exit
   end
   return zip_dir
@@ -352,7 +362,7 @@ def install_app(app_name,pkg_file)
     when /zip$/
       file_type = %x[file #{pkg_file}].chomp
       if file_type =~ /Zip archive/
-        tmp_dir = unzip_app(pkg_file)
+        tmp_dir = unzip_app(app_name,pkg_file)
         copy_app(app_name,tmp_dir)
       else
         puts "File "+pkg_file+" is not a ZIP file"
@@ -392,7 +402,7 @@ def cleanup_old_files()
     puts "Cleaning up files older than "+$mtime+" days in "+$work_dir
   end
   if $work_dir =~ /[a-z]/
-    %x[find #{$work_dir} -mtime +#{$mtime} -exec rm '{}' \\;]
+    %x[find #{$work_dir} -mtime +#{$mtime} -exec rm -rf '{}' \\;]
   end
 end
 
