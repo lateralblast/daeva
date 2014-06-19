@@ -1,4 +1,4 @@
-![alt tag](https://raw.githubusercontent.com/richardatlateralblast/daeva/master/Daevas.jpg)
+![alt tag](https://raw.githubusercontent.com/lateralblast/daeva/master/Daevas.jpg)
 
 > Daeva: A being of shining light
 > -- <cite>Avestan language<cite>
@@ -22,18 +22,18 @@ Packages
 
 A list of supported packages and examples to assist with creating your own packages:
 
-https://github.com/richardatlateralblast/daeva/wiki/Packages
+https://github.com/lateralblast/daeva/wiki/Packages
 
 Usage
 =====
 
 Information about using daeva:
 
-https://github.com/richardatlateralblast/daeva/wiki/Usage
+https://github.com/lateralblast/daeva/wiki/Usage
 
 Examples
 ========
 
 Examples of usage:
 
-https://github.com/richardatlateralblast/daeva/wiki/Examples
+https://github.com/lateralblast/daeva/wiki/Examples
