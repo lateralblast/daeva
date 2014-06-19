@@ -37,9 +37,9 @@
 # Added Adium and updated DMG mount and copy to support mount names with spaces
 # 0.1.9: Wed 21 May 2014 04:26:10 EST
 # Fixed local version determination for Adium
-# 1.2.0: Wed 21 May 2014 05:10:46 EST
+# 0.2.0: Wed 21 May 2014 05:10:46 EST
 # Added support for xCHM
-# 1.2.1: Wed  4 Jun 2014 09:10:34 EST
+# 0.2.1: Wed  4 Jun 2014 09:10:34 EST
 # Added better handling for determining application source directory from zip files
-# 1.2.2: Thu 19 Jun 2014 16:46:13 EST
+# 0.2.2: Thu 19 Jun 2014 16:46:13 EST
 # Added support for Firefox Aurora
