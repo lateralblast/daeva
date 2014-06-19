@@ -3,7 +3,8 @@
 # Name:         daeva (Download and Automatically Enable Various Applications)
 # Version:      0.2.6
 # Release:      1
-# License:      Open Source
+# License:      CC-BA (Creative Commons By Attribution)
+#               http://creativecommons.org/licenses/by/4.0/legalcode
 # Group:        System
 # Source:       N/A
 # URL:          http://lateralblast.com.au/
