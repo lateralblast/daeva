@@ -1,5 +1,5 @@
 #
-# Routines for firefoxaurora
+# Routines for FirefoxAurora
 #
 
 def get_firefoxaurora_app_name()

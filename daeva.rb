@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.2.2
+# Version:      0.2.6
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -20,6 +20,7 @@ require 'net/http'
 require 'uri'
 require 'date'
 require 'versionomy'
+require 'mechanize'
 
 # Variables
 
@@ -243,13 +244,23 @@ def get_pkg_url(app_name)
   return pkg_url
 end
 
-def get_pkg_file(pkg_url,pkg_file)
-  if !File.exist?(pkg_file)
-    if $verbose == 1
-      %x[curl -o "#{pkg_file}" "#{pkg_url}" --location]
-    else
-      %x[curl -s -o "#{pkg_file}" "#{pkg_url}" --location]
+def check_pkg_file(pkg_file)
+  if File.exist?(pkg_file)
+    file_type = %x[file #{pkg_file}]
+    if file_type.match(/html|HTML|empty/)
+      File.delete(pkg_file)
     end
+  end
+  return
+end
+
+def get_pkg_file(pkg_url,pkg_file)
+  check_pkg_file(pkg_file)
+  if !File.exist?(pkg_file)
+    agent = Mechanize.new
+    agent.redirect_ok = true
+    agent.pluggable_parser.default = Mechanize::Download
+    agent.get(pkg_url).save(pkg_file)
   else
     puts "File "+pkg_file+" already exits"
   end
@@ -263,6 +274,7 @@ def download_app(app_name,pkg_url,rem_ver)
     suffix = eval("get_#{app_name.downcase}_pkg_type()")
   end
   pkg_file = $work_dir+"/"+app_name.downcase+"-"+rem_ver.to_s+"."+suffix
+  check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
     if $verbose == 1
       puts "Downloading "+pkg_url+" to "+pkg_file
