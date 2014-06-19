@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.2.1
+# Version:      0.2.2
 # Release:      1
 # License:      Open Source
 # Group:        System
@@ -45,9 +45,6 @@ if File.directory?($pkg_dir)
     require app_file
   end
 end
-
-$pkg_info["VLC"]    = "http://nightlies.videolan.org/build/macosx-intel/"
-$pkg_info["WebKit"] = "http://nightly.webkit.org/builds/trunk/mac/1"
 
 def print_version()
   puts

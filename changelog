@@ -41,3 +41,5 @@
 # Added support for xCHM
 # 1.2.1: Wed  4 Jun 2014 09:10:34 EST
 # Added better handling for determining application source directory from zip files
+# 1.2.2: Thu 19 Jun 2014 16:46:13 EST
+# Added support for Firefox Aurora
