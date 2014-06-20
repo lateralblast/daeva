@@ -55,3 +55,5 @@
 # Added support for Skype
 # 0.2.8: Fri 20 Jun 2014 06:24:21 EST
 # Replaced wget/curl with Mechanize::Download
+# 0.2.9: Fri 20 Jun 2014 14:44:54 EST
+# Added error handling for mechanize

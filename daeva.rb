@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.2.6
+# Version:      0.2.9
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -261,7 +261,12 @@ def get_pkg_file(pkg_url,pkg_file)
     agent = Mechanize.new
     agent.redirect_ok = true
     agent.pluggable_parser.default = Mechanize::Download
-    agent.get(pkg_url).save(pkg_file)
+    begin
+      agent.get(pkg_url).save(pkg_file)
+    rescue
+      puts "Error fetching: "+pkg_url
+      exit
+    end
   else
     puts "File "+pkg_file+" already exits"
   end
