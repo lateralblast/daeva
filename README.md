@@ -45,6 +45,7 @@ Supported Applications:
 - Calibre
 - Chromium
 - Cyberduck
+- Firefox
 - FirefoxAurora
 - FirefoxNightly
 - GIMP
