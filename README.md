@@ -1,6 +1,7 @@
 ![alt tag](https://raw.githubusercontent.com/lateralblast/daeva/master/Daevas.jpg)
 
 > Daeva: A being of shining light
+<br>
 > -- <cite>Avestan language<cite>
 
 DAEVA
@@ -52,6 +53,7 @@ Supported Applications:
 - LibreOffice
 - OpenEmu
 - OpenOffice
+- Simple Comic
 - Skype
 - Transmission
 - VirtualBox

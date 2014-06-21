@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.2.9
+# Version:      0.3.1
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -94,12 +94,12 @@ def remove_crash(app_name)
 end
 
 def get_app_name(app_name)
-  app_file = $pkg_dir+"/"+app_name.downcase+".rb"
+  app_file = $pkg_dir+"/"+app_name.downcase.gsub(/ /,"_")+".rb"
   if File.exist?(app_file)
-    app_name = eval("get_#{app_name.downcase}_app_name()")
+    app_name = eval("get_#{app_name.downcase.gsub(/ /,"_")}_app_name()")
   else
     app_list = Dir.entries($pkg_dir)
-    tmp_name = app_list.grep(/#{app_name.downcase}/)[0].gsub(/\.rb/,"")
+    tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ /,"_")}/)[0].gsub(/\.rb/,"")
     if tmp_name =~ /[A-z]/
       puts "Application "+app_name+" not found"
       puts "Found       "+tmp_name
@@ -136,13 +136,33 @@ def get_app_dir(app_name)
   return app_dir
 end
 
-def get_app_ver(app_name)
+def get_min_ver(app_name)
+  min_ver  = ""
   app_dir  = get_app_dir(app_name)
   ver_file = app_dir+"/Contents/Info.plist"
   if File.exist?(ver_file)
-    app_ver = %x[defaults read #{ver_file} CFBundleGetInfoString].chomp
+    cf_check = %x[cat "#{ver_file}" | grep CFBundleVersion]
+    if cf_check.match(/CFBundleVersion/)
+      min_ver = %x[defaults read "#{ver_file}" CFBundleVersion].chomp
+    end
+  end
+  return min_ver
+end
+
+def get_app_ver(app_name)
+  app_ver  = ""
+  app_dir  = get_app_dir(app_name)
+  ver_file = app_dir+"/Contents/Info.plist"
+  if File.exist?(ver_file)
+    cf_check = %x[cat "#{ver_file}" | grep CFBundleGetInfoString]
+    if cf_check.match(/CFBundleGetInfoString/)
+      app_ver = %x[defaults read "#{ver_file}" CFBundleGetInfoString].chomp
+    end
     if app_ver !~ /[0-9]\.[0-9]/
-      app_ver = %x[defaults read #{ver_file} CFBundleShortVersionString].chomp
+      cf_check = %x[cat "#{ver_file}" | grep CFBundleShortVersionString]
+      if cf_check.match(/CFBundleShortVersionString/)
+        app_ver = %x[defaults read "#{ver_file}" CFBundleShortVersionString].chomp
+      end
     end
     app_ver = app_ver.gsub(/#{app_name} /,"")
   else
@@ -177,16 +197,16 @@ def get_app_date(app_name)
 end
 
 def get_loc_ver(app_name)
-  loc_ver = eval("get_#{app_name.downcase}_loc_ver(app_name)")
+  loc_ver = eval("get_#{app_name.downcase.gsub(/ /,"_")}_loc_ver(app_name)")
   return loc_ver
 end
 
 def get_rem_ver(app_name)
-  app_url  = eval("get_#{app_name.downcase}_app_url()")
+  app_url  = eval("get_#{app_name.downcase.gsub(/ /,"_")}_app_url()")
   if $verbose == 1
     puts "Getting date of latest release from "+app_url
   end
-  rem_ver = eval("get_#{app_name.downcase}_rem_ver(app_url)")
+  rem_ver = eval("get_#{app_name.downcase.gsub(/ /,"_")}_rem_ver(app_url)")
   if rem_ver.to_s !~ /[0-9]/
     puts "Remote build date or version not found"
     exit
@@ -240,8 +260,8 @@ end
 
 def get_pkg_url(app_name)
   app_url = ""
-  app_url = eval("get_#{app_name.downcase}_app_url()")
-  pkg_url = eval("get_#{app_name.downcase}_pkg_url(app_url)")
+  app_url = eval("get_#{app_name.downcase.gsub(/ /,"_")}_app_url()")
+  pkg_url = eval("get_#{app_name.downcase.gsub(/ /,"_")}_pkg_url(app_url)")
   return pkg_url
 end
 
@@ -277,9 +297,9 @@ def download_app(app_name,pkg_url,rem_ver)
   if pkg_url =~ /dmg$|zip$/
     suffix = pkg_url.split(/\./)[-1]
   else
-    suffix = eval("get_#{app_name.downcase}_pkg_type()")
+    suffix = eval("get_#{app_name.downcase.gsub(/ /,"_")}_pkg_type()")
   end
-  pkg_file = $work_dir+"/"+app_name.downcase+"-"+rem_ver.to_s+"."+suffix
+  pkg_file = $work_dir+"/"+app_name.downcase.gsub(/ /,"_")+"-"+rem_ver.to_s+"."+suffix
   check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
     if $verbose == 1
@@ -466,14 +486,14 @@ def remove_app(app_name)
       puts "Removing "+app_dir
     end
     if app_dir =~ /[A-z]/
-      %x[sudo rm -rf #{app_dir}]
+      %x[sudo rm -rf "#{app_dir}"]
     end
   end
   return
 end
 
 def post_install(app_name)
-  eval("do_#{app_name.downcase}_post_install(app_name)")
+  eval("do_#{app_name.downcase.gsub(/ /,"_")}_post_install(app_name)")
   return
 end
 

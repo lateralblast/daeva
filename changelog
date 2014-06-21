@@ -57,3 +57,7 @@
 # Replaced wget/curl with Mechanize::Download
 # 0.2.9: Fri 20 Jun 2014 14:44:54 EST
 # Added error handling for mechanize
+# 0.3.0: Sat 21 Jun 2014 17:51:01 EST
+# Added support for application names with spaces
+# 0.3.1: Sat 21 Jun 2014 17:58:16 EST
+# Added support for Simple Comic
