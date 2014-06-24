@@ -45,6 +45,7 @@ Supported Applications:
 - Calibre
 - Chromium
 - Cyberduck
+- FileZilla
 - Firefox
 - FirefoxAurora
 - FirefoxNightly
@@ -54,8 +55,10 @@ Supported Applications:
 - LibreOffice
 - OpenEmu
 - OpenOffice
+- PhantomJS
 - Simple Comic
 - Skype
+- Thunderbird
 - Transmission
 - VirtualBox
 - VLC

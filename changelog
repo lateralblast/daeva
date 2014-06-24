@@ -67,3 +67,5 @@
 # Added FileZila and support for bzip/gzip tar files
 # 0.3.4: Tue 24 Jun 2014 14:37:53 EST
 # Added support for PhantomJS and improved zip file handling
+# 0.3.5: Tue 24 Jun 2014 15:25:23 EST
+# Added support for Thunderbird
