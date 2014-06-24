@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.3.3
+# Version:      0.3.4
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -292,7 +292,7 @@ def get_pkg_file(pkg_url,pkg_file)
       exit
     end
   else
-    puts "File "+pkg_file+" already exits"
+    puts "File"+pkg_file+" already exits, skipping download"
   end
   return
 end
@@ -338,11 +338,15 @@ def unzip_app(app_name,zip_file)
   end
   app_dir = zip_dir+"/"+app_name+".app"
   if !File.directory?(app_dir)
-    base_dir = %x[unzip -l #{zip_file} | awk '{print $4}' |grep '#{app_name}.app/$'].chomp.split(/\//)[0..-2].join("/")
-    zip_dir  = zip_dir+"/"+base_dir
+    if app_name.match(/ /)
+      base_dir = %x[unzip -l "#{zip_file}" | tr '[:upper:]' '[:lower"]' |awk '{print $4" "$5"}' |grep "#{app_name.downcase}" |grep "/$" |tail -1].chomp.split(/\//)[0..-2].join("/")
+    else
+      base_dir = %x[unzip -l "#{zip_file}" | tr '[:upper:]' '[:lower"]' |awk '{print $4}' |grep "#{app_name.downcase}" |grep "/$" |tail -1].chomp.split(/\//)[0..-2].join("/")
+    end
+    zip_dir = zip_dir+"/"+base_dir.gsub(/\/$/,"")
   end
   if !File.directory?(zip_dir)
-    puts "Warning:\tSource directory could not be found for "+app_name
+    puts "Warning:\tSource directory "+zip_dir+" could not be found for "+app_name
     exit
   end
   return zip_dir
@@ -351,6 +355,7 @@ end
 def copy_app(app_name,tmp_dir)
   app_dir = get_app_dir(app_name)
   remove_app(app_dir)
+  bin_dir = tmp_dir+"/bin"
   if File.directory?(tmp_dir)
     pkg_dir = tmp_dir+"/"+app_name+".app"
     if File.directory?(pkg_dir)
@@ -365,6 +370,10 @@ def copy_app(app_name,tmp_dir)
           puts "Installing Application from "+pkg_bin+" to #{app_dir}"
         end
         %x[sudo /usr/sbin/installer -pkg "#{pkg_bin}" -target /]
+      else
+        if File.directory?(bin_dir)
+          %x[cd "#{tmp_dir}" ; sudo cp -rp "#{bin_dir}" /usr/local 2>&1]
+        end
       end
     end
     user_id = %x[whoami].chomp
@@ -450,12 +459,14 @@ end
 
 def fix_gatekeeper(app_name)
   app_dir = get_app_dir(app_name)
-  if $verbose == 1
-    puts "Updating Gatekeeper and Quarantine information"
+  if File.directory?(app_dir)
+    if $verbose == 1
+      puts "Updating Gatekeeper and Quarantine information"
+    end
+    %x[sudo spctl --add --label "#{app_name}" "#{app_dir}"]
+    %x[sudo spctl --enable --label "#{app_name}"]
+    %x[sudo xattr -d -r com.apple.quarantine "#{app_dir}"]
   end
-  %x[sudo spctl --add --label "#{app_name}" "#{app_dir}"]
-  %x[sudo spctl --enable --label "#{app_name}"]
-  %x[sudo xattr -d -r com.apple.quarantine "#{app_dir}"]
   return
 end
 

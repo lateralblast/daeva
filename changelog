@@ -65,3 +65,5 @@
 # Added Firefox
 # 0.3.3: Tue 24 Jun 2014 11:14:05 EST
 # Added FileZila and support for bzip/gzip tar files
+# 0.3.4: Tue 24 Jun 2014 14:37:53 EST
+# Added support for PhantomJS and improved zip file handling
