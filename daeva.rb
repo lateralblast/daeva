@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.3.2
+# Version:      0.3.3
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -25,7 +25,7 @@ require 'mechanize'
 
 # Variables
 
-options  = "aC:c:d:ghi:l:p:P:r:vVzZ:"
+options  = "aC:c:d:ghi:l:p:P:r:u:vVzZ:"
 
 # Global variables
 
@@ -67,6 +67,7 @@ def print_usage(options)
   puts "-v:\tVerbose output"
   puts "-d:\tDownload latest build but don't install"
   puts "-i:\tDownload and install latest build"
+  puts "-u:\tUpdate application to latest build"
   puts "-l:\tGet local build date for application"
   puts "-r:\tGet remote build date for application"
   puts "-p:\tGet URL of download for latest package"
@@ -94,12 +95,12 @@ def remove_crash(app_name)
 end
 
 def get_app_name(app_name)
-  app_file = $pkg_dir+"/"+app_name.downcase.gsub(/ /,"_")+".rb"
+  app_file = $pkg_dir+"/"+app_name.downcase.gsub(/ /,'_')+".rb"
   if File.exist?(app_file)
-    app_name = eval("get_#{app_name.downcase.gsub(/ /,"_")}_app_name()")
+    app_name = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_name()")
   else
     app_list = Dir.entries($pkg_dir)
-    tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ /,"_")}/)[0].gsub(/\.rb/,"")
+    tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ /,'_')}/)[0].gsub(/\.rb/,"")
     if tmp_name =~ /[A-z]/
       puts "Application "+app_name+" not found"
       puts "Found       "+tmp_name
@@ -197,16 +198,19 @@ def get_app_date(app_name)
 end
 
 def get_loc_ver(app_name)
-  loc_ver = eval("get_#{app_name.downcase.gsub(/ /,"_")}_loc_ver(app_name)")
+  loc_ver = eval("get_#{app_name.downcase.gsub(/ /,'_')}_loc_ver(app_name)")
+  if loc_ver.match(/Installed/)
+    loc_ver = "Not Installed"
+  end
   return loc_ver
 end
 
 def get_rem_ver(app_name)
-  app_url  = eval("get_#{app_name.downcase.gsub(/ /,"_")}_app_url()")
+  app_url  = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_url()")
   if $verbose == 1
-    puts "Getting date of latest release from "+app_url
+    puts "Getting date of latest release from #{app_url}"
   end
-  rem_ver = eval("get_#{app_name.downcase.gsub(/ /,"_")}_rem_ver(app_url)")
+  rem_ver = eval("get_#{app_name.downcase.gsub(/ /,'_')}_rem_ver(app_url)")
   if rem_ver.to_s !~ /[0-9]/
     puts "Remote build date or version not found"
     exit
@@ -215,10 +219,10 @@ def get_rem_ver(app_name)
 end
 
 def compare_build_vers(loc_ver,rem_ver)
-  if loc_ver == "Not Installed"
+  if loc_ver.match(/Installed/)
     result = 0
   else
-    if rem_ver.to_s =~ /-/
+    if rem_ver.to_s.match(/-/) and !rem_ver.to_s.match(/beta/)
       if $verbose == 1
         puts "Local build date:  "+loc_ver.to_s
         puts "Remote build date: "+rem_ver.to_s
@@ -260,8 +264,8 @@ end
 
 def get_pkg_url(app_name)
   app_url = ""
-  app_url = eval("get_#{app_name.downcase.gsub(/ /,"_")}_app_url()")
-  pkg_url = eval("get_#{app_name.downcase.gsub(/ /,"_")}_pkg_url(app_url)")
+  app_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_url()")
+  pkg_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_pkg_url(app_url)")
   return pkg_url
 end
 
@@ -297,9 +301,9 @@ def download_app(app_name,pkg_url,rem_ver)
   if pkg_url =~ /dmg$|zip$/
     suffix = pkg_url.split(/\./)[-1]
   else
-    suffix = eval("get_#{app_name.downcase.gsub(/ /,"_")}_pkg_type()")
+    suffix = eval("get_#{app_name.downcase.gsub(/ /,'_')}_pkg_type()")
   end
-  pkg_file = $work_dir+"/"+app_name.downcase.gsub(/ /,"_")+"-"+rem_ver.to_s+"."+suffix
+  pkg_file = $work_dir+"/"+app_name.downcase.gsub(/ /,'_')+"-"+rem_ver.to_s+"."+suffix
   check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
     if $verbose == 1
@@ -386,6 +390,18 @@ def attach_dmg(app_name,pkg_file)
   return tmp_dir
 end
 
+def copy_tar(pkg_file)
+  if File.exist?(pkg_file)
+    case pkg_file
+    when /bz2$/
+      %x[cd /Applications ; tar -xpjf #{pkg_file}]
+    when /gz$/
+      %x[cd /Applications ; tar -xpf #{pkg_file}]
+    end
+  end
+  return
+end
+
 def detach_dmg(tmp_dir)
   %x[sudo hdiutil detach "#{tmp_dir}"]
   return
@@ -393,9 +409,21 @@ end
 
 def install_app(app_name,pkg_file)
   if File.exist?(pkg_file)
+    file_type = %x[file #{pkg_file}].chomp
     case pkg_file
+    when /tar\.bz2$|tbz2$/
+      if file_type =~ /bzip2 compressed data/
+        copy_tar(pkg_file)
+      else
+        puts "File "+pkg_file+" is not a bzipped file"
+      end
+    when /tar\.gz$|tgz$/
+      if file_type =~ /gzip compressed data/
+        copy_tar(pkg_file)
+      else
+        puts "File "+pkg_file+" is not a gzipped file"
+      end
     when /zip$/
-      file_type = %x[file #{pkg_file}].chomp
       if file_type =~ /Zip archive/
         tmp_dir = unzip_app(app_name,pkg_file)
         copy_app(app_name,tmp_dir)
@@ -404,7 +432,6 @@ def install_app(app_name,pkg_file)
         exit
       end
     when /dmg$/
-      file_type = %x[file #{pkg_file}].chomp
       if file_type =~ /compressed data|VAX COFF/
         tmp_dir = attach_dmg(app_name,pkg_file)
         copy_app(app_name,tmp_dir)
@@ -461,10 +488,10 @@ def download_and_install_app(app_name)
   cleanup_old_files()
   loc_ver = get_loc_ver(app_name)
   rem_ver = get_rem_ver(app_name)
-  if loc_ver =~ /No/
+  if loc_ver.match(/Installed/)
     result = 0
   else
-    if loc_ver.to_s =~ /-/
+    if loc_ver.to_s.match(/-/) and !loc_ver.to_s.match(/beta/)
       check_todays_date(loc_ver)
     end
     result = compare_build_vers(loc_ver,rem_ver)
@@ -493,7 +520,7 @@ def remove_app(app_name)
 end
 
 def post_install(app_name)
-  eval("do_#{app_name.downcase.gsub(/ /,"_")}_post_install(app_name)")
+  eval("do_#{app_name.downcase.gsub(/ /,'_')}_post_install(app_name)")
   return
 end
 
@@ -554,7 +581,7 @@ if opt["l"]
   $verbos  = 1
   app_name = opt['l']
   app_name = get_app_name(app_name)
-  loc_ver = get_loc_ver(app_name)
+  loc_ver  = get_loc_ver(app_name)
   puts loc_ver
   exit
 end
@@ -601,6 +628,12 @@ if opt["p"]
   pkg_url  = get_pkg_url(app_name)
   puts pkg_url
   exit
+end
+
+if opt["u"]
+  app_name = opt["u"]
+  app_name = get_app_name(app_name)
+  download_and_install_app(app_name)
 end
 
 if opt["i"]
