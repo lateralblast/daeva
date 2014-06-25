@@ -72,4 +72,6 @@
 # 0.3.6: Thu 26 Jun 2014 04:28:44 EST
 # Added MPlayerX
 # 0.3.7: Thu 26 Jun 2014 05:21:18 EST
-# Added code to stop/start Application
+# Added code to stop/start application
+# 0.3.8: Thu 26 Jun 2014 06:43:41 EST
+# Added Google Drive

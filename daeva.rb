@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.3.7
+# Version:      0.3.8
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -104,8 +104,10 @@ def get_app_name(app_name)
     app_list = Dir.entries($pkg_dir)
     tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ /,'_')}/)[0].gsub(/\.rb/,"")
     if tmp_name =~ /[A-z]/
-      puts "Application "+app_name+" not found"
-      puts "Found       "+tmp_name
+      if $verbose == 1
+        puts "Application "+app_name+" not found"
+        puts "Found       "+tmp_name
+      end
       app_name = eval("get_#{tmp_name.downcase}_app_name()")
     else
       puts "Application "+app_name+" not found"
