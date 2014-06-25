@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.3.6
+# Version:      0.3.7
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -25,7 +25,7 @@ require 'mechanize'
 
 # Variables
 
-options  = "aC:c:d:ghi:l:p:P:r:u:vVzZ:"
+options  = "aC:c:d:ghi:l:p:P:q:r:s:u:vVzZ:"
 
 # Global variables
 
@@ -78,6 +78,8 @@ def print_usage(options)
   puts "-Z:\tRemove existing application"
   puts "-C:\tRemove crash reporter file"
   puts "-P:\tPerform post install"
+  puts "-q:\tQuit application"
+  puts "-s:\tStart application"
   puts
 end
 
@@ -352,11 +354,27 @@ def unzip_app(app_name,zip_file)
   return zip_dir
 end
 
+def quit_app(app_name)
+  app_pid = %x[pgrep "#{app_name}"].chomp.to_s
+  if app_pid
+    if app_pid.match(/[0-9]/)
+      if $verbose == 1
+        puts "Quiting "+app_name
+      end
+      %x[osascript -e 'tell application "#{app_name}" to quit']
+    end
+  else
+    app_pid = "Not Running"
+  end
+  return app_pid
+end
+
 def copy_app(app_name,tmp_dir)
   app_dir = get_app_dir(app_name)
   remove_app(app_dir)
   bin_dir = tmp_dir+"/bin"
   if File.directory?(tmp_dir)
+    app_pid = quit_app(app_name)
     pkg_dir = tmp_dir+"/"+app_name+".app"
     if File.directory?(pkg_dir)
       if $verbose == 1
@@ -385,7 +403,7 @@ def copy_app(app_name,tmp_dir)
     puts "Directory "+tmp_dir+" does not exist "
     exit
   end
-  return
+  return app_pid
 end
 
 def attach_dmg(app_name,pkg_file)
@@ -399,7 +417,8 @@ def attach_dmg(app_name,pkg_file)
   return tmp_dir
 end
 
-def copy_tar(pkg_file)
+def copy_tar(app_name,pkg_file)
+  app_pid = quit_app(app_name)
   if File.exist?(pkg_file)
     case pkg_file
     when /bz2$/
@@ -408,11 +427,23 @@ def copy_tar(pkg_file)
       %x[cd /Applications ; tar -xpf #{pkg_file}]
     end
   end
-  return
+  return app_pid
 end
 
 def detach_dmg(tmp_dir)
   %x[sudo hdiutil detach "#{tmp_dir}"]
+  return
+end
+
+def start_app(app_name)
+  app_pid = %x[pgrep "#{app_name}"].chomp.to_s
+  if !app_pid.match(/[0-9]/)
+    %x[open -a "#{app_name}"]
+  else
+    if $verbose == 1
+      puts "Application already running"
+    end
+  end
   return
 end
 
@@ -422,20 +453,22 @@ def install_app(app_name,pkg_file)
     case pkg_file
     when /tar\.bz2$|tbz2$/
       if file_type =~ /bzip2 compressed data/
-        copy_tar(pkg_file)
+        app_pid = copy_tar(app_name,pkg_file)
       else
         puts "File "+pkg_file+" is not a bzipped file"
+        exit
       end
     when /tar\.gz$|tgz$/
       if file_type =~ /gzip compressed data/
-        copy_tar(pkg_file)
+        app_pid = copy_tar(app_name,pkg_file)
       else
         puts "File "+pkg_file+" is not a gzipped file"
+        exit
       end
     when /zip$/
       if file_type =~ /Zip archive/
         tmp_dir = unzip_app(app_name,pkg_file)
-        copy_app(app_name,tmp_dir)
+        app_pid = copy_app(app_name,tmp_dir)
       else
         puts "File "+pkg_file+" is not a ZIP file"
         exit
@@ -443,12 +476,15 @@ def install_app(app_name,pkg_file)
     when /dmg$/
       if file_type =~ /compressed data|VAX COFF/
         tmp_dir = attach_dmg(app_name,pkg_file)
-        copy_app(app_name,tmp_dir)
+        app_pid = copy_app(app_name,tmp_dir)
         detach_dmg(tmp_dir)
       else
         puts "File "+pkg_file+" is not a DMG file"
         exit
       end
+    end
+    if app_pid.match(/[0-9]/)
+      start_app(app_name)
     end
   else
     puts "Package file "+pkg_file+" does not exist"
@@ -589,7 +625,7 @@ if !File.directory?($work_dir)
 end
 
 if opt["l"]
-  $verbos  = 1
+  $verbose = 1
   app_name = opt['l']
   app_name = get_app_name(app_name)
   loc_ver  = get_loc_ver(app_name)
@@ -597,8 +633,22 @@ if opt["l"]
   exit
 end
 
+if opt["q"]
+  app_name = opt["q"]
+  app_name = get_app_name(app_name)
+  quit_app(app_name)
+  exit
+end
+
+if opt["s"]
+  app_name = opt["s"]
+  app_name = get_app_name(app_name)
+  start_app(app_name)
+  exit
+end
+
 if opt["r"]
-  $verbos    = 1
+  $verbose = 1
   app_name = opt["r"]
   app_name = get_app_name(app_name)
   rem_ver = get_rem_ver(app_name)

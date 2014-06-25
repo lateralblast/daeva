@@ -25,9 +25,7 @@ Features:
 - Checks remote version and local version before downloading (can handle package dates and versions)
 - Installs and fixes Gatekeeper and Quarantine information so application runs without asking for approval
 - Can do post install if required (e.g. Extensions Pack for VirtualBox)
-
-License
--------
+- Stops running application before upgrading
 
 License
 -------
@@ -53,6 +51,7 @@ Supported Applications:
 - iMeme
 - iTerm
 - LibreOffice
+- MPlayerX
 - OpenEmu
 - OpenOffice
 - PhantomJS
