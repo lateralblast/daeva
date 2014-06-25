@@ -69,3 +69,5 @@
 # Added support for PhantomJS and improved zip file handling
 # 0.3.5: Tue 24 Jun 2014 15:25:23 EST
 # Added support for Thunderbird
+# 0.3.6: Thu 26 Jun 2014 04:28:44 EST
+# Added MPlayerX
