@@ -1,4 +1,4 @@
-![alt tag](https://raw.githubusercontent.com/lateralblast/daeva/master/Daevas.jpg)
+![alt tag](https://raw.githubusercontent.com/lateralblast/daeva/master/macbook.jpg)
 
 > Daeva: A being of shining light
 <br>
