@@ -7,6 +7,11 @@ def get_firefox_app_name()
   return app_name
 end
 
+def get_firefox_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_firefox_app_url()
   app_url = "https://www.mozilla.org/en-US/firefox/new/"
   return app_url

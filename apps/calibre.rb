@@ -7,6 +7,11 @@ def get_calibre_app_name()
   return app_name
 end
 
+def get_calibre_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_calibre_app_url()
   app_url = "http://calibre-ebook.com/download_osx"
   return app_url

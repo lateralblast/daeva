@@ -7,6 +7,11 @@ def get_thunderbird_app_name()
   return app_name
 end
 
+def get_thunderbird_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_thunderbird_app_url()
   app_url = "http://www.macupdate.com/app/mac/11942/thunderbird"
   return app_url

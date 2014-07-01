@@ -7,6 +7,11 @@ def get_mplayerx_app_name()
   return app_name
 end
 
+def get_mplayerx_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_mplayerx_app_url()
   app_url = "http://mplayerx.org/download.html"
   return app_url

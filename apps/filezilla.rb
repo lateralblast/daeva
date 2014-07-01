@@ -7,6 +7,11 @@ def get_filezilla_app_name()
   return app_name
 end
 
+def get_filezilla_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_filezilla_app_url()
   app_url = "http://www.macupdate.com/app/mac/25092/filezilla"
   return app_url

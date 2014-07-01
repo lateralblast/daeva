@@ -7,6 +7,11 @@ def get_webkit_app_name()
   return app_name
 end
 
+def get_webkit_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_webkit_app_url()
   app_url = "http://nightly.webkit.org/builds/trunk/mac/1"
   return app_url

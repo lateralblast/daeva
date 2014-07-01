@@ -7,6 +7,11 @@ def get_openoffice_app_name()
   return app_name
 end
 
+def get_openoffice_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_openoffice_app_url()
   aoo_ver = "4.1.0"
   app_url = "http://ftp.mirror.aarnet.edu.au/pub/apache/openoffice/"+aoo_ver+"/binaries/en-US/"

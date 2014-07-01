@@ -7,6 +7,11 @@ def get_phantomjs_app_name()
   return app_name
 end
 
+def get_phantomjs_app_type()
+  app_type = "bin"
+  return app_type
+end
+
 def get_phantomjs_app_url()
   app_url = "http://phantomjs.org/download.html"
   return app_url

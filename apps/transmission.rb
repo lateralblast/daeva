@@ -7,21 +7,24 @@ def get_transmission_app_name()
   return app_name
 end
 
+def get_transmission_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_transmission_app_url()
-  app_url = "https://build.transmissionbt.com/job/trunk-mac/lastBuild/"
+  app_url = "http://www.macupdate.com/app/mac/19378/transmission"
   return app_url
 end
 
 def get_transmission_pkg_url(app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Transmission/)[0].split(/"/).grep(/Transmission/)[0]
-  pkg_url = app_url+pkg_url
+  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[3]
+  pkg_url = "http://www.macupdate.com"+pkg_url
   return pkg_url
 end
 
 def get_transmission_rem_ver(app_url)
-  pkg_url = get_transmission_pkg_url(app_url)
-  rem_ver = File.basename(pkg_url,".dmg")
-  rem_ver = rem_ver.split(/-/)[-1]
+  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/appversinfo/)[0].split(/<\/span>/)[1].split(/>/)[1]
   return rem_ver
 end
 
@@ -32,11 +35,7 @@ end
 
 def get_transmission_loc_ver(app_name)
   loc_ver = get_app_ver(app_name)
-  if loc_ver !~ /()/
-    loc_ver = loc_ver.gsub(/ \+ /,".").gsub(/[),(]/,"").split(/\./)[-1]
-  else
-    loc_ver = "No build number available"
-  end
+  loc_ver = loc_ver.split(/ /)[0].gsub(/\+/,"")
   return loc_ver
 end
 

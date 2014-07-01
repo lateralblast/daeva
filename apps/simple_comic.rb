@@ -7,6 +7,11 @@ def get_simple_comic_app_name()
   return app_name
 end
 
+def get_simple_comic_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_simple_comic_app_url()
   app_url = "http://dancingtortoise.com/simplecomic/"
   return app_url

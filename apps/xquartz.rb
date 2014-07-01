@@ -7,6 +7,11 @@ def get_xquartz_app_name()
   return app_name
 end
 
+def get_xquartz_app_type()
+  app_type = "util"
+  return app_type
+end
+
 def get_xquartz_app_url()
   app_url = "http://xquartz.macosforge.org/trac/wiki"
   return app_url

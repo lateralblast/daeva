@@ -7,6 +7,11 @@ def get_xchm_app_name()
   return app_name
 end
 
+def get_xchm_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_xchm_app_url()
   app_url = "http://sourceforge.net/projects/xchm/files/xCHM%20for%20Mac%20OS/"
   return app_url

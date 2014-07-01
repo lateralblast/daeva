@@ -7,6 +7,11 @@ def get_firefoxaurora_app_name()
   return app_name
 end
 
+def get_firefoxaurora_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_firefoxaurora_app_url()
   app_url = "http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-aurora/"
   return app_url

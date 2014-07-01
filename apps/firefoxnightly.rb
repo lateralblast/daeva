@@ -7,6 +7,11 @@ def get_firefoxnightly_app_name()
   return app_name
 end
 
+def get_firefoxnightly_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_firefoxnightly_app_url()
   app_url = "https://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-trunk/"
   return app_url

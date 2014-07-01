@@ -7,6 +7,11 @@ def get_gimp_app_name()
   return app_name
 end
 
+def get_gimp_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_gimp_app_url()
   app_url = "http://download.gimp.org/pub/gimp/v2.8/osx/experimental/"
   return app_url

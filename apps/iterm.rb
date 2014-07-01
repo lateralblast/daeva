@@ -7,6 +7,11 @@ def get_iterm_app_name()
   return app_name
 end
 
+def get_iterm_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_iterm_app_url()
   app_url = "http://www.iterm.com/#/section/downloads"
   return app_url

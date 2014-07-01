@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.4.0
+# Version:      0.4.8
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -25,7 +25,7 @@ require 'mechanize'
 
 # Variables
 
-options  = "aC:c:d:ghi:l:p:P:q:r:s:u:vVzZ:"
+options  = "aC:c:d:g:hi:l:p:P:q:r:s:u:vVzZ:"
 
 # Global variables
 
@@ -96,19 +96,29 @@ def remove_crash(app_name)
   return
 end
 
+def get_app_type(app_name)
+  app_type = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_type()")
+  return app_type
+end
+
 def get_app_name(app_name)
   app_file = $pkg_dir+"/"+app_name.downcase.gsub(/ /,'_')+".rb"
   if File.exist?(app_file)
     app_name = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_name()")
   else
     app_list = Dir.entries($pkg_dir)
-    tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ /,'_')}/)[0].gsub(/\.rb/,"")
+    tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ /,'_')}/)[0]
+    if tmp_name
+      tmp_name = tmp_name.gsub(/\.rb/,"")
+    else
+      puts
+    end
     if tmp_name =~ /[A-z]/
       if $verbose == 1
-        puts "Application "+app_name+" not found"
-        puts "Found       "+tmp_name
+        puts "Application profile "+app_name+" not found"
+        puts "Found profile "+tmp_name
       end
-      app_name = eval("get_#{tmp_name.downcase}_app_name()")
+      app_name = eval("get_#{tmp_name.downcase.gsub(/ /,'_')}_app_name()")
     else
       puts "Application "+app_name+" not found"
       puts
@@ -125,7 +135,7 @@ end
 def get_app_url(app_name)
   app_file = $pkg_dir+"/"+app_name.downcase+".rb"
   if File.exist?(app_file)
-    app_url = eval("get_#{app_name.downcase}_app_url()")
+    app_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_url()")
   else
     puts "Application "+app_name+" not found"
   end
@@ -133,10 +143,17 @@ def get_app_url(app_name)
 end
 
 def get_app_dir(app_name)
-  if app_name.downcase =~ /xquartz/
-    app_dir = "/Applications/Utilities/"+app_name+".app"
-  else
-    app_dir = "/Applications/"+app_name+".app"
+  app_dir  = ""
+  app_type = get_app_type(app_name)
+  case app_type
+  when /bin/
+    app_dir = "/usr/local/"+app_type
+  when /app/
+    app_dir = "/Applications/"+app_name+"."+app_type
+  when /util/
+    app_dir = "/Applications/Utilities/"+app_name+"."+app_type
+  when /prefPane/
+    app_dir = Dir.home+"/Library/PreferencePanes/"+app_name+"."+app_type
   end
   return app_dir
 end
@@ -203,14 +220,14 @@ end
 
 def get_loc_ver(app_name)
   loc_ver = eval("get_#{app_name.downcase.gsub(/ /,'_')}_loc_ver(app_name)")
-  if loc_ver.match(/Installed/)
+  if loc_ver.to_s.match(/Installed/)
     loc_ver = "Not Installed"
   end
   return loc_ver
 end
 
 def get_rem_ver(app_name)
-  app_url  = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_url()")
+  app_url = get_app_url(app_name)
   if $verbose == 1
     puts "Getting date of latest release from #{app_url}"
   end
@@ -223,7 +240,7 @@ def get_rem_ver(app_name)
 end
 
 def compare_build_vers(loc_ver,rem_ver)
-  if loc_ver.match(/Installed/)
+  if loc_ver.match(/No/)
     result = 0
   else
     if rem_ver.to_s.match(/-/) and !rem_ver.to_s.match(/beta/)
@@ -266,9 +283,14 @@ def compare_build_vers(loc_ver,rem_ver)
   return result
 end
 
-def get_pkg_url(app_name)
-  app_url = ""
+def get_app_url(app_name)
   app_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_url()")
+  return app_url
+end
+
+
+def get_pkg_url(app_name)
+  app_url = get_app_url(app_name)
   pkg_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_pkg_url(app_url)")
   return pkg_url
 end
@@ -286,6 +308,9 @@ end
 def get_pkg_file(pkg_url,pkg_file)
   check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
+    if $verbose == 1
+      puts "Downloading "+pkg_url+" to "+pkg_file
+    end
     agent = Mechanize.new
     agent.redirect_ok = true
     agent.pluggable_parser.default = Mechanize::Download
@@ -296,23 +321,27 @@ def get_pkg_file(pkg_url,pkg_file)
       exit
     end
   else
-    puts "File"+pkg_file+" already exits, skipping download"
+    if $verbose == 1
+      puts "File"+pkg_file+" already exits, skipping download"
+    end
   end
   return
+end
+
+def get_pkg_type(app_name)
+  pkg_type = eval("get_#{app_name.downcase.gsub(/ /,'_')}_pkg_type()")
+  return pkg_type
 end
 
 def download_app(app_name,pkg_url,rem_ver)
   if pkg_url =~ /dmg$|zip$/
     suffix = pkg_url.split(/\./)[-1]
   else
-    suffix = eval("get_#{app_name.downcase.gsub(/ /,'_')}_pkg_type()")
+    suffix = get_pkg_type(app_name)
   end
   pkg_file = $work_dir+"/"+app_name.downcase.gsub(/ /,'_')+"-"+rem_ver.to_s+"."+suffix
   check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
-    if $verbose == 1
-      puts "Downloading "+pkg_url+" to "+pkg_file
-    end
     get_pkg_file(pkg_url,pkg_file)
   else
     if $verbose == 1
@@ -323,6 +352,7 @@ def download_app(app_name,pkg_url,rem_ver)
 end
 
 def unzip_app(app_name,zip_file)
+  app_type = get_app_type(app_name)
   if File.exist?(zip_file)
     zip_test = %x[unzip -q -t #{zip_file} 2>&1]
     zip_dir  = File.dirname(zip_file)
@@ -342,10 +372,18 @@ def unzip_app(app_name,zip_file)
   end
   app_dir = zip_dir+"/"+app_name+".app"
   if !File.directory?(app_dir)
-    if app_name.match(/ /)
-      base_dir = %x[unzip -l "#{zip_file}" | tr '[:upper:]' '[:lower"]' |awk '{print $4" "$5"}' |grep "#{app_name.downcase}" |grep "/$" |tail -1].chomp.split(/\//)[0..-2].join("/")
+    if app_type.match(/bin/)
+      if app_name.match(/ /)
+        base_dir = %x[unzip -l "#{zip_file}" |tr '[:upper:]' '[:lower:]' |awk '{print $4" "$5"}' |grep "#{app_name.downcase}" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
+      else
+        base_dir = %x[unzip -l "#{zip_file}" |tr '[:upper:]' '[:lower:]' |awk '{print $4}' |grep "#{app_name.downcase}" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
+      end
     else
-      base_dir = %x[unzip -l "#{zip_file}" | tr '[:upper:]' '[:lower"]' |awk '{print $4}' |grep "#{app_name.downcase}" |grep "/$" |tail -1].chomp.split(/\//)[0..-2].join("/")
+      if app_name.match(/ /)
+        base_dir = %x[unzip -l "#{zip_file}" |awk '{print $4" "$5"}' |grep "#{app_name}" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
+      else
+        base_dir = %x[unzip -l "#{zip_file}" |awk '{print $4}' |grep "#{app_name}" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
+      end
     end
     zip_dir = zip_dir+"/"+base_dir.gsub(/\/$/,"")
   end
@@ -371,33 +409,67 @@ def quit_app(app_name)
   return app_pid
 end
 
+def get_dest_dir(app_name)
+  dest_dir = ""
+  app_type = get_app_type(app_name)
+  case app_type
+  when /app/
+    dest_dir = "/Applications"
+  when /util/
+    dest_dir = "/Applications/Utilities"
+  when /bin/
+    dest_dir = "/usr/local"
+  when /prefPane/
+    dest_dir = Dir.home+"/Library/PreferencePanes"
+  end
+  if $verbose == 1
+    puts "Setting destination directory to "+dest_dir
+  end
+  return dest_dir
+end
+
+def get_pkg_dir(app_name,tmp_dir)
+  app_type = get_app_type(app_name)
+  pkg_type = get_pkg_type(app_name)
+  case app_type
+  when /bin/
+    pkg_dir = app_type
+  else
+    pkg_dir = app_name+"."+app_type
+  end
+  pkg_dir = tmp_dir+"/"+pkg_dir
+  return pkg_dir
+end
+
 def copy_app(app_name,tmp_dir)
-  app_dir = get_app_dir(app_name)
-  remove_app(app_dir)
-  bin_dir = tmp_dir+"/bin"
+  app_dir  = get_app_dir(app_name)
+  dest_dir = get_dest_dir(app_name)
+  app_type = get_app_type(app_name)
+  remove_app(app_name)
   if File.directory?(tmp_dir)
     app_pid = quit_app(app_name)
-    pkg_dir = tmp_dir+"/"+app_name+".app"
-    if File.directory?(pkg_dir)
-      if $verbose == 1
-        puts "Copying Application from "+tmp_dir+" to #{app_dir}"
-      end
-      %x[cd "#{tmp_dir}" ; sudo cp -rp "#{pkg_dir}" /Applications 2>&1]
+    if app_type.match(/zip/)
+      pkg_dir = tmp_dir
     else
-      pkg_bin = tmp_dir+"/"+app_name+".pkg"
-      if File.exist?(pkg_bin)
+      pkg_dir = get_pkg_dir(app_name,tmp_dir)
+    end
+    pkg_bin = tmp_dir+"/"+app_name+".pkg"
+    if File.exist?(pkg_bin)
+      if $verbose == 1
+        puts "Installing Application from "+pkg_bin+" to #{app_dir}"
+      end
+      %x[sudo /usr/sbin/installer -pkg "#{pkg_bin}" -target /]
+    else
+      if File.directory?(pkg_dir)
         if $verbose == 1
-          puts "Installing Application from "+pkg_bin+" to #{app_dir}"
+          puts "Copying Application from "+tmp_dir+" to #{app_dir}"
         end
-        %x[sudo /usr/sbin/installer -pkg "#{pkg_bin}" -target /]
+        %x[cd "#{tmp_dir}" ; sudo cp -rp "#{pkg_dir}" "#{dest_dir}" 2>&1]
       else
-        if File.directory?(bin_dir)
-          %x[cd "#{tmp_dir}" ; sudo cp -rp "#{bin_dir}" /usr/local 2>&1]
-        end
+        puts "Could not find source directory "+pkg_dir
       end
     end
     user_id = %x[whoami].chomp
-    app_dir = "/Applications/"+app_name+".app"
     if File.directory?(app_dir) and app_name != "VirtualBox"
       %x[sudo chown -R #{user_id} "#{app_dir}"]
     end
@@ -496,14 +568,21 @@ def install_app(app_name,pkg_file)
 end
 
 def fix_gatekeeper(app_name)
-  app_dir = get_app_dir(app_name)
-  if File.directory?(app_dir)
-    if $verbose == 1
-      puts "Updating Gatekeeper and Quarantine information"
+  app_type = get_app_type(app_name)
+  if app_type.match(/app|util/)
+    app_dir = get_app_dir(app_name)
+    if File.directory?(app_dir)
+      if $verbose == 1
+        puts "Updating Gatekeeper and Quarantine information"
+      end
+      %x[sudo spctl --add --label "#{app_name}" "#{app_dir}"]
+      %x[sudo spctl --enable --label "#{app_name}"]
+      %x[sudo xattr -d -r com.apple.quarantine "#{app_dir}"]
     end
-    %x[sudo spctl --add --label "#{app_name}" "#{app_dir}"]
-    %x[sudo spctl --enable --label "#{app_name}"]
-    %x[sudo xattr -d -r com.apple.quarantine "#{app_dir}"]
+  else
+    if $verbose == 1
+      puts "Application "+app_name+" does not use Gatekeeper"
+    end
   end
   return
 end
@@ -556,12 +635,13 @@ def download_and_install_app(app_name)
 end
 
 def remove_app(app_name)
-  app_dir = get_app_dir(app_name)
+  app_dir  = get_app_dir(app_name)
+  app_type = get_app_type(app_name)
   if File.directory?(app_dir)
-    if $verbose == 1
-      puts "Removing "+app_dir
-    end
-    if app_dir =~ /[A-z]/
+    if app_dir.match(/#{app_name}/) and !app_type.match(/bin/)
+      if $verbose == 1
+        puts "Removing "+app_dir
+      end
       %x[sudo rm -rf "#{app_dir}"]
     end
   end
@@ -653,7 +733,7 @@ if opt["r"]
   $verbose = 1
   app_name = opt["r"]
   app_name = get_app_name(app_name)
-  rem_ver = get_rem_ver(app_name)
+  rem_ver  = get_rem_ver(app_name)
   puts rem_ver
   exit
 end
@@ -662,8 +742,8 @@ if opt["c"]
   $verbose = 1
   app_name = opt["c"]
   app_name = get_app_name(app_name)
-  loc_ver = get_loc_ver(app_name)
-  rem_ver = get_rem_ver(app_name)
+  loc_ver  = get_loc_ver(app_name)
+  rem_ver  = get_rem_ver(app_name)
   compare_build_vers(loc_ver,rem_ver)
   exit
 end
@@ -672,13 +752,14 @@ if opt["d"]
   $verbose = 1
   app_name = opt["d"]
   pkg_url  = get_pkg_url(app_name)
-  rem_ver = get_rem_ver(app_name)
+  rem_ver  = get_rem_ver(app_name)
   download_app(app_name,pkg_url,rem_ver)
   exit
 end
 
 if opt["g"]
   $verbose = 1
+  app_name = opt["g"]
   app_name = get_app_name(app_name)
   fix_gatekeeper(app_name)
   exit

@@ -7,6 +7,11 @@ def get_libreoffice_app_name()
   return app_name
 end
 
+def get_libreoffice_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_libreoffice_app_url()
   app_url = "http://dev-builds.libreoffice.org/pre-releases/mac/x86_64/"
   return app_url

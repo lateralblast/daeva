@@ -79,3 +79,19 @@
 # Added support for Picasa
 # 0.4.0: Tue  1 Jul 2014 18:27:18 EST
 # Added support for Onyx
+# 0.4.1: Tue  1 Jul 2014 21:56:15 EST
+# Fixed bugs
+# 0.4.2: Tue  1 Jul 2014 22:18:33 EST
+# Added package type function to deal with prefPane
+# 0.4.3: Tue  1 Jul 2014 22:53:35 EST
+# Fixed bug with application deletion
+# 0.4.4: Wed  2 Jul 2014 07:16:38 EST
+# More bug fixes
+# 0.4.5: Wed  2 Jul 2014 07:27:18 EST
+# Fixed support for Transmission
+# 0.4.6: Wed  2 Jul 2014 07:57:32 EST
+# Fixed support for VLC
+# 0.4.7: Wed  2 Jul 2014 08:46:56 EST
+# Fixed bug with ZIP handling
+# 0.4.8: Wed  2 Jul 2014 09:44:04 EST
+# Added support for Security Growler

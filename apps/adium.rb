@@ -7,19 +7,24 @@ def get_adium_app_name()
   return app_name
 end
 
+def get_adium_app_type()
+  app_type = "app"
+  return app_type
+end
+
 def get_adium_app_url()
-  app_url = "https://adium.im/"
+  app_url = "http://www.macupdate.com/app/mac/6366/adium"
   return app_url
 end
 
 def get_adium_pkg_url(app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split('"')[1]
+  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[3]
+  pkg_url = "http://www.macupdate.com"+pkg_url
   return pkg_url
 end
 
 def get_adium_rem_ver(app_url)
-  rem_ver = get_adium_pkg_url(app_url)
-  rem_ver = rem_ver.split("_")[1].split(".dmg")[0]
+  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/appversinfo/)[0].split(/<\/span>/)[1].split(/>/)[1]
   return rem_ver
 end
 
