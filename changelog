@@ -95,3 +95,5 @@
 # Fixed bug with ZIP handling
 # 0.4.8: Wed  2 Jul 2014 09:44:04 EST
 # Added support for Security Growler
+# 0.4.9: Wed  2 Jul 2014 09:51:43 EST
+# Added support for iTubeDownloader
