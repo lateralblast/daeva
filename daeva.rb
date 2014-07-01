@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.3.8
+# Version:      0.3.9
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -476,7 +476,7 @@ def install_app(app_name,pkg_file)
         exit
       end
     when /dmg$/
-      if file_type =~ /compressed data|VAX COFF/
+      if file_type =~ /data|VAX COFF/
         tmp_dir = attach_dmg(app_name,pkg_file)
         app_pid = copy_app(app_name,tmp_dir)
         detach_dmg(tmp_dir)

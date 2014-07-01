@@ -74,4 +74,6 @@
 # 0.3.7: Thu 26 Jun 2014 05:21:18 EST
 # Added code to stop/start application
 # 0.3.8: Thu 26 Jun 2014 06:43:41 EST
-# Added Google Drive
+# Added support for Google Drive
+# 0.3.9: Tue  1 Jul 2014 18:13:19 EST
+# Added support for Picasa
