@@ -27,6 +27,19 @@ Features:
 - Can do post install if required (e.g. Extensions Pack for VirtualBox)
 - Stops running application before upgrading
 
+Supported Package Types:
+
+- DMG
+- PKG
+- ZIP
+- TAR
+
+Supported Application Types:
+
+- app
+- pkg
+- prefPane
+
 License
 -------
 
@@ -48,13 +61,19 @@ Supported Applications:
 - FirefoxAurora
 - FirefoxNightly
 - GIMP
+- Google Drive
 - iMeme
 - iTerm
+- iTubeDownloader
 - LibreOffice
 - MPlayerX
+- Onyx
 - OpenEmu
 - OpenOffice
 - PhantomJS
+- Picasa
+- RCDefaultApp
+- Security Growler
 - Simple Comic
 - Skype
 - Thunderbird
@@ -62,6 +81,7 @@ Supported Applications:
 - VirtualBox
 - VLC
 - WebKit
+- World Ticker
 - xCHM
 - XQuartz
 
