@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.5.1
+# Version:      0.5.2
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -149,7 +149,11 @@ def get_app_dir(app_name)
   when /bin/
     app_dir = "/usr/local/"+app_type
   when /app/
-    app_dir = "/Applications/"+app_name+"."+app_type
+    if app_name.match(/avast/)
+      app_dir = "/Applications/"+app_name+"!."+app_type
+    else
+      app_dir = "/Applications/"+app_name+"."+app_type
+    end
   when /util/
     app_dir = "/Applications/Utilities/"+app_name+"."+app_type
   when /prefPane/
@@ -441,6 +445,15 @@ def get_pkg_dir(app_name,tmp_dir)
   return pkg_dir
 end
 
+def get_pkg_bin(app_name,tmp_dir)
+  if app_name.match(/avast/)
+    pkg_bin = tmp_dir+"/"+app_name+"!.pkg"
+  else
+    pkg_bin = tmp_dir+"/"+app_name+".pkg"
+  end
+  return pkg_bin
+end
+
 def copy_app(app_name,tmp_dir)
   app_dir  = get_app_dir(app_name)
   dest_dir = get_dest_dir(app_name)
@@ -453,7 +466,7 @@ def copy_app(app_name,tmp_dir)
     else
       pkg_dir = get_pkg_dir(app_name,tmp_dir)
     end
-    pkg_bin = tmp_dir+"/"+app_name+".pkg"
+    pkg_bin = get_pkg_bin(app_name,tmp_dir)
     if File.exist?(pkg_bin)
       if $verbose == 1
         puts "Installing Application from "+pkg_bin+" to #{app_dir}"
