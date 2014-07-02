@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.4.9
+# Version:      0.5.0
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -481,7 +481,7 @@ def copy_app(app_name,tmp_dir)
 end
 
 def attach_dmg(app_name,pkg_file)
-  tmp_dir = %x[sudo hdiutil attach "#{pkg_file}" |tail -1 |cut -f3-].chomp
+  tmp_dir = %x[sudo sh -c 'echo Y | hdiutil attach "#{pkg_file}" |tail -1 |cut -f3-'].chomp
   if tmp_dir !~ /[A-z]/
     tmp_dir = "/Volumes/"+app_name
   end
