@@ -37,10 +37,11 @@ def get_splunk_pkg_type()
 end
 
 def get_splunk_loc_ver(app_name)
-  loc_ver = get_min_ver(app_name)
+  loc_ver = %x[/Applications/Splunk/bin/splunk --version].chomp.split(/ /)[1]
   return loc_ver
 end
 
 def do_splunk_post_install(app_name)
+  system("sudo sh -c '/Applications/Splunk/bin/splunk start --accept-license --answer-yes'")
   return
 end
