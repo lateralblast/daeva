@@ -111,3 +111,5 @@
 # Fixed volume mounting not working for some DMGs
 # 0.5.6: Fri  4 Jul 2014 05:46:18 EST
 # Fixed post install for Splunk
+# 0.5.7: Fri  4 Jul 2014 06:09:48 EST
+# Added support for VMware Fusion
