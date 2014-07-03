@@ -53,6 +53,7 @@ Packages
 Supported Applications:
 
 - Adium
+- avast
 - Calibre
 - Chromium
 - Cyberduck
@@ -61,6 +62,7 @@ Supported Applications:
 - FirefoxAurora
 - FirefoxNightly
 - GIMP
+- Google Chrome
 - Google Drive
 - iMeme
 - iTerm
@@ -70,16 +72,20 @@ Supported Applications:
 - Onyx
 - OpenEmu
 - OpenOffice
+- Opera
+- Opera Next
 - PhantomJS
 - Picasa
 - RCDefaultApp
 - Security Growler
 - Simple Comic
 - Skype
+- Splunk
 - Thunderbird
 - Transmission
 - VirtualBox
 - VLC
+- VMware Fusion
 - WebKit
 - World Ticker
 - xCHM
