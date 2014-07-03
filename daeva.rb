@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.5.2
+# Version:      0.5.5
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -148,7 +148,7 @@ def get_app_dir(app_name)
   case app_type
   when /bin/
     app_dir = "/usr/local/"+app_type
-  when /app/
+  when /app|run/
     if app_name.match(/avast/)
       app_dir = "/Applications/"+app_name+"!."+app_type
     else
@@ -417,7 +417,7 @@ def get_dest_dir(app_name)
   dest_dir = ""
   app_type = get_app_type(app_name)
   case app_type
-  when /app/
+  when /app|run/
     dest_dir = "/Applications"
   when /util/
     dest_dir = "/Applications/Utilities"
@@ -446,8 +446,11 @@ def get_pkg_dir(app_name,tmp_dir)
 end
 
 def get_pkg_bin(app_name,tmp_dir)
-  if app_name.match(/avast/)
+  case app_name
+  when /avast/
     pkg_bin = tmp_dir+"/"+app_name+"!.pkg"
+  when /Splunk/
+    pkg_bin = tmp_dir+"/.payload/"+app_name+".pkg"
   else
     pkg_bin = tmp_dir+"/"+app_name+".pkg"
   end
@@ -467,11 +470,15 @@ def copy_app(app_name,tmp_dir)
       pkg_dir = get_pkg_dir(app_name,tmp_dir)
     end
     pkg_bin = get_pkg_bin(app_name,tmp_dir)
-    if File.exist?(pkg_bin)
+    if File.exist?(pkg_bin) or File.symlink?(pkg_bin)
       if $verbose == 1
         puts "Installing Application from "+pkg_bin+" to #{app_dir}"
       end
-      %x[sudo /usr/sbin/installer -pkg "#{pkg_bin}" -target /]
+      if app_type.match(/run/)
+        system("open \"#{pkg_bin}\"")
+      else
+        system("sudo /usr/sbin/installer -pkg \"#{pkg_bin}\" -target /")
+      end
     else
       if File.directory?(pkg_dir)
         if $verbose == 1
@@ -494,7 +501,9 @@ def copy_app(app_name,tmp_dir)
 end
 
 def attach_dmg(app_name,pkg_file)
-  tmp_dir = %x[sudo sh -c 'echo Y | hdiutil attach "#{pkg_file}" |tail -1 |cut -f3-'].chomp
+  system("sudo sh -c 'echo Y | hdiutil attach \"#{pkg_file}\" |tail -1 |cut -f3-'")
+  tmp_dir = %x[ls -rt /Volumes |grep "#{app_name}" |tail -1].chomp
+  tmp_dir = "/Volumes/"+tmp_dir
   if tmp_dir !~ /[A-z]/
     tmp_dir = "/Volumes/"+app_name
   end
@@ -582,7 +591,7 @@ end
 
 def fix_gatekeeper(app_name)
   app_type = get_app_type(app_name)
-  if app_type.match(/app|util/)
+  if app_type.match(/app|util|run/)
     app_dir = get_app_dir(app_name)
     if File.directory?(app_dir)
       if $verbose == 1

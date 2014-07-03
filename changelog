@@ -105,3 +105,7 @@
 # Fixed version detection for Opera
 # 0.5.3: Thu  3 Jul 2014 07:01:06 EST
 # Added support for avast!
+# 0.5.4: Thu  3 Jul 2014 07:31:28 EST
+# Added support for Splunk
+# 0.5.5: Fri  4 Jul 2014 05:24:01 EST
+# Fixed volume mounting not working for some DMGs
