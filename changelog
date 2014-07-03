@@ -113,3 +113,5 @@
 # Fixed post install for Splunk
 # 0.5.7: Fri  4 Jul 2014 06:09:48 EST
 # Added support for VMware Fusion
+# 0.5.8: Fri  4 Jul 2014 06:21:38 EST
+# Added support for Google Chrome
