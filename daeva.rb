@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.5.9
+# Version:      0.6.0
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -48,6 +48,8 @@ if File.directory?($pkg_dir)
   end
 end
 
+# Print the version of the script
+
 def print_version()
   puts
   file_array = IO.readlines $0
@@ -57,6 +59,8 @@ def print_version()
   puts name+" v. "+version+" "+packager
   puts
 end
+
+# Print information regarding the usage of the script
 
 def print_usage(options)
   puts
@@ -83,6 +87,8 @@ def print_usage(options)
   puts
 end
 
+# Remove any Crash Reporter files that may exist
+
 def remove_crash(app_name)
   user_name  = %x[whoami].chomp
   crash_dir  = "/Users/"+user_name+"/Library/Application Support/CrashReporter"
@@ -96,10 +102,14 @@ def remove_crash(app_name)
   return
 end
 
+# Get the type of application (e.g. app, prefPane, etc)
+
 def get_app_type(app_name)
   app_type = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_type()")
   return app_type
 end
+
+# Get the name of the application
 
 def get_app_name(app_name)
   app_file = $pkg_dir+"/"+app_name.downcase.gsub(/ /,'_')+".rb"
@@ -132,6 +142,24 @@ def get_app_name(app_name)
   return app_name
 end
 
+# Restart application if needed
+
+def restart_app(app_name)
+  app_type = get_app_type(app_name)
+  app_dir  = get_app_dir(app_name)
+  case app_type
+  when /prefPane/
+    %x[pkill "System Preferences"]
+    %x[open "/Applications/System Preferences.app"]
+  when /app|util/
+    %x[pkill "#{app_name}"]
+    %x[open "#{app_dir}"]
+  end
+  return
+end
+
+# Get the URL of the application information page
+
 def get_app_url(app_name)
   app_file = $pkg_dir+"/"+app_name.downcase+".rb"
   if File.exist?(app_file)
@@ -141,6 +169,8 @@ def get_app_url(app_name)
   end
   return app_url
 end
+
+# Get the directory where the application is installed or is going to be installed
 
 def get_app_dir(app_name)
   app_dir  = ""
@@ -162,6 +192,8 @@ def get_app_dir(app_name)
   return app_dir
 end
 
+# Get the long version of the application, e.g. major and minor version info
+
 def get_min_ver(app_name)
   min_ver  = ""
   app_dir  = get_app_dir(app_name)
@@ -174,6 +206,8 @@ def get_min_ver(app_name)
   end
   return min_ver
 end
+
+# Get local application version
 
 def get_app_ver(app_name)
   app_ver  = ""
@@ -200,6 +234,8 @@ def get_app_ver(app_name)
   return app_ver
 end
 
+# For applications that are compared on date (e.g. nightly builds)
+
 def get_app_date(app_name)
   app_dir = get_app_dir(app_name)
   app_bin = app_dir+"/Contents/MacOS/"+app_name
@@ -222,6 +258,8 @@ def get_app_date(app_name)
   return app_date
 end
 
+# Get the local (installed) version
+
 def get_loc_ver(app_name)
   loc_ver = eval("get_#{app_name.downcase.gsub(/ /,'_')}_loc_ver(app_name)")
   if loc_ver.to_s.match(/Installed/)
@@ -229,6 +267,8 @@ def get_loc_ver(app_name)
   end
   return loc_ver
 end
+
+# Get the remote (web) version
 
 def get_rem_ver(app_name)
   app_url = get_app_url(app_name)
@@ -242,6 +282,8 @@ def get_rem_ver(app_name)
   end
   return rem_ver
 end
+
+# Compare the local version of the app with the remote version
 
 def compare_build_vers(loc_ver,rem_ver)
   if loc_ver.match(/No/)

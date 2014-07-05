@@ -39,5 +39,6 @@ def get_rcdefaultapp_loc_ver(app_name)
 end
 
 def do_rcdefaultapp_post_install(app_name)
+  restart_app(app_name)
   return
 end
