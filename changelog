@@ -119,3 +119,5 @@
 # Added support for Dropbox
 # 0.6.0: Sat  5 Jul 2014 16:45:03 EST
 # Added code to restart application
+# 0.6.1: Sat  5 Jul 2014 17:08:28 EST
+# Added support for GitHub
