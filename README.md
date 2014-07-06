@@ -57,13 +57,18 @@ Supported Applications:
 - Calibre
 - Chromium
 - Cyberduck
+- Day-O
+- Dropbox
+- facter
 - FileZilla
 - Firefox
 - FirefoxAurora
 - FirefoxNightly
 - GIMP
+- GitHub
 - Google Chrome
 - Google Drive
+- hiera
 - iMeme
 - iTerm
 - iTubeDownloader
@@ -76,6 +81,7 @@ Supported Applications:
 - Opera Next
 - PhantomJS
 - Picasa
+- puppet
 - RCDefaultApp
 - Security Growler
 - Simple Comic
