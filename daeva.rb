@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.6.3
+# Version:      0.6.4
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -487,19 +487,21 @@ def get_pkg_dir(app_name,tmp_dir)
   return pkg_dir
 end
 
-def get_pkg_bin(app_name,tmp_dir)
+def get_pkg_bin(app_name,tmp_dir,rem_ver)
   case app_name
   when /avast/
     pkg_bin = tmp_dir+"/"+app_name+"!.pkg"
   when /Splunk/
     pkg_bin = tmp_dir+"/.payload/"+app_name+".pkg"
+  when /puppet|facter|hiera/
+    pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+".pkg"
   else
     pkg_bin = tmp_dir+"/"+app_name+".pkg"
   end
   return pkg_bin
 end
 
-def copy_app(app_name,tmp_dir)
+def copy_app(app_name,tmp_dir,rem_ver)
   app_dir  = get_app_dir(app_name)
   dest_dir = get_dest_dir(app_name)
   app_type = get_app_type(app_name)
@@ -511,7 +513,7 @@ def copy_app(app_name,tmp_dir)
     else
       pkg_dir = get_pkg_dir(app_name,tmp_dir)
     end
-    pkg_bin = get_pkg_bin(app_name,tmp_dir)
+    pkg_bin = get_pkg_bin(app_name,tmp_dir,rem_ver)
     if File.exist?(pkg_bin) or File.symlink?(pkg_bin)
       if $verbose == 1
         puts "Installing Application from "+pkg_bin+" to #{app_dir}"
@@ -585,7 +587,7 @@ def start_app(app_name)
   return
 end
 
-def install_app(app_name,pkg_file)
+def install_app(app_name,pkg_file,rem_ver)
   if File.exist?(pkg_file)
     file_type = %x[file #{pkg_file}].chomp
     case pkg_file
@@ -606,7 +608,7 @@ def install_app(app_name,pkg_file)
     when /zip$/
       if file_type =~ /Zip archive/
         tmp_dir = unzip_app(app_name,pkg_file)
-        app_pid = copy_app(app_name,tmp_dir)
+        app_pid = copy_app(app_name,tmp_dir,rem_ver)
       else
         puts "File "+pkg_file+" is not a ZIP file"
         exit
@@ -614,7 +616,7 @@ def install_app(app_name,pkg_file)
     when /dmg$/
       if file_type =~ /data|VAX COFF/
         tmp_dir = attach_dmg(app_name,pkg_file)
-        app_pid = copy_app(app_name,tmp_dir)
+        app_pid = copy_app(app_name,tmp_dir,rem_ver)
         detach_dmg(tmp_dir)
       else
         puts "File "+pkg_file+" is not a DMG file"
@@ -691,7 +693,7 @@ def download_and_install_app(app_name)
   if result == 0
     pkg_url  = get_pkg_url(app_name)
     pkg_file = download_app(app_name,pkg_url,rem_ver)
-    install_app(app_name,pkg_file)
+    install_app(app_name,pkg_file,rem_ver)
     fix_gatekeeper(app_name)
     post_install(app_name)
   end

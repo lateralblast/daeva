@@ -125,3 +125,5 @@
 # Fixed determination of directories for zip files
 # 0.6.3: Sun  6 Jul 2014 16:31:42 EST
 # Added support for Day-O
+# 0.6.4: Sun  6 Jul 2014 20:26:16 EST
+# Added support for puppet, hiera and facter
