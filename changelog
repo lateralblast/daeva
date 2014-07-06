@@ -121,3 +121,7 @@
 # Added code to restart application
 # 0.6.1: Sat  5 Jul 2014 17:08:28 EST
 # Added support for GitHub
+# 0.6.2: Sun  6 Jul 2014 16:27:17 EST
+# Fixed determination of directories for zip files
+# 0.6.3: Sun  6 Jul 2014 16:31:42 EST
+# Added support for Day-O

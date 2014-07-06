@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.6.1
+# Version:      0.6.3
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -105,19 +105,19 @@ end
 # Get the type of application (e.g. app, prefPane, etc)
 
 def get_app_type(app_name)
-  app_type = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_type()")
+  app_type = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_app_type()")
   return app_type
 end
 
 # Get the name of the application
 
 def get_app_name(app_name)
-  app_file = $pkg_dir+"/"+app_name.downcase.gsub(/ /,'_')+".rb"
+  app_file = $pkg_dir+"/"+app_name.downcase.gsub(/ |-/,'_')+".rb"
   if File.exist?(app_file)
-    app_name = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_name()")
+    app_name = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_app_name()")
   else
     app_list = Dir.entries($pkg_dir)
-    tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ /,'_')}/)[0]
+    tmp_name = app_list.grep(/#{app_name.downcase.gsub(/ |-/,'_')}/)[0]
     if tmp_name
       tmp_name = tmp_name.gsub(/\.rb/,"")
     else
@@ -128,7 +128,7 @@ def get_app_name(app_name)
         puts "Application profile "+app_name+" not found"
         puts "Found profile "+tmp_name
       end
-      app_name = eval("get_#{tmp_name.downcase.gsub(/ /,'_')}_app_name()")
+      app_name = eval("get_#{tmp_name.downcase.gsub(/ |-/,'_')}_app_name()")
     else
       puts "Application "+app_name+" not found"
       puts
@@ -163,7 +163,7 @@ end
 def get_app_url(app_name)
   app_file = $pkg_dir+"/"+app_name.downcase+".rb"
   if File.exist?(app_file)
-    app_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_url()")
+    app_url = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_app_url()")
   else
     puts "Application "+app_name+" not found"
   end
@@ -261,7 +261,7 @@ end
 # Get the local (installed) version
 
 def get_loc_ver(app_name)
-  loc_ver = eval("get_#{app_name.downcase.gsub(/ /,'_')}_loc_ver(app_name)")
+  loc_ver = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_loc_ver(app_name)")
   if loc_ver.to_s.match(/Installed/)
     loc_ver = "Not Installed"
   end
@@ -275,7 +275,7 @@ def get_rem_ver(app_name)
   if $verbose == 1
     puts "Getting date of latest release from #{app_url}"
   end
-  rem_ver = eval("get_#{app_name.downcase.gsub(/ /,'_')}_rem_ver(app_url)")
+  rem_ver = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_rem_ver(app_url)")
   if rem_ver.to_s !~ /[0-9]/
     puts "Remote build date or version not found"
     exit
@@ -330,14 +330,14 @@ def compare_build_vers(loc_ver,rem_ver)
 end
 
 def get_app_url(app_name)
-  app_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_app_url()")
+  app_url = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_app_url()")
   return app_url
 end
 
 
 def get_pkg_url(app_name)
   app_url = get_app_url(app_name)
-  pkg_url = eval("get_#{app_name.downcase.gsub(/ /,'_')}_pkg_url(app_url)")
+  pkg_url = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_pkg_url(app_url)")
   return pkg_url
 end
 
@@ -375,7 +375,7 @@ def get_pkg_file(pkg_url,pkg_file)
 end
 
 def get_pkg_type(app_name)
-  pkg_type = eval("get_#{app_name.downcase.gsub(/ /,'_')}_pkg_type()")
+  pkg_type = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_pkg_type()")
   return pkg_type
 end
 
@@ -385,7 +385,7 @@ def download_app(app_name,pkg_url,rem_ver)
   else
     suffix = get_pkg_type(app_name)
   end
-  pkg_file = $work_dir+"/"+app_name.downcase.gsub(/ /,'_')+"-"+rem_ver.to_s+"."+suffix
+  pkg_file = $work_dir+"/"+app_name.downcase.gsub(/ |-/,'_')+"-"+rem_ver.to_s+"."+suffix
   check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
     get_pkg_file(pkg_url,pkg_file)
@@ -426,9 +426,9 @@ def unzip_app(app_name,zip_file)
       end
     else
       if app_name.match(/ /)
-        base_dir = %x[unzip -l "#{zip_file}" |awk '{print $4" "$5"}' |grep "#{app_name}" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
+        base_dir = %x[unzip -l "#{zip_file}" |awk '{print $4" "$5"}' |grep "#{app_name}.app" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
       else
-        base_dir = %x[unzip -l "#{zip_file}" |awk '{print $4}' |grep "#{app_name}" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
+        base_dir = %x[unzip -l "#{zip_file}" |awk '{print $4}' |grep "#{app_name}.app" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
       end
     end
     zip_dir = zip_dir+"/"+base_dir.gsub(/\/$/,"")
@@ -713,7 +713,7 @@ def remove_app(app_name)
 end
 
 def post_install(app_name)
-  eval("do_#{app_name.downcase.gsub(/ /,'_')}_post_install(app_name)")
+  eval("do_#{app_name.downcase.gsub(/ |-/,'_')}_post_install(app_name)")
   return
 end
 
