@@ -127,3 +127,5 @@
 # Added support for Day-O
 # 0.6.4: Sun  6 Jul 2014 20:26:16 EST
 # Added support for puppet, hiera and facter
+# 0.6.5: Tue  8 Jul 2014 08:46:22 EST
+# Added support for Alarm Clock
