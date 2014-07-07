@@ -53,12 +53,15 @@ Packages
 Supported Applications:
 
 - Adium
+- Alarm Clock
+- AppCleaner
 - avast
 - Calibre
 - Chromium
 - Cyberduck
 - Day-O
 - Dropbox
+- Evernote
 - facter
 - FileZilla
 - Firefox
@@ -83,6 +86,7 @@ Supported Applications:
 - Picasa
 - puppet
 - RCDefaultApp
+- RealPlayer
 - Security Growler
 - Simple Comic
 - Skype
