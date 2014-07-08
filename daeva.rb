@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.6.8
+# Version:      0.6.9
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -796,7 +796,6 @@ if opt["s"]
 end
 
 if opt["r"]
-  $verbose = 1
   app_name = opt["r"]
   app_name = get_app_name(app_name)
   rem_ver  = get_rem_ver(app_name)
@@ -805,7 +804,6 @@ if opt["r"]
 end
 
 if opt["c"]
-  $verbose = 1
   app_name = opt["c"]
   app_name = get_app_name(app_name)
   loc_ver  = get_loc_ver(app_name)
@@ -815,7 +813,6 @@ if opt["c"]
 end
 
 if opt["d"]
-  $verbose = 1
   app_name = opt["d"]
   pkg_url  = get_pkg_url(app_name)
   rem_ver  = get_rem_ver(app_name)
@@ -824,7 +821,6 @@ if opt["d"]
 end
 
 if opt["g"]
-  $verbose = 1
   app_name = opt["g"]
   app_name = get_app_name(app_name)
   fix_gatekeeper(app_name)
@@ -832,7 +828,6 @@ if opt["g"]
 end
 
 if opt["p"]
-  $verbose = 1
   app_name = opt["p"]
   app_name = get_app_name(app_name)
   pkg_url  = get_pkg_url(app_name)
