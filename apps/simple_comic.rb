@@ -17,13 +17,13 @@ def get_simple_comic_app_url()
   return app_url
 end
 
-def get_simple_comic_pkg_url(app_url)
+def get_simple_comic_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/zip/)[0].split(/"/)[3]
   return pkg_url
 end
 
-def get_simple_comic_rem_ver(app_url)
-  pkg_url = get_simple_comic_pkg_url(app_url)
+def get_simple_comic_rem_ver(app_name,app_url)
+  pkg_url = get_simple_comic_pkg_url(app_name,app_url)
   rem_ver = File.basename(pkg_url,".zip")
   rem_ver = rem_ver.split(/_/)[1..2].join(".")
   return rem_ver

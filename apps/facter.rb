@@ -17,15 +17,15 @@ def get_facter_app_url()
   return app_url
 end
 
-def get_facter_pkg_url(app_url)
+def get_facter_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/facter/)[-1].split(/"/)[7]
   pkg_url = app_url+pkg_url
   return pkg_url
 end
 
-def get_facter_rem_ver(app_url)
-  rem_ver = get_facter_pkg_url(app_url)
-  rem_ver = File.basename(rem_ver,".dmg").split(/-/)[1]
+def get_facter_rem_ver(app_name,app_url)
+  pkg_url = get_facter_pkg_url(app_name,app_url)
+  rem_ver = File.basename(pkg_url,".dmg").split(/-/)[1]
   return rem_ver
 end
 

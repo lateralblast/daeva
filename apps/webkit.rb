@@ -17,13 +17,13 @@ def get_webkit_app_url()
   return app_url
 end
 
-def get_webkit_pkg_url(app_url)
+def get_webkit_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url))
   pkg_url = URI.extract(pkg_url,"http")[0]
   return pkg_url
 end
 
-def get_webkit_rem_ver(app_url)
+def get_webkit_rem_ver(app_name,app_url)
   rem_date = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/date/)[0].split(/>/)[1].split(/</)[0]
   rem_date = DateTime.parse(rem_date).to_date
   return rem_date

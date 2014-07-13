@@ -17,7 +17,7 @@ def get_iterm_app_url()
   return app_url
 end
 
-def get_iterm_pkg_url(app_url)
+def get_iterm_pkg_url(app_name,app_url)
   if !File.exist?("/usr/local/bin/lftp")
     puts "Processing iTerm page requires lftp"
     if File.exist?("/usr/local/bin/brew")
@@ -33,8 +33,8 @@ def get_iterm_pkg_url(app_url)
   return pkg_url
 end
 
-def get_iterm_rem_ver(app_url)
-  pkg_url = get_iterm_pkg_url(app_url)
+def get_iterm_rem_ver(app_name,app_url)
+  pkg_url = get_iterm_pkg_url(app_name,app_url)
   rem_ver = File.basename(pkg_url,".zip")
   rem_ver = rem_ver.split(/-/)[-1].gsub(/_/,".")
   return rem_ver

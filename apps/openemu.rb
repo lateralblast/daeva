@@ -17,14 +17,14 @@ def get_openemu_app_url()
   return app_url
 end
 
-def get_openemu_pkg_url(app_url)
+def get_openemu_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/zip/)[1].split(/"/)[1]
   return pkg_url
 end
 
-def get_openemu_rem_ver(app_url)
-  pkg_url = get_openemu_pkg_url(app_url)
-  rem_ver = File.basename(pkg_url,".zip").split(/_/)[1]
+def get_openemu_rem_ver(app_name,app_url)
+  pkg_url = get_openemu_pkg_url(app_name,app_url)
+  rem_ver = File.basename(pkg_url,".zip").split(/_/)[1].split(/-/)[0]
   return rem_ver
 end
 

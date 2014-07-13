@@ -17,13 +17,13 @@ def get_cyberduck_app_url()
   return app_url
 end
 
-def get_cyberduck_pkg_url(app_url)
+def get_cyberduck_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/zip/)[0].split(/"/)[1]
   return pkg_url
 end
 
-def get_cyberduck_rem_ver(app_url)
-  pkg_url = get_cyberduck_pkg_url(app_url)
+def get_cyberduck_rem_ver(app_name,app_url)
+  pkg_url = get_cyberduck_pkg_url(app_name,app_url)
   rem_ver = File.basename(pkg_url,".zip").split("-")[1]
   return rem_ver
 end

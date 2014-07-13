@@ -22,6 +22,8 @@ require 'uri'
 require 'date'
 require 'versionomy'
 require 'mechanize'
+require 'selenium-webdriver'
+require 'phantomjs'
 
 # Variables
 
@@ -100,6 +102,33 @@ def remove_crash(app_name)
     %x[rm "#{crash_file}"]
   end
   return
+end
+
+# Get macupdate URL
+
+def get_macupdate_url(app_name,app_url)
+  pkg_type = get_pkg_type(app_name)
+  pkg_url  = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/#{pkg_type}/)[1].split(/'/)[1]
+  pkg_url  = "http://www.macupdate.com"+pkg_url
+  return pkg_url
+end
+
+# Get macupdate version
+
+def get_macupdate_ver(app_name,app_url)
+  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/).grep(/[0-9]:/)[0].split(/Version\s+/)[1].split(/:/)[0]
+  if !rem_ver
+    rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/)[5].split(/Version\s+/)[2].split(/:/)[0]
+  end
+  if rem_ver.match(/javascript/)
+    rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/)[6].split(/Version\s+/)[1].split(/:/)[0]
+  end
+  if rem_ver.match(/history/)
+    rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/)[6].split(/Version\s+/)[1].split(/:/)[0].split(/\s+/)[0]
+  end
+  puts rem_ver
+  exit
+  return rem_ver
 end
 
 # Get the type of application (e.g. app, prefPane, etc)
@@ -275,7 +304,7 @@ def get_rem_ver(app_name)
   if $verbose == 1
     puts "Getting date of latest release from #{app_url}"
   end
-  rem_ver = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_rem_ver(app_url)")
+  rem_ver = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_rem_ver(app_name,app_url)")
   if rem_ver.to_s !~ /[0-9]/
     puts "Remote build date or version not found"
     exit
@@ -337,7 +366,7 @@ end
 
 def get_pkg_url(app_name)
   app_url = get_app_url(app_name)
-  pkg_url = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_pkg_url(app_url)")
+  pkg_url = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_pkg_url(app_name,app_url)")
   return pkg_url
 end
 

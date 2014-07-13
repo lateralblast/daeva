@@ -17,12 +17,12 @@ def get_imeme_app_url()
   return app_url
 end
 
-def get_imeme_pkg_url(app_url)
+def get_imeme_pkg_url(app_name,app_url)
   pkg_url = "http://www.michaelfogleman.com/static/iMeme.app.zip"
   return pkg_url
 end
 
-def get_imeme_rem_ver(app_url)
+def get_imeme_rem_ver(app_name,app_url)
   rem_ver = "1.0"
   return rem_ver
 end

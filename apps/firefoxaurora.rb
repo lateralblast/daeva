@@ -17,14 +17,14 @@ def get_firefoxaurora_app_url()
   return app_url
 end
 
-def get_firefoxaurora_pkg_url(app_url)
+def get_firefoxaurora_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[7]
   pkg_url = app_url+pkg_url
   return pkg_url
 end
 
-def get_firefoxaurora_rem_ver(app_url)
-  pkg_url = get_firefoxaurora_pkg_url(app_url)
+def get_firefoxaurora_rem_ver(app_name,app_url)
+  pkg_url = get_firefoxaurora_pkg_url(app_name,app_url)
   rem_ver = File.basename(pkg_url)
   rem_ver = rem_ver.split(/-/)[1].split(/\./)[0..1].join(".")
   return rem_ver

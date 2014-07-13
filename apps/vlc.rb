@@ -17,13 +17,13 @@ def get_vlc_app_url()
   return app_url
 end
 
-def get_vlc_pkg_url(app_url)
+def get_vlc_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/vlc\-2\.1\./)[-1].split(/"/)[5]
   pkg_url = app_url+pkg_url
   return pkg_url
 end
 
-def get_vlc_rem_ver(app_url)
+def get_vlc_rem_ver(app_name,app_url)
   rem_date = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/vlc\-2\.1\./)[-1].split(/\s+/)[6..7].join(" ")
   rem_date = DateTime.parse(rem_date).to_date
   return rem_date

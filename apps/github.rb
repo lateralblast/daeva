@@ -17,13 +17,14 @@ def get_github_app_url()
   return app_url
 end
 
-def get_github_pkg_url(app_url)
+def get_github_pkg_url(app_name,app_url)
   pkg_url = "https://central.github.com/mac/latest"
   return pkg_url
 end
 
-def get_github_rem_ver(app_url)
-  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/appversinfo/)[0].split(/<\/span>/)[1].split(/>/)[1]
+def get_github_rem_ver(app_name,app_url)
+  rem_ver = get_macupdate_ver(app_name,app_url)
+  rem_ver = rem_ver.split(/ /)[0]
   return rem_ver
 end
 

@@ -17,14 +17,13 @@ def get_world_ticker_app_url()
   return app_url
 end
 
-def get_world_ticker_pkg_url(app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[3]
-  pkg_url = "http://www.macupdate.com"+pkg_url
+def get_world_ticker_pkg_url(app_name,app_url)
+  pkg_url = get_macupdate_url(app_name,app_url)
   return pkg_url
 end
 
-def get_world_ticker_rem_ver(app_url)
-  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/appversinfo/)[0].split(/<\/span>/)[1].split(/>/)[1]
+def get_world_ticker_rem_ver(app_name,app_url)
+  rem_ver = get_macupdate_ver(app_name,app_url)
   return rem_ver
 end
 

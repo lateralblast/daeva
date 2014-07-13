@@ -17,7 +17,7 @@ def get_virtualbox_app_url()
   return app_url
 end
 
-def get_virtualbox_pkg_url(app_url)
+def get_virtualbox_pkg_url(app_name,app_url)
   rem_ver  = get_virtualbox_rem_ver(app_url)
   base_url = app_url+rem_ver+"/"
   pkg_name = Net::HTTP.get(URI.parse(base_url)).split("\n").grep(/OSX/)[0].chomp.split(/"/)[1]
@@ -26,7 +26,7 @@ def get_virtualbox_pkg_url(app_url)
   return pkg_url
 end
 
-def get_virtualbox_rem_ver(app_url)
+def get_virtualbox_rem_ver(app_name,app_url)
   ver_url = app_url+"LATEST.TXT"
   rem_ver = Net::HTTP.get(URI.parse(ver_url)).chomp
   return rem_ver

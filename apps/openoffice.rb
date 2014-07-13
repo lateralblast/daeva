@@ -18,13 +18,13 @@ def get_openoffice_app_url()
   return app_url
 end
 
-def get_openoffice_pkg_url(app_url)
+def get_openoffice_pkg_url(app_name,app_url)
   pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[5]
   pkg_url = app_url+pkg_url
   return pkg_url
 end
 
-def get_openoffice_rem_ver(app_url)
+def get_openoffice_rem_ver(app_name,app_url)
   rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/\s+/)[6]
   rem_ver = DateTime.parse(rem_ver.to_s).to_date
   return rem_ver

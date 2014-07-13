@@ -17,13 +17,13 @@ def get_chromium_app_url()
   return app_url
 end
 
-def get_chromium_pkg_url(app_url)
+def get_chromium_pkg_url(app_name,app_url)
   pkg_url = "https://download-chromium.appspot.com/dl/Mac"
   pkg_url = Net::HTTP.get_response(URI.parse(pkg_url))['location']
   return pkg_url
 end
 
-def get_chromium_rem_ver(app_url)
+def get_chromium_rem_ver(app_name,app_url)
   rem_date = get_todays_date()
   return rem_date
 end
