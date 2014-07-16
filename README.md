@@ -75,6 +75,7 @@ Supported Applications:
 - iMeme
 - iTerm
 - iTubeDownloader
+- kid3
 - LibreOffice
 - MPlayerX
 - Onyx
@@ -90,6 +91,7 @@ Supported Applications:
 - Security Growler
 - Simple Comic
 - Skype
+- SourceTree
 - Splunk
 - Thunderbird
 - Transmission
