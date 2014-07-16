@@ -137,3 +137,5 @@
 # Added support for AppCleaner
 # 0.6.9: Wed  9 Jul 2014 06:59:57 EST
 # Added support for SourceTree
+# 0.7.0: Wed 16 Jul 2014 12:02:31 EST
+# Fixed VirtualBox
