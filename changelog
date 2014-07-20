@@ -141,3 +141,5 @@
 # Fixed VirtualBox
 # 0.7.1: Mon 21 Jul 2014 08:19:00 EST
 # Fixed macupdate URL detection and added support for semulov
+# 0.7.2: Mon 21 Jul 2014 08:40:08 EST
+# Added support for Lyx

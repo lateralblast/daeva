@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.7.1
+# Version:      0.7.2
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -131,8 +131,6 @@ def get_macupdate_ver(app_name,app_url)
   if rem_ver.match(/history/)
     rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/)[6].split(/Version\s+/)[1].split(/:/)[0].split(/\s+/)[0]
   end
-  puts rem_ver
-  exit
   return rem_ver
 end
 
@@ -237,6 +235,11 @@ def get_min_ver(app_name)
     if cf_check.match(/CFBundleVersion/)
       min_ver = %x[defaults read "#{ver_file}" CFBundleVersion].chomp
     end
+  else
+    if $verbose == 1
+      puts "Application information file "+ver_file+" does not exist"
+    end
+    min_ver = "Not Installed"
   end
   return min_ver
 end
@@ -307,11 +310,11 @@ end
 def get_rem_ver(app_name)
   app_url = get_app_url(app_name)
   if $verbose == 1
-    puts "Getting date of latest release from #{app_url}"
+    puts "Getting version (or date) of latest release from #{app_url}"
   end
   rem_ver = eval("get_#{app_name.downcase.gsub(/ |-/,'_')}_rem_ver(app_name,app_url)")
   if rem_ver.to_s !~ /[0-9]/
-    puts "Remote build date or version not found"
+    puts "Remote build version (or date) not found"
     exit
   end
   return rem_ver
@@ -807,7 +810,6 @@ if !File.directory?($work_dir)
 end
 
 if opt["l"]
-  $verbose = 1
   app_name = opt['l']
   app_name = get_app_name(app_name)
   loc_ver  = get_loc_ver(app_name)
