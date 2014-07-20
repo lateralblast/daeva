@@ -139,3 +139,5 @@
 # Added support for SourceTree
 # 0.7.0: Wed 16 Jul 2014 12:02:31 EST
 # Fixed VirtualBox
+# 0.7.1: Mon 21 Jul 2014 08:19:00 EST
+# Fixed macupdate URL detection and added support for semulov

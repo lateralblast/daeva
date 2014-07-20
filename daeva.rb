@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.7.0
+# Version:      0.7.1
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -108,8 +108,13 @@ end
 
 def get_macupdate_url(app_name,app_url)
   pkg_type = get_pkg_type(app_name)
-  pkg_url  = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/#{pkg_type}/)[1].split(/'/)[1]
-  pkg_url  = "http://www.macupdate.com"+pkg_url
+  pkg_url  = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/#{pkg_type}/)[1]
+  if pkg_url.match(/'/)
+    pkg_url = pkg_url.split(/'/)[1]
+    pkg_url = "http://www.macupdate.com"+pkg_url
+  else
+    pkg_url = pkg_url.split(/">/)[1].split(/</)[0]
+  end
   return pkg_url
 end
 
