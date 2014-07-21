@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.7.5
+# Version:      0.7.6
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -334,7 +334,7 @@ end
 # Compare the local version of the app with the remote version
 
 def compare_build_vers(loc_ver,rem_ver)
-  if loc_ver.match(/No/)
+  if loc_ver.to_s.match(/No/)
     result = 0
   else
     if rem_ver.to_s.match(/-/) and !rem_ver.to_s.match(/beta/)
@@ -730,7 +730,7 @@ def download_and_install_app(app_name)
   cleanup_old_files()
   loc_ver = get_loc_ver(app_name)
   rem_ver = get_rem_ver(app_name)
-  if loc_ver.match(/Installed/)
+  if loc_ver.to_s.match(/Installed/)
     result = 0
   else
     if loc_ver.to_s.match(/-/) and !loc_ver.to_s.match(/beta/)
