@@ -151,3 +151,5 @@
 # Added support for TakeAPause
 # 0.7.6: Mon 21 Jul 2014 12:50:06 EST
 # Fixed date comparison and updated VLC support
+# 0.7.7: Tue 22 Jul 2014 07:22:28 EST
+# Added support for Stellarium
