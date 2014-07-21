@@ -33,7 +33,7 @@ def get_skype_pkg_type()
 end
 
 def get_skype_loc_ver(app_name)
-  loc_ver = get_app_ver(app_name)
+  loc_ver = get_min_ver(app_name)
   return loc_ver
 end
 
