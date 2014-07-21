@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.7.4
+# Version:      0.7.5
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -263,6 +263,13 @@ def get_app_ver(app_name)
       cf_check = %x[cat "#{ver_file}" | grep CFBundleShortVersionString]
       if cf_check.match(/CFBundleShortVersionString/)
         app_ver = %x[defaults read "#{ver_file}" CFBundleShortVersionString].chomp
+      end
+    end
+    if !app_ver
+      app_ver = get_min_ver(app_name)
+    else
+      if !app_ver.match(/[0-9]/)
+        app_ver = get_min_ver(app_name)
       end
     end
     app_ver = app_ver.gsub(/#{app_name} /,"")
