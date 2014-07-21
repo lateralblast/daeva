@@ -775,7 +775,7 @@ def print_avail_pkgs()
       pkg_name = File.basename(file_name,".rb")
       app_name = eval("get_#{pkg_name}_app_name()")
       app_url  = eval("get_#{pkg_name}_app_url()")
-      counter  = 16 - app_name.length
+      counter  = 20 - app_name.length
       counter.times do |x|
         spacer = spacer+" "
       end

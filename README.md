@@ -56,6 +56,7 @@ Supported Applications:
 - Alarm Clock
 - AppCleaner
 - avast
+- Cakebrew
 - Calibre
 - Chromium
 - Cyberduck
@@ -77,6 +78,7 @@ Supported Applications:
 - iTubeDownloader
 - kid3
 - LibreOffice
+- LyX
 - MPlayerX
 - Onyx
 - OpenEmu
@@ -89,11 +91,14 @@ Supported Applications:
 - RCDefaultApp
 - RealPlayer
 - Security Growler
+- Semulov
 - Simple Comic
 - Skype
 - SourceTree
 - Splunk
+- TakeAPause
 - Thunderbird
+- TimeMachineEditor
 - Transmission
 - VirtualBox
 - VLC
