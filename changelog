@@ -155,3 +155,5 @@
 # Added support for Stellarium
 # 0.7.8: Tue 22 Jul 2014 08:05:50 EST
 # Improved macupdate downloard URL determination
+# 0.7.9: Sat 26 Jul 2014 16:11:38 EST
+# Fixed xCHM

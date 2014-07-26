@@ -18,7 +18,7 @@ def get_xchm_app_url()
 end
 
 def get_xchm_pkg_url(app_name,app_url)
-  rem_ver = get_xchm_rem_ver(app_url)
+  rem_ver = get_xchm_rem_ver(app_name,app_url)
   pkg_url = "http://downloads.sourceforge.net/project/xchm/xCHM%20for%20Mac%20OS/xchm-"+rem_ver+"/xchm-"+rem_ver+".dmg"
   return pkg_url
 end
