@@ -157,3 +157,5 @@
 # Improved macupdate downloard URL determination
 # 0.7.9: Sat 26 Jul 2014 16:11:38 EST
 # Fixed xCHM
+# 0.8.0: Fri  1 Aug 2014 13:44:05 EST
+# Improved LibreOffice support

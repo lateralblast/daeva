@@ -18,7 +18,7 @@ def get_tinkertool_app_url()
 end
 
 def get_tinkertool_pkg_url(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/download2/)[0].split(/"/)[7]
+  pkg_url = get_tinkertool_app_url()
   return pkg_url
 end
 

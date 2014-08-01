@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.7.9
+# Version:      0.8.0
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -404,7 +404,7 @@ def check_pkg_file(pkg_file)
   return
 end
 
-def get_pkg_file(pkg_url,pkg_file)
+def get_pkg_file(app_name,app_url,pkg_url,pkg_file)
   check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
     if $verbose == 1
@@ -414,7 +414,17 @@ def get_pkg_file(pkg_url,pkg_file)
     agent.redirect_ok = true
     agent.pluggable_parser.default = Mechanize::Download
     begin
-      agent.get(pkg_url).save(pkg_file)
+      if app_name =~ /TinkerTool/
+        cap = Selenium::WebDriver::Remote::Capabilities.phantomjs('phantomjs.page.settings.userAgent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10) AppleWebKit/538.39.41 (KHTML, like Gecko) Version/8.0 Safari/538.39.41')
+        doc = Selenium::WebDriver.for :phantomjs, :desired_capabilities => cap
+        doc.get(pkg_url)
+        doc.find_element(:id => "Download").click
+        file = File.open(pkg_file,"w")
+        file.write(doc.page_source)
+        file.close
+      else
+        agent.get(pkg_url).save(pkg_file)
+      end
     rescue
       puts "Error fetching: "+pkg_url
       exit
@@ -432,7 +442,7 @@ def get_pkg_type(app_name)
   return pkg_type
 end
 
-def download_app(app_name,pkg_url,rem_ver)
+def download_app(app_name,app_url,pkg_url,rem_ver)
   if pkg_url =~ /dmg$|zip$/
     suffix = pkg_url.split(/\./)[-1]
   else
@@ -441,7 +451,7 @@ def download_app(app_name,pkg_url,rem_ver)
   pkg_file = $work_dir+"/"+app_name.downcase.gsub(/ |-/,'_')+"-"+rem_ver.to_s+"."+suffix
   check_pkg_file(pkg_file)
   if !File.exist?(pkg_file)
-    get_pkg_file(pkg_url,pkg_file)
+    get_pkg_file(app_name,app_url,pkg_url,pkg_file)
   else
     if $verbose == 1
       puts pkg_file+" already exists"
@@ -745,7 +755,8 @@ def download_and_install_app(app_name)
   end
   if result == 0
     pkg_url  = get_pkg_url(app_name)
-    pkg_file = download_app(app_name,pkg_url,rem_ver)
+    app_url  = get_app_url(app_name)
+    pkg_file = download_app(app_name,app_url,pkg_url,rem_ver)
     install_app(app_name,pkg_file,rem_ver)
     fix_gatekeeper(app_name)
     post_install(app_name)
@@ -866,9 +877,10 @@ end
 
 if opt["d"]
   app_name = opt["d"]
+  app_url  = get_app_url(app_name)
   pkg_url  = get_pkg_url(app_name)
   rem_ver  = get_rem_ver(app_name)
-  download_app(app_name,pkg_url,rem_ver)
+  download_app(app_name,app_url,pkg_url,rem_ver)
   exit
 end
 

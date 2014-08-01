@@ -18,7 +18,7 @@ def get_libreoffice_app_url()
 end
 
 def get_libreoffice_pkg_url(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[5]
+  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/64\.dmg/)[-2].split(/"/)[5]
   pkg_url = app_url+pkg_url
   return pkg_url
 end
