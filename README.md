@@ -83,6 +83,7 @@ Supported Applications:
 - Onyx
 - OpenEmu
 - OpenOffice
+- OpenZFS
 - Opera
 - Opera Next
 - PhantomJS
@@ -96,6 +97,7 @@ Supported Applications:
 - Skype
 - SourceTree
 - Splunk
+- Stellarium
 - TakeAPause
 - Thunderbird
 - TimeMachineEditor

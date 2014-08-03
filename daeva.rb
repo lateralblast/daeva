@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.8.0
+# Version:      0.8.1
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -108,20 +108,26 @@ end
 
 def get_macupdate_url(app_name,app_url)
   pkg_type = get_pkg_type(app_name)
-  pkg_url  = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/mudesktop/)[0]
-  if pkg_url.match(/#{pkg_type}/)
-    pkg_url = pkg_url.split(/"/)[3].gsub(/mudesktop/,"http://www.macupdate.com")
+  pkg_page = Net::HTTP.get(URI.parse(app_url))
+  pkg_url  = pkg_page.split("\n").grep(/mudesktop/)[0]
+  if !pkg_url
+    pkg_url = pkg_page.split("\n").grep(/dmg/)[0].split(/'/)[1]
+    pkg_url = "http://www.macupdate.com"+pkg_url
   else
-    pkg_url  = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/#{pkg_type}/)[1]
-    if pkg_url.match(/'/)
-      if pkg_url.match(/onclick/)
-        pkg_url = pkg_url.split(/href="/)[1].split(/"/)[0].gsub(/mudesktop/,"http://www.macupdate.com")
-      else
-        pkg_url = pkg_url.split(/'/)[1]
-        pkg_url = "http://www.macupdate.com"+pkg_url
-      end
+    if pkg_url.match(/#{pkg_type}/)
+      pkg_url = pkg_url.split(/"/)[3].gsub(/mudesktop/,"http://www.macupdate.com")
     else
-      pkg_url = pkg_url.split(/">/)[1].split(/</)[0]
+      pkg_url  = URI.parse(pkg_page).split("\n").grep(/#{pkg_type}/)[1]
+      if pkg_url.match(/'/)
+        if pkg_url.match(/onclick/)
+          pkg_url = pkg_url.split(/href="/)[1].split(/"/)[0].gsub(/mudesktop/,"http://www.macupdate.com")
+        else
+          pkg_url = pkg_url.split(/'/)[1]
+          pkg_url = "http://www.macupdate.com"+pkg_url
+        end
+      else
+        pkg_url = pkg_url.split(/">/)[1].split(/</)[0]
+      end
     end
   end
   return pkg_url
@@ -551,6 +557,7 @@ def get_pkg_dir(app_name,tmp_dir)
 end
 
 def get_pkg_bin(app_name,tmp_dir,rem_ver)
+  os_rel = %x[uname -r |cut -f1 -d.].chomp.to_i
   case app_name
   when /avast/
     pkg_bin = tmp_dir+"/"+app_name+"!.pkg"
@@ -558,6 +565,12 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver)
     pkg_bin = tmp_dir+"/.payload/"+app_name+".pkg"
   when /puppet|facter|hiera/
     pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+".pkg"
+  when /OpenZFS/
+    if os_rel >= 13
+      pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher.pkg"
+    else
+      pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mountain Lion.pkg"
+    end
   else
     pkg_bin = tmp_dir+"/"+app_name+".pkg"
   end

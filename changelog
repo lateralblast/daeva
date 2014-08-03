@@ -159,3 +159,5 @@
 # Fixed xCHM
 # 0.8.0: Fri  1 Aug 2014 13:44:05 EST
 # Improved LibreOffice support
+# 0.8.1: Mon  4 Aug 2014 09:12:20 EST
+# Added support for OpenZFS
