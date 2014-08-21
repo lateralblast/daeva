@@ -163,3 +163,5 @@
 # Added support for OpenZFS
 # 0.8.2: Tue 19 Aug 2014 12:25:19 EST
 # Added support for hr and fixed package URL determination
+# 0.8.3: Thu 21 Aug 2014 21:21:32 EST
+# Added support for Macgo iPhone Explorer and fixed package URL determination
