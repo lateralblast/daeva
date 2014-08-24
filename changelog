@@ -165,3 +165,5 @@
 # Added support for hr and fixed package URL determination
 # 0.8.3: Thu 21 Aug 2014 21:21:32 EST
 # Added support for Macgo iPhone Explorer and fixed package URL determination
+# 0.8.4: Mon 25 Aug 2014 00:29:38 EST
+# Added support of Shuttle
