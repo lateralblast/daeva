@@ -39,6 +39,6 @@ def get_xquartz_loc_ver(app_name)
   return loc_ver
 end
 
-def do_xquartz_post_install(app_name)
+def do_xquartz_post_install(app_name,app_url)
   return
 end

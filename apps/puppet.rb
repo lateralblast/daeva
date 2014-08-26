@@ -39,6 +39,6 @@ def get_puppet_loc_ver(app_name)
   return loc_ver
 end
 
-def do_puppet_post_install(app_name)
+def do_puppet_post_install(app_name,app_url)
   return
 end

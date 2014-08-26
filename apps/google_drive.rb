@@ -37,6 +37,6 @@ def get_google_drive_loc_ver(app_name)
   return loc_ver
 end
 
-def do_google_drive_post_install(app_name)
+def do_google_drive_post_install(app_name,app_url)
   return
 end

@@ -41,7 +41,7 @@ def get_splunk_loc_ver(app_name)
   return loc_ver
 end
 
-def do_splunk_post_install(app_name)
+def do_splunk_post_install(app_name,app_url)
   system("sudo sh -c '/Applications/Splunk/bin/splunk start --accept-license --answer-yes'")
   return
 end

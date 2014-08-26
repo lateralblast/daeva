@@ -37,6 +37,6 @@ def get_opera_next_loc_ver(app_name)
   return loc_ver
 end
 
-def do_opera_next_post_install(app_name)
+def do_opera_next_post_install(app_name,app_url)
   return
 end

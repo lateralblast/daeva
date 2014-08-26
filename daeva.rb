@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.8.6
+# Version:      0.8.7
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -781,7 +781,7 @@ def download_and_install_app(app_name)
     pkg_file = download_app(app_name,app_url,pkg_url,rem_ver)
     install_app(app_name,pkg_file,rem_ver)
     fix_gatekeeper(app_name)
-    post_install(app_name)
+    post_install(app_name,app_dir)
   end
   return
 end
@@ -800,8 +800,8 @@ def remove_app(app_name)
   return
 end
 
-def post_install(app_name)
-  eval("do_#{app_name.downcase.gsub(/ |-/,'_')}_post_install(app_name)")
+def post_install(app_name,app_url)
+  eval("do_#{app_name.downcase.gsub(/ |-/,'_')}_post_install(app_name,app_url)")
   return
 end
 
@@ -813,7 +813,7 @@ def print_avail_pkgs()
       pkg_name = File.basename(file_name,".rb")
       app_name = eval("get_#{pkg_name}_app_name()")
       app_url  = eval("get_#{pkg_name}_app_url()")
-      counter  = 20 - app_name.length
+      counter  = 24 - app_name.length
       counter.times do |x|
         spacer = spacer+" "
       end
@@ -956,7 +956,8 @@ if opt["P"]
   $verbose = 1
   app_name = opt["P"]
   app_name = get_app_name(app_name)
-  post_install(app_name)
+  app_url  = get_app_url(app_name)
+  post_install(app_name,app_url)
 end
 
 if opt["a"]

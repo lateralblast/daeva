@@ -37,6 +37,6 @@ def get_macgo_iphone_explorer_loc_ver(app_name)
   return loc_ver
 end
 
-def do_macgo_iphone_explorer_post_install(app_name)
+def do_macgo_iphone_explorer_post_install(app_name,app_url)
   return
 end

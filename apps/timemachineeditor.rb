@@ -37,6 +37,6 @@ def get_timemachineeditor_loc_ver(app_name)
   return loc_ver
 end
 
-def do_timemachineeditor_post_install(app_name)
+def do_timemachineeditor_post_install(app_name,app_url)
   return
 end

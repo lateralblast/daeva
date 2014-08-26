@@ -43,14 +43,14 @@ def get_virtualbox_loc_ver(app_name)
   return loc_ver
 end
 
-def do_virtualbox_post_install(app_name)
+def do_virtualbox_post_install(app_name,app_url)
   loc_ver  = get_virtualbox_loc_ver(app_name)
   if loc_ver
     sun_url  = "http://dlc.sun.com.edgesuite.net/virtualbox/"
     pkg_file = "Oracle_VM_VirtualBox_Extension_Pack-"+loc_ver+".vbox-extpack"
     pkg_url  = sun_url+loc_ver+"/"+pkg_file
     pkg_file = $work_dir+"/"+pkg_file
-    get_pkg_file(pkg_url,pkg_file)
+    get_pkg_file(app_name,app_url,pkg_url,pkg_file)
     if File.exist?(pkg_file)
       app_dir  = "/Applications/"+app_name+".app"
       vbox_bin = app_dir+"/Contents/MacOS/VboxManage"

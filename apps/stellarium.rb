@@ -38,6 +38,6 @@ def get_stellarium_loc_ver(app_name)
   return loc_ver
 end
 
-def do_stellarium_post_install(app_name)
+def do_stellarium_post_install(app_name,app_url)
   return
 end

@@ -41,6 +41,6 @@ def get_simple_comic_loc_ver(app_name)
   return loc_ver
 end
 
-def do_simple_comic_post_install(app_name)
+def do_simple_comic_post_install(app_name,app_url)
   return
 end

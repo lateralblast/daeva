@@ -41,6 +41,6 @@ def get_firefoxnightly_loc_ver(app_name)
   return loc_ver
 end
 
-def do_firefoxnightly_post_install(app_name)
+def do_firefoxnightly_post_install(app_name,app_url)
   return
 end

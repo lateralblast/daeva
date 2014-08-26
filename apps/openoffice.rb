@@ -47,6 +47,6 @@ def get_openoffice_loc_ver(app_name)
   return loc_ver
 end
 
-def do_openoffice_post_install(app_name)
+def do_openoffice_post_install(app_name,app_url)
   return
 end
