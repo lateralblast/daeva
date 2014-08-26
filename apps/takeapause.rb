@@ -38,5 +38,6 @@ def get_takeapause_loc_ver(app_name)
 end
 
 def do_takeapause_post_install(app_name,app_url)
+  add_login_item(app_name)
   return
 end

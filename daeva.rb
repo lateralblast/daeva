@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.9.0
+# Version:      0.9.1
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -806,6 +806,38 @@ def remove_app(app_name)
       end
       %x[sudo rm -rf "#{app_dir}"]
     end
+  end
+  remove_login_item(app_name)
+  return
+end
+
+def get_login_items()
+  login_items = %x[osascript -e 'tell application "System Events" to get the name of every login item']
+  return login_items
+end
+
+def remove_login_item(app_name)
+  login_items = get_login_items()
+  if login_items.match(/#{app_name}/)
+    if $verbose == 1
+      puts "Removing "+app_name+" from login items"
+    end
+    %x[osascript -e 'tell application "System Events" to delete login item "#{app_name}"' ]
+  end
+  return
+end
+
+def add_login_item(app_name)
+  login_items = get_login_items()
+  if !login_items.match(/#{app_name}/)
+    app_dir = get_app_dir(app_name)
+    if $verbose == 1
+      puts "Adding "+app_name+" to login items"
+    end
+    %x[osascript -e 'tell application "System Events" to make login item at end with properties {path:"#{app_dir}", hidden:false}']
+  end
+  if $verbose == 1
+    puts "Login item for "+app_name+" already exists"
   end
   return
 end

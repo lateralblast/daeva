@@ -38,5 +38,6 @@ def get_shuttle_loc_ver(app_name)
 end
 
 def do_shuttle_post_install(app_name,app_url)
+  add_login_item(app_name)
   return
 end

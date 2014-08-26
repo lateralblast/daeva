@@ -45,5 +45,6 @@ def get_security_growler_loc_ver(app_name)
 end
 
 def do_security_growler_post_install(app_name,app_url)
+  add_login_item(app_name)
   return
 end
