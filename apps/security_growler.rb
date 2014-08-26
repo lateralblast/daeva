@@ -35,8 +35,12 @@ end
 def get_security_growler_loc_ver(app_name)
   app_dir   = get_app_dir(app_name)
   app_pfile = app_dir+"/Contents/Info.plist"
-  loc_ver   = %x[strings "#{app_pfile}" |grep SecurityGrowler].chomp
-  loc_ver   = loc_ver.split(/_/)[0].split(/0S/)[1]
+  if File.exist?(app_pfile)
+    loc_ver  = %x[strings "#{app_pfile}" |grep SecurityGrowler].chomp
+    loc_ver  = loc_ver.split(/_/)[0].split(/0S/)[1]
+  else
+    loc_ver = "Not Installed"
+  end
   return loc_ver
 end
 

@@ -177,3 +177,5 @@
 # Fixed macupdate URL determination
 # 0.8.9: Tue 26 Aug 2014 14:34:14 EST
 # Added support for Logitech Control Center
+# 0.9.0: Tue 26 Aug 2014 14:48:58 EST
+# Fixed local version detection for Security Growler
