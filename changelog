@@ -175,3 +175,5 @@
 # Updated post install routine
 # 0.8.8: Tue 26 Aug 2014 13:46:06 EST
 # Fixed macupdate URL determination
+# 0.8.9: Tue 26 Aug 2014 14:34:14 EST
+# Added support for Logitech Control Center

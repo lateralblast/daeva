@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.8.8
+# Version:      0.8.9
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -243,7 +243,11 @@ def get_app_dir(app_name)
   when /util/
     app_dir = "/Applications/Utilities/"+app_name+"."+app_type
   when /prefPane/
-    app_dir = Dir.home+"/Library/PreferencePanes/"+app_name+"."+app_type
+    if app_name.match(/Logitech/)
+      app_dir = "/Library/PreferencePanes/"+app_name+"."+app_type
+    else
+      app_dir = Dir.home+"/Library/PreferencePanes/"+app_name+"."+app_type
+    end
   end
   return app_dir
 end
@@ -494,7 +498,11 @@ def unzip_app(app_name,zip_file)
     puts "Zip file "+zip_file+" contains errors"
     exit
   end
-  app_dir = zip_dir+"/"+app_name+".app"
+  if app_name.match(/Logitech/)
+    app_dir = zip_dir
+  else
+    app_dir = zip_dir+"/"+app_name+".app"
+  end
   if !File.directory?(app_dir)
     if app_type.match(/bin/)
       if app_name.match(/ /)
@@ -574,6 +582,8 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver)
     pkg_bin = tmp_dir+"/.payload/"+app_name+".pkg"
   when /puppet|facter|hiera/
     pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+".pkg"
+  when /Logitech/
+    pkg_bin = tmp_dir+"/LCC Installer.app"
   when /OpenZFS/
     if os_rel >= 13
       pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher.pkg"
@@ -603,7 +613,7 @@ def copy_app(app_name,tmp_dir,rem_ver)
       if $verbose == 1
         puts "Installing Application from "+pkg_bin+" to #{app_dir}"
       end
-      if app_type.match(/run/)
+      if app_type.match(/run/) or app_name.match(/Logitech/)
         system("open \"#{pkg_bin}\"")
       else
         system("sudo sh -c '/usr/sbin/installer -pkg \"#{pkg_bin}\" -target /'")
@@ -619,7 +629,7 @@ def copy_app(app_name,tmp_dir,rem_ver)
       end
     end
     user_id = %x[whoami].chomp
-    if File.directory?(app_dir) and app_name != "VirtualBox"
+    if File.directory?(app_dir) and !app_name.match(/VirtualBox|Logitech/)
       %x[sudo chown -R #{user_id} "#{app_dir}"]
     end
   else
@@ -781,7 +791,7 @@ def download_and_install_app(app_name)
     pkg_file = download_app(app_name,app_url,pkg_url,rem_ver)
     install_app(app_name,pkg_file,rem_ver)
     fix_gatekeeper(app_name)
-    post_install(app_name,app_dir)
+    post_install(app_name,app_url)
   end
   return
 end
