@@ -18,7 +18,7 @@ def get_xquartz_app_url()
 end
 
 def get_xquartz_pkg_url(app_name,app_url)
-  rem_ver = get_xquartz_rem_ver(app_url)
+  rem_ver = get_xquartz_rem_ver(app_url,app_url)
   pkg_url = "http://xquartz-dl.macosforge.org/SL/XQuartz-"+rem_ver+".dmg"
   return pkg_url
 end
