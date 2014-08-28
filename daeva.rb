@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.9.4
+# Version:      0.9.5
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -145,7 +145,10 @@ end
 # Get macupdate version
 
 def get_macupdate_ver(app_name,app_url)
-  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/).grep(/[0-9]:/)[0].split(/Version\s+/)[1].split(/:/)[0]
+  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/twitter:data2/)[0].split(/"/)[3]
+  if !rem_ver
+    rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/).grep(/[0-9]:/)[0].split(/Version\s+/)[1].split(/:/)[0]
+  end
   if !rem_ver
     rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Version/)[5].split(/Version\s+/)[2].split(/:/)[0]
   end

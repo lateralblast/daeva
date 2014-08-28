@@ -187,3 +187,5 @@
 # Added support for LICEcap
 # 0.9.4: Thu 28 Aug 2014 21:41:24 EST
 # Added support for PlayOnMac
+# 0.9.5: Thu 28 Aug 2014 23:17:34 EST
+# Fixed macupdate version determination
