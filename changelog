@@ -185,3 +185,5 @@
 # Fixed XQuartz package URL determination
 # 0.9.3: Wed 27 Aug 2014 19:57:02 EST
 # Added support for LICEcap
+# 0.9.4: Thu 28 Aug 2014 21:41:24 EST
+# Added support for PlayOnMac

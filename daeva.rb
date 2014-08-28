@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.9.3
+# Version:      0.9.4
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -33,7 +33,7 @@ options  = "aC:c:d:g:hi:l:p:P:q:r:s:u:vVzZ:"
 
 $pkg_info = {}
 $verbose  = 0
-$work_dir = "/tmp/daeva"
+$work_dir = "/Volumes/Software/Mac/Daeva"
 $mtime    = "7"
 $pkg_dir  = File.dirname($0)+"/apps"
 
