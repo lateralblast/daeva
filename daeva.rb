@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.9.5
+# Version:      0.9.6
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -34,7 +34,7 @@ options  = "aC:c:d:g:hi:l:p:P:q:r:s:u:vVzZ:"
 $pkg_info = {}
 $verbose  = 0
 $work_dir = "/Volumes/Software/Mac/Daeva"
-$mtime    = "7"
+$mtime    = "90"
 $pkg_dir  = File.dirname($0)+"/apps"
 
 if !$pkg_dir =~ /\//
@@ -624,9 +624,15 @@ def copy_app(app_name,tmp_dir,rem_ver)
     else
       if File.directory?(pkg_dir)
         if $verbose == 1
-          puts "Copying Application from "+tmp_dir+" to #{app_dir}"
+          puts "Copying Package directory "+pkg_dir+" from "+tmp_dir+" to #{app_dir}"
         end
         %x[cd "#{tmp_dir}" ; sudo cp -rp "#{pkg_dir}" "#{dest_dir}" 2>&1]
+        if app_name == "WineBottler"
+          pkg_dir  = pkg_dir.gsub(/Bottler/,"")
+          dest_dir = dest_dir.gsub(/Bottler/,"")
+          puts "Copying Package directory "+pkg_dir+" from "+tmp_dir+" to #{app_dir}"
+          %x[cd "#{tmp_dir}" ; sudo cp -rp "#{pkg_dir}" "#{dest_dir}" 2>&1]
+        end
       else
         puts "Could not find source directory "+pkg_dir
       end
@@ -737,11 +743,21 @@ def fix_gatekeeper(app_name)
     app_dir = get_app_dir(app_name)
     if File.directory?(app_dir)
       if $verbose == 1
-        puts "Updating Gatekeeper and Quarantine information"
+        puts "Updating Gatekeeper and Quarantine information for "+app_dir
       end
       %x[sudo spctl --add --label "#{app_name}" "#{app_dir}"]
       %x[sudo spctl --enable --label "#{app_name}"]
       %x[sudo xattr -d -r com.apple.quarantine "#{app_dir}"]
+      if app_name == "WineBottler"
+        app_name = app_name.gsub(/Bottler/,"")
+        app_dir  = app_dir.gsub(/Bottler/,"")
+        if $verbose == 1
+          puts "Updating Gatekeeper and Quarantine information for "+app_dir
+        end
+        %x[sudo spctl --add --label "#{app_name}" "#{app_dir}"]
+        %x[sudo spctl --enable --label "#{app_name}"]
+        %x[sudo xattr -d -r com.apple.quarantine "#{app_dir}"]
+      end
     end
   else
     if $verbose == 1
@@ -783,7 +799,7 @@ def download_and_install_app(app_name)
   if loc_ver.to_s.match(/Installed/)
     result = 0
   else
-    if loc_ver.to_s.match(/-/) and !loc_ver.to_s.match(/beta/)
+    if loc_ver.to_s.match(/-/) and !loc_ver.to_s.match(/beta|rc/)
       check_todays_date(loc_ver)
     end
     result = compare_build_vers(loc_ver,rem_ver)
@@ -808,6 +824,13 @@ def remove_app(app_name)
         puts "Removing "+app_dir
       end
       %x[sudo rm -rf "#{app_dir}"]
+      if app_name == "WineBottler"
+        app_dir = app_dir.gsub(/Bottler/,"")
+        if $verbose == 1
+          puts "Removing "+app_dir
+        end
+        %x[sudo rm -rf "#{app_dir}"]
+      end
     end
   end
   remove_login_item(app_name)
