@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      0.9.7
+# Version:      0.9.8
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -36,6 +36,7 @@ $verbose  = 0
 $work_dir = "/Volumes/Software/Mac/Daeva"
 $mtime    = "90"
 $pkg_dir  = File.dirname($0)+"/apps"
+$delete   = 0
 
 if !$pkg_dir =~ /\//
   $pkg_dir = Dir.pwd+"/apps"
@@ -768,11 +769,13 @@ def fix_gatekeeper(app_name)
 end
 
 def cleanup_old_files()
-  if $verbose == 1
-    puts "Cleaning up files older than "+$mtime+" days in "+$work_dir
-  end
-  if $work_dir =~ /[a-z]/
-    %x[find #{$work_dir} -mtime +#{$mtime} -exec rm -rf '{}' \\;]
+  if $delete == 1
+    if $verbose == 1
+      puts "Cleaning up files older than "+$mtime+" days in "+$work_dir
+    end
+    if $work_dir =~ /[a-z]/
+      %x[find #{$work_dir} -mtime +#{$mtime} -exec rm -rf '{}' \\;]
+    end
   end
 end
 
@@ -1003,6 +1006,7 @@ end
 
 if opt["z"]
   $verbose = 1
+  $delete  = 1
   cleanup_old_files()
 end
 
