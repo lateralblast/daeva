@@ -191,3 +191,5 @@
 # Fixed macupdate version determination
 # 0.9.6: Wed  3 Sep 2014 07:26:31 EST
 # Added support for WineBottler
+# 0.9.7: Wed  3 Sep 2014 21:24:00 AEST
+# Updated OpenOffice support

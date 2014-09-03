@@ -13,20 +13,17 @@ def get_openoffice_app_type()
 end
 
 def get_openoffice_app_url()
-  aoo_ver = "4.1.0"
-  app_url = "http://ftp.mirror.aarnet.edu.au/pub/apache/openoffice/"+aoo_ver+"/binaries/en-US/"
+  app_url = "http://www.macupdate.com/app/mac/9602/openoffice"
   return app_url
 end
 
 def get_openoffice_pkg_url(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[5]
-  pkg_url = app_url+pkg_url
+  pkg_url = get_macupdate_url(app_name,app_url)
   return pkg_url
 end
 
 def get_openoffice_rem_ver(app_name,app_url)
-  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/\s+/)[6]
-  rem_ver = DateTime.parse(rem_ver.to_s).to_date
+  rem_ver = get_macupdate_ver(app_name,app_url)
   return rem_ver
 end
 
@@ -36,14 +33,8 @@ def get_openoffice_pkg_type()
 end
 
 def get_openoffice_loc_ver(app_name)
-  app_dir  = get_app_dir(app_name)
-  app_bin  = app_dir+"/Contents/MacOS/soffice"
-  if File.exist?(app_bin)
-    app_date = File.mtime(app_bin)
-    loc_ver  = DateTime.parse(app_date.to_s).to_date
-  else
-    loc_ver = "Not Installed"
-  end
+  loc_ver = get_app_ver(app_name)
+  loc_ver = loc_ver.split(/\s+/)[0]
   return loc_ver
 end
 
