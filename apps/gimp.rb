@@ -13,31 +13,28 @@ def get_gimp_app_type()
 end
 
 def get_gimp_app_url()
-  app_url = "http://www.partha.com/"
+  app_url = "http://www.macupdate.com/app/mac/14597/gimp"
   return app_url
 end
 
 def get_gimp_pkg_url(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split(/\n/).grep(/zip/)[1].split(/"/)[1]
-  pkg_url = app_url+pkg_url
+  pkg_url = get_macupdate_url(app_name,app_url)
   return pkg_url
 end
 
 def get_gimp_rem_ver(app_name,app_url)
-  pkg_url  = get_gimp_pkg_url(app_name,app_url)
-  rem_date = File.basename(pkg_url,".zip")
-  rem_date = rem_date.split(/-/)[2]
-  rem_date = DateTime.strptime(rem_date,'%b%d%Y').to_date
-  return rem_date
+  rem_ver = get_macupdate_ver(app_name,app_url)
+  return rem_ver
 end
 
 def get_gimp_pkg_type()
-  pkg_type = "zip"
+  pkg_type = "dmp"
   return pkg_type
 end
 
 def get_gimp_loc_ver(app_name)
-  loc_ver = get_app_date(app_name)
+  loc_ver = get_app_ver(app_name)
+  loc_ver = loc_ver.split(/,/)[0]
   return loc_ver
 end
 
