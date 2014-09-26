@@ -199,3 +199,5 @@
 # Updated Gimp support
 # 1.0.0: Sat 27 Sep 2014 08:03:25 AEST
 # Fixed version determination for facter, heira and puppet
+# 1.0.1: Sat 27 Sep 2014 08:19:20 AEST
+# Fixed Cyberduck
