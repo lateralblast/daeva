@@ -35,7 +35,10 @@ def get_facter_pkg_type()
 end
 
 def get_facter_loc_ver(app_name)
-  loc_ver = %x[#{app_name} --version].chomp
+  loc_ver = "Not installed"
+  if File.exist?(app_name)
+    loc_ver = %x[#{app_name} --version].chomp
+  end
   return loc_ver
 end
 

@@ -197,3 +197,5 @@
 # Updated Gimp support
 # 0.9.9: Mon 15 Sep 2014 13:07:42 AEST
 # Updated Gimp support
+# 1.0.0: Sat 27 Sep 2014 08:03:25 AEST
+# Fixed version determination for facter, heira and puppet
