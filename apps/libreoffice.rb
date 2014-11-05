@@ -13,20 +13,17 @@ def get_libreoffice_app_type()
 end
 
 def get_libreoffice_app_url()
-  app_url = "http://dev-builds.libreoffice.org/pre-releases/mac/x86_64/"
+  app_url = "http://www.macupdate.com/app/mac/35446/libreoffice"
   return app_url
 end
 
 def get_libreoffice_pkg_url(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/64\.dmg/)[-2].split(/"/)[5]
-  pkg_url = app_url+pkg_url
+  pkg_url = get_macupdate_url(app_name,app_url)
   return pkg_url
 end
 
 def get_libreoffice_rem_ver(app_name,app_url)
-  pkg_url = get_libreoffice_pkg_url(app_name,app_url)
-  rem_ver = File.basename(pkg_url)
-  rem_ver = rem_ver.split(/_/)[1]
+  rem_ver = get_macupdate_ver(app_name,app_url)
   return rem_ver
 end
 

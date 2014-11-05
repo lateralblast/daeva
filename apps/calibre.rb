@@ -13,19 +13,17 @@ def get_calibre_app_type()
 end
 
 def get_calibre_app_url()
-  app_url = "http://calibre-ebook.com/download_osx"
+  app_url = "http://www.macupdate.com/app/mac/30657/calibre"
   return app_url
 end
 
 def get_calibre_pkg_url(app_name,app_url)
-  pkg_url = "http://status.calibre-ebook.com/dist/osx32"
+  pkg_url = get_macupdate_url(app_name,app_url)
   return pkg_url
 end
 
 def get_calibre_rem_ver(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/Alternate/).join.split('"')[7]
-  rem_ver = File.basename(pkg_url)
-  rem_ver = rem_ver.split(/-/)[1].split(/\./)[0..2].join(".")
+  rem_ver = get_macupdate_ver(app_name,app_url)
   return rem_ver
 end
 
