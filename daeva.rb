@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.0.2
+# Version:      1.0.3
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -33,7 +33,8 @@ options  = "aC:c:d:g:hi:l:p:P:q:r:s:u:vVzZ:"
 
 $pkg_info = {}
 $verbose  = 0
-$work_dir = "/Volumes/Software/Mac/Daeva"
+$net_dir  = "/Volumes/Software/Mac/Daeva"
+$work_dir = "/tmp/daeva"
 $mtime    = "90"
 $pkg_dir  = File.dirname($0)+"/apps"
 $delete   = 0
@@ -922,11 +923,21 @@ if opt["v"]
   $verbose = 1
 end
 
-if !File.directory?($work_dir)
+if !File.directory?($net_dir)
   if $verbose == 1
-    puts "Creating directory "+$work_dir
+    puts "Setting Work Directory to: "+$work_dir
   end
-  Dir.mkdir($work_dir)
+  if !File.directory?($work_dir)
+    if $verbose == 1
+      puts "Creating directory "+$work_dir
+    end
+    Dir.mkdir($work_dir)
+  end
+else
+  $work_dir = $net_dir
+  if $verbose == 1
+    puts "Setting Work Directory to: "+$work_dir
+  end
 end
 
 if opt["l"]

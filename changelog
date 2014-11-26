@@ -203,3 +203,5 @@
 # Fixed Cyberduck
 # 1.0.2: Wed  5 Nov 2014 20:12:59 AEDT
 # Fixed LibreOffice and Calibre
+# 1.0.3: Thu 27 Nov 2014 09:58:21 AEDT
+# Fixed work directory and added NOYB
