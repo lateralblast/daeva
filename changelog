@@ -205,3 +205,5 @@
 # Fixed LibreOffice and Calibre
 # 1.0.3: Thu 27 Nov 2014 09:58:21 AEDT
 # Fixed work directory and added NOYB
+# 1.0.4: Mon 19 Jan 2015 10:01:12 AEDT
+# Added HandBrake
