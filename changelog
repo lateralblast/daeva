@@ -207,3 +207,5 @@
 # Fixed work directory and added NOYB
 # 1.0.4: Mon 19 Jan 2015 10:01:12 AEDT
 # Added HandBrake
+# 1.0.5: Fri  3 Apr 2015 15:17:49 AEDT
+# Fixed VirtualBox URL
