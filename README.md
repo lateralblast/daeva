@@ -81,6 +81,7 @@ Supported Applications:
 - iTerm
 - iTubeDownloader
 - kid3
+- KeyUp
 - LibreOffice
 - LICEcap
 - Logitech

@@ -213,3 +213,5 @@ G# Changes
 # Added support for MacTerm
 # 1.0.7: Tue 28 Apr 2015 15:49:37 AEST
 # Added support for OneDrive
+# 1.0.8: Tue 28 Apr 2015 15:56:42 AEST
+# Added support for KeyUp
