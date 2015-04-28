@@ -77,6 +77,7 @@ Supported Applications:
 - HandBrake
 - hiera
 - hr
+- iBrowse
 - iMeme
 - iTerm
 - iTubeDownloader
@@ -86,7 +87,7 @@ Supported Applications:
 - LICEcap
 - Logitech
 - LyX
-- Macgo
+- Macgo iPhone Explorer
 - MacTerm
 - MPlayerX
 - NOYB
