@@ -59,6 +59,7 @@ Supported Applications:
 - Cakebrew
 - Calibre
 - Chromium
+- CloudyTabs
 - Cyberduck
 - Day-O
 - Dropbox
