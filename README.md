@@ -89,6 +89,7 @@ Supported Applications:
 - MacTerm
 - MPlayerX
 - NOYB
+- OneDrive
 - Onyx
 - OpenEmu
 - OpenOffice

@@ -211,3 +211,5 @@ G# Changes
 # Fixed VirtualBox URL
 # 1.0.6: Tue 28 Apr 2015 15:25:25 AEST
 # Added support for MacTerm
+# 1.0.7: Tue 28 Apr 2015 15:49:37 AEST
+# Added support for OneDrive
