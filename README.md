@@ -53,7 +53,7 @@ Packages
 Supported Applications:
 
 - Adium
-- Alarm Clock
+- Alarm
 - AppCleaner
 - avast
 - Cakebrew
@@ -63,37 +63,48 @@ Supported Applications:
 - Day-O
 - Dropbox
 - Evernote
+- EyeTV
 - facter
 - FileZilla
 - Firefox
 - FirefoxAurora
 - FirefoxNightly
+- GeekTool
 - GIMP
 - GitHub
-- Google Chrome
-- Google Drive
+- Google
+- Google
+- HandBrake
 - hiera
+- hr
 - iMeme
 - iTerm
 - iTubeDownloader
 - kid3
 - LibreOffice
+- LICEcap
+- Logitech
 - LyX
+- Macgo
+- MacTerm
 - MPlayerX
+- NOYB
 - Onyx
 - OpenEmu
 - OpenOffice
 - OpenZFS
 - Opera
-- Opera Next
+- Opera
 - PhantomJS
 - Picasa
+- PlayOnMac
 - puppet
 - RCDefaultApp
 - RealPlayer
-- Security Growler
+- Security
 - Semulov
-- Simple Comic
+- Shuttle
+- Simple
 - Skype
 - SourceTree
 - Splunk
@@ -101,12 +112,14 @@ Supported Applications:
 - TakeAPause
 - Thunderbird
 - TimeMachineEditor
+- TinkerTool
 - Transmission
 - VirtualBox
 - VLC
-- VMware Fusion
+- VMware
 - WebKit
-- World Ticker
+- WineBottler
+- World
 - xCHM
 - XQuartz
 

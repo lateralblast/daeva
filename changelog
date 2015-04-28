@@ -1,4 +1,4 @@
-# Changes
+G# Changes
 # 0.0.1: Sat 10 May 2014 20:12:59 EST
 # Initial working version
 # 0.0.2: Wed 14 May 2014 08:29:47 EST
@@ -209,3 +209,5 @@
 # Added HandBrake
 # 1.0.5: Fri  3 Apr 2015 15:17:49 AEDT
 # Fixed VirtualBox URL
+# 1.0.6: Tue 28 Apr 2015 15:25:25 AEST
+# Added support for MacTerm
