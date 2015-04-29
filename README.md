@@ -126,6 +126,7 @@ Supported Applications:
 - TimeMachineEditor
 - TinkerTool
 - Transmission
+- Tunnelblick
 - VirtualBox
 - VLC
 - VMware

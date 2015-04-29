@@ -237,3 +237,5 @@ G# Changes
 # Added support for ControlPlane
 # 1.1.9: Thu 30 Apr 2015 07:26:47 AEST
 # Added support for OpenVPN
+# 1.2.0: Thu 30 Apr 2015 08:55:16 AEST
+# Added support for Tunnelblick
