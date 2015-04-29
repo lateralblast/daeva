@@ -56,11 +56,13 @@ Supported Applications:
 - Alarm
 - AppCleaner
 - Audacity
+- AudioMate
 - avast
 - Cakebrew
 - Calibre
 - Chromium
 - CloudyTabs
+- ControlPlane
 - Cyberduck
 - Day-O
 - Deeper
