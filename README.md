@@ -55,6 +55,7 @@ Supported Applications:
 - Adium
 - Alarm
 - AppCleaner
+- Audacity
 - avast
 - Cakebrew
 - Calibre
