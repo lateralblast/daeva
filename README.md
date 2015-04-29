@@ -101,6 +101,7 @@ Supported Applications:
 - Onyx
 - OpenEmu
 - OpenOffice
+- OpenVPN
 - OpenZFS
 - Opera
 - Opera

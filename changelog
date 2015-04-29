@@ -235,3 +235,5 @@ G# Changes
 # Added support for AudioMate
 # 1.1.8: Wed 29 Apr 2015 17:08:19 AEST
 # Added support for ControlPlane
+# 1.1.9: Thu 30 Apr 2015 07:26:47 AEST
+# Added support for OpenVPN
