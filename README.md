@@ -90,6 +90,7 @@ Supported Applications:
 - LyX
 - Macgo iPhone Explorer
 - MacTerm
+- Mactracker
 - MPlayerX
 - NOYB
 - OneDrive
@@ -112,6 +113,8 @@ Supported Applications:
 - Skype
 - SourceTree
 - Splunk
+- Spotifree
+- Spotify
 - Stellarium
 - TakeAPause
 - Thunderbird
