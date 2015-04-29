@@ -62,6 +62,7 @@ Supported Applications:
 - CloudyTabs
 - Cyberduck
 - Day-O
+- Deeper
 - Dropbox
 - Evernote
 - EyeTV
