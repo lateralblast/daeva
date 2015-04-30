@@ -134,6 +134,7 @@ Supported Applications:
 - WineBottler
 - World
 - xCHM
+- XMind
 - XQuartz
 
 Usage

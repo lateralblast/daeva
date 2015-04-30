@@ -1,4 +1,4 @@
-G# Changes
+# Changes
 # 0.0.1: Sat 10 May 2014 20:12:59 EST
 # Initial working version
 # 0.0.2: Wed 14 May 2014 08:29:47 EST
@@ -239,3 +239,5 @@ G# Changes
 # Added support for OpenVPN
 # 1.2.0: Thu 30 Apr 2015 08:55:16 AEST
 # Added support for Tunnelblick
+# 1.2.1: Thu 30 Apr 2015 20:19:20 AEST
+# Added support for XMind
