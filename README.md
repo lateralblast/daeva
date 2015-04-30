@@ -85,6 +85,7 @@ Supported Applications:
 - iBrowse
 - iMeme
 - iTerm
+- Itsycal
 - iTubeDownloader
 - kid3
 - KeyUp
