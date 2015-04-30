@@ -127,6 +127,7 @@ Supported Applications:
 - TinkerTool
 - Transmission
 - Tunnelblick
+- Visual Studio Code
 - VirtualBox
 - VLC
 - VMware
