@@ -98,6 +98,7 @@ Supported Applications:
 - MacTerm
 - Mactracker
 - MPlayerX
+- Murus
 - NOYB
 - OneDrive
 - Onyx

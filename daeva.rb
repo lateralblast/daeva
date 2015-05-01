@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.2.4
+# Version:      1.2.5
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -716,6 +716,11 @@ def install_app(app_name,pkg_file,rem_ver)
     when /zip$/
       if file_type =~ /Zip archive/
         tmp_dir = unzip_app(app_name,pkg_file)
+        if app_name.match(/Murus/)
+          pkg_file = tmp_dir+"/"+app_name+" "+rem_ver+".dmg"
+          tmp_dir  = attach_dmg(app_name,pkg_file)
+          detach_dmg(tmp_dir)
+        end
         app_pid = copy_app(app_name,tmp_dir,rem_ver)
       else
         puts "File "+pkg_file+" is not a ZIP file"
