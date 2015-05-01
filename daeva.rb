@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.2.6
+# Version:      1.2.7
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -294,6 +294,10 @@ def get_app_ver(app_name)
         app_ver = %x[defaults read "#{ver_file}" CFBundleShortVersionString].chomp
       end
     end
+    app_ver = app_ver.gsub(/\.$/,"")
+    if app_name.match(/Spotify/) and app_ver.match(/g/)
+      app_ver = app_ver.split(/\./)[0..-2].join(".")
+    end
     if !app_ver
       app_ver = get_min_ver(app_name)
     else
@@ -357,6 +361,7 @@ def get_rem_ver(app_name)
     puts "Remote build version (or date) not found"
     exit
   end
+  rem_ver = rem_ver.gsub(/\.$/,"")
   return rem_ver
 end
 
