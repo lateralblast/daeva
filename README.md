@@ -92,6 +92,7 @@ Supported Applications:
 - KeyUp
 - LibreOffice
 - LICEcap
+- Loading
 - Logitech
 - LyX
 - Macgo iPhone Explorer

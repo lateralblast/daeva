@@ -28,7 +28,7 @@ def get_spotify_rem_ver(app_name,app_url)
 end
 
 def get_spotify_pkg_type()
-  pkg_type = "zip"
+  pkg_type = "dmg"
   return pkg_type
 end
 
