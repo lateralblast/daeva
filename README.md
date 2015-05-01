@@ -52,101 +52,102 @@ Packages
 
 Supported Applications:
 
-- Adium
-- Alarm
-- AppCleaner
-- Audacity
-- AudioMate
-- avast
-- Cakebrew
-- Calibre
-- Chromium
-- CloudyTabs
-- ControlPlane
-- Cyberduck
-- Day-O
-- Deeper
-- Dropbox
-- EtreCheck
-- Evernote
-- EyeTV
-- facter
-- FileZilla
-- Firefox
-- FirefoxAurora
-- FirefoxNightly
-- GeekTool
-- GIMP
-- GitHub
-- Google
-- Google
-- HandBrake
-- Harvest
-- hiera
-- hr
-- HyperSwitch
-- iBrowse
-- iMeme
-- iTerm
-- Itsycal
-- iTubeDownloader
-- kid3
-- KeyUp
-- LibreOffice
-- LICEcap
-- Loading
-- Logitech
-- LyX
+- Adium  
+- Alarm Clock 
+- AppCleaner  
+- Audacity  
+- AudioMate  
+- avast  
+- Cakebrew  
+- Calibre  
+- Chromium  
+- CloudyTabs  
+- ControlPlane  
+- Cyberduck  
+- Day-O  
+- Deeper  
+- Dropbox  
+- EtreCheck  
+- Evernote  
+- EyeTV  
+- facter  
+- FileZilla  
+- Firefox  
+- FirefoxAurora  
+- FirefoxNightly  
+- GeekTool  
+- GIMP  
+- GitHub  
+- Google Chrome 
+- Google Drive 
+- GPG Suite 
+- HandBrake  
+- Harvest  
+- hiera  
+- hr  
+- HyperSwitch  
+- iBrowse  
+- iMeme  
+- iTerm  
+- Itsycal  
+- iTubeDownloader  
+- kid3  
+- LibreOffice  
+- LICEcap  
+- Loading  
+- Logitech Control Center
+- LyX  
 - Macgo iPhone Explorer
-- MacTerm
-- Mactracker
-- MPlayerX
-- Murus
-- NOYB
-- OneDrive
-- Onyx
-- OpenEmu
-- OpenOffice
-- OpenVPN
-- OpenZFS
-- Opera
-- Opera
-- PhantomJS
-- Picasa
-- PlayOnMac
-- puppet
-- Radiant Player
-- RCDefaultApp
-- RealPlayer
-- Security
-- Semulov
-- spectacle
-- Shuttle
-- Simple
-- Skype
-- SourceTree
-- Splunk
-- Spotifree
-- Spotify
-- Stellarium
-- TakeAPause
-- teleport
-- Thunderbird
-- TimeMachineEditor
-- TinkerTool
-- Transmission
-- Tuck
-- Tunnelblick
+- MacTerm  
+- Mactracker  
+- MPlayerX  
+- Murus  
+- NOYB  
+- OneDrive  
+- Onyx  
+- OpenEmu  
+- OpenOffice  
+- PrivateTunnel  
+- OpenZFS  
+- Opera  
+- Opera Next 
+- PhantomJS  
+- Picasa  
+- PlayOnMac  
+- PrivateTunnel  
+- puppet  
+- Radiant Player 
+- RCDefaultApp  
+- RealPlayer  
+- Security Growler 
+- Semulov  
+- Shuttle  
+- Simple Comic 
+- Skype  
+- SourceTree  
+- Spectacle  
+- Splunk  
+- Spotifree  
+- Spotify  
+- Stellarium  
+- TakeAPause  
+- teleport  
+- Thunderbird  
+- TimeMachineEditor  
+- TinkerTool  
+- Transmission  
+- Tuck  
+- Tunnelblick  
+- VirtualBox  
 - Visual Studio Code
-- VirtualBox
-- VLC
-- VMware
-- WebKit
-- WineBottler
-- World
-- xCHM
-- XMind
-- XQuartz
+- VLC  
+- VMware Fusion 
+- WebKit  
+- WineBottler  
+- World Ticker 
+- xCHM  
+- XMind  
+- XQuartz  
 
 Usage
 =====
