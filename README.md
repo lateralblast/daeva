@@ -67,6 +67,7 @@ Supported Applications:
 - Day-O
 - Deeper
 - Dropbox
+- EtreCheck
 - Evernote
 - EyeTV
 - facter
@@ -113,10 +114,12 @@ Supported Applications:
 - Picasa
 - PlayOnMac
 - puppet
+- Radiant Player
 - RCDefaultApp
 - RealPlayer
 - Security
 - Semulov
+- spectacle
 - Shuttle
 - Simple
 - Skype
@@ -131,6 +134,7 @@ Supported Applications:
 - TimeMachineEditor
 - TinkerTool
 - Transmission
+- Tuck
 - Tunnelblick
 - Visual Studio Code
 - VirtualBox
