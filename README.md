@@ -84,6 +84,7 @@ Supported Applications:
 - Harvest
 - hiera
 - hr
+- HyperSwitch
 - iBrowse
 - iMeme
 - iTerm
