@@ -253,3 +253,5 @@
 # Added support for Loading
 # 1.2.7: Sat  2 May 2015 08:50:27 AEST
 # Improved version string handling (e.g. Spotify)
+# 1.2.8: Sat  2 May 2015 08:54:14 AEST
+# Added support for teleport

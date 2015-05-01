@@ -126,6 +126,7 @@ Supported Applications:
 - Spotify
 - Stellarium
 - TakeAPause
+- teleport
 - Thunderbird
 - TimeMachineEditor
 - TinkerTool
