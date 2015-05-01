@@ -80,6 +80,7 @@ Supported Applications:
 - Google
 - Google
 - HandBrake
+- Harvest
 - hiera
 - hr
 - iBrowse
