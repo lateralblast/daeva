@@ -255,3 +255,5 @@
 # Improved version string handling (e.g. Spotify)
 # 1.2.8: Sat  2 May 2015 08:54:14 AEST
 # Added support for teleport
+# 1.2.9: Sat  2 May 2015 09:11:35 AEST
+# Added support for Tuck
