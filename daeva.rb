@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.3.3
+# Version:      1.3.4
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -598,6 +598,8 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver)
     pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+".pkg"
   when /Logitech/
     pkg_bin = tmp_dir+"/LCC Installer.app"
+  when /Citrix Receiver/
+    pkg_bin = tmp_dir+"/Install Citrix Receiver.pkg"
   when /OpenZFS/
     if os_rel >= 13
       pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher.pkg"
