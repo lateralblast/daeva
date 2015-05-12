@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.3.4
+# Version:      1.3.5
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -284,14 +284,18 @@ def get_app_ver(app_name)
   app_dir  = get_app_dir(app_name)
   ver_file = app_dir+"/Contents/Info.plist"
   if File.exist?(ver_file)
-    cf_check = %x[cat "#{ver_file}" | grep CFBundleGetInfoString]
-    if cf_check.match(/CFBundleGetInfoString/)
-      app_ver = %x[defaults read "#{ver_file}" CFBundleGetInfoString].chomp
-    end
-    if app_ver !~ /[0-9]\.[0-9]/
-      cf_check = %x[cat "#{ver_file}" | grep CFBundleShortVersionString]
-      if cf_check.match(/CFBundleShortVersionString/)
-        app_ver = %x[defaults read "#{ver_file}" CFBundleShortVersionString].chomp
+    if app_name.match(/ServeToMe/)
+      app_ver = %x[defaults read "#{ver_file}" CFBundleVersion].chomp
+    else
+      cf_check = %x[cat "#{ver_file}" | grep CFBundleGetInfoString]
+      if cf_check.match(/CFBundleGetInfoString/)
+        app_ver = %x[defaults read "#{ver_file}" CFBundleGetInfoString].chomp
+      end
+      if app_ver !~ /[0-9]\.[0-9]/
+        cf_check = %x[cat "#{ver_file}" | grep CFBundleShortVersionString]
+        if cf_check.match(/CFBundleShortVersionString/)
+          app_ver = %x[defaults read "#{ver_file}" CFBundleShortVersionString].chomp
+        end
       end
     end
     app_ver = app_ver.gsub(/\.$/,"")
