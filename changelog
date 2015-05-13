@@ -267,3 +267,7 @@
 # Added support for GPG Suite
 # 1.3.4: Mon 11 May 2015 14:38:41 AEST
 # Added support for Citrix Receiver
+# 1.3.5: Tue 12 May 2015 16:16:49 AEST
+# Added support for ServeToMe and StreamToMe
+# 1.3.6: Wed 13 May 2015 17:46:30 AEST
+# Added support for Komodo Edit 9
