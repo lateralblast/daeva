@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.3.7
+# Version:      1.3.8
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -104,6 +104,20 @@ def remove_crash(app_name)
     %x[rm "#{crash_file}"]
   end
   return
+end
+
+# Get maccappstore URL
+
+def get_macappstore_url(app_url)
+  pkg_url = app_url.gsub(/https/,"macappstore")
+  return pkg_url
+end
+
+# Get mmacappstore version
+
+def get_macappstore_ver(app_url)
+  rem_ver = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/softwareVersion/)[0].split(/softwareVersion">/)[1].split(/</)[0]
+  return rem_ver
 end
 
 # Get macupdate URL
@@ -253,6 +267,8 @@ def get_app_dir(app_name)
     else
       app_dir = Dir.home+"/Library/PreferencePanes/"+app_name+"."+app_type
     end
+  else
+    app_dir = "/Applications/"+app_name+".app"
   end
   return app_dir
 end
@@ -834,11 +850,16 @@ def download_and_install_app(app_name)
   end
   if result == 0
     pkg_url  = get_pkg_url(app_name)
-    app_url  = get_app_url(app_name)
-    pkg_file = download_app(app_name,app_url,pkg_url,rem_ver)
-    install_app(app_name,pkg_file,rem_ver)
-    fix_gatekeeper(app_name)
-    post_install(app_name,app_url)
+    app_type = get_app_type(app_name)
+    if app_type.match(/store/)
+      %x[open #{pkg_url}]
+    else
+      app_url  = get_app_url(app_name)
+      pkg_file = download_app(app_name,app_url,pkg_url,rem_ver)
+      install_app(app_name,pkg_file,rem_ver)
+      fix_gatekeeper(app_name)
+      post_install(app_name,app_url)
+    end
   end
   return
 end
