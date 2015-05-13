@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.3.6
+# Version:      1.3.7
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -604,6 +604,8 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver)
     pkg_bin = tmp_dir+"/LCC Installer.app"
   when /Citrix Receiver/
     pkg_bin = tmp_dir+"/Install Citrix Receiver.pkg"
+  when /Wireshark/
+    pkg_bin = tmp_dir+"/"+app_name+" "+rem_ver+" Intel 64.pkg"
   when /OpenZFS/
     if os_rel >= 13
       pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher.pkg"
@@ -666,9 +668,11 @@ def copy_app(app_name,tmp_dir,rem_ver)
 end
 
 def attach_dmg(app_name,pkg_file)
-  system("sudo sh -c 'echo Y | hdiutil attach \"#{pkg_file}\" |tail -1 |cut -f3-'")
-  tmp_dir = %x[ls -rt /Volumes |grep "#{app_name}" |tail -1].chomp
-  tmp_dir = "/Volumes/"+tmp_dir
+  tmp_dir = %x[sudo sh -c 'echo Y | hdiutil attach "#{pkg_file}" |tail -1 |cut -f3-'].chomp
+  if !tmp_dir.match(/[A-z]/)
+    tmp_dir = %x[ls -rt /Volumes |grep "#{app_name}" |tail -1].chomp
+    tmp_dir = "/Volumes/"+tmp_dir
+  end
   if tmp_dir !~ /[A-z]/
     tmp_dir = "/Volumes/"+app_name
   end

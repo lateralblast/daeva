@@ -61,6 +61,7 @@ Supported Applications:
 - Cakebrew  
 - Calibre  
 - Chromium  
+- Citrix Receiver 
 - CloudyTabs  
 - ControlPlane  
 - Cyberduck  
@@ -92,6 +93,7 @@ Supported Applications:
 - Itsycal  
 - iTubeDownloader  
 - kid3  
+- Komodo Edit 9
 - LibreOffice  
 - LICEcap  
 - Loading  
@@ -121,6 +123,7 @@ Supported Applications:
 - RealPlayer  
 - Security Growler 
 - Semulov  
+- ServeToMe  
 - Shuttle  
 - Simple Comic 
 - Skype  
@@ -130,6 +133,7 @@ Supported Applications:
 - Spotifree  
 - Spotify  
 - Stellarium  
+- StreamToMe  
 - TakeAPause  
 - teleport  
 - Thunderbird  
@@ -144,10 +148,11 @@ Supported Applications:
 - VMware Fusion 
 - WebKit  
 - WineBottler  
+- Wireshark  
 - World Ticker 
 - xCHM  
 - XMind  
-- XQuartz  
+- XQuartz 
 
 Usage
 =====
