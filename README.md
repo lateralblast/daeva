@@ -52,107 +52,116 @@ Packages
 
 Supported Applications:
 
-- Adium  
-- Alarm Clock 
-- AppCleaner  
-- Audacity  
-- AudioMate  
-- avast  
-- Cakebrew  
-- Calibre  
-- Chromium  
-- Citrix Receiver 
-- CloudyTabs  
-- ControlPlane  
-- Cyberduck  
-- Day-O  
-- Deeper  
-- Dropbox  
-- EtreCheck  
-- Evernote  
-- EyeTV  
-- facter  
-- FileZilla  
-- Firefox  
-- FirefoxAurora  
-- FirefoxNightly  
-- GeekTool  
-- GIMP  
-- GitHub  
-- Google Chrome 
-- Google Drive 
-- GPG Suite 
-- HandBrake  
-- Harvest  
-- hiera  
-- hr  
-- HyperSwitch  
-- iBrowse  
-- iMeme  
-- iTerm  
-- Itsycal  
-- iTubeDownloader  
-- kid3  
-- Komodo Edit 9
-- LibreOffice  
-- LICEcap  
-- Loading  
-- Logitech Control Center
-- LyX  
-- Macgo iPhone Explorer
-- MacTerm  
-- Mactracker  
-- MPlayerX  
-- Murus  
-- NOYB  
-- OneDrive  
-- Onyx  
-- OpenEmu  
-- OpenOffice  
-- PrivateTunnel  
-- OpenZFS  
-- Opera  
-- Opera Next 
-- PhantomJS  
-- Picasa  
-- PlayOnMac  
-- PrivateTunnel  
-- puppet  
-- Radiant Player 
-- RCDefaultApp  
-- RealPlayer  
-- Security Growler 
-- Semulov  
-- ServeToMe  
-- Shuttle  
-- Simple Comic 
-- Skype  
-- SourceTree  
-- Spectacle  
-- Splunk  
-- Spotifree  
-- Spotify  
-- Stellarium  
-- StreamToMe  
-- TakeAPause  
-- teleport  
-- Thunderbird  
-- TimeMachineEditor  
-- TinkerTool  
-- Transmission  
-- Tuck  
-- Tunnelblick  
-- VirtualBox  
-- Visual Studio Code
-- VLC  
-- VMware Fusion 
-- WebKit  
-- WineBottler  
-- Wireshark  
-- World Ticker 
-- xCHM  
-- XMind  
-- XQuartz 
+- Adium   
+- Alarm Clock  
+- AppCleaner   
+- Astropad   
+- Audacity   
+- AudioMate   
+- avast   
+- Cakebrew   
+- Calibre   
+- Chromium   
+- Citrix Receiver  
+- CloudyTabs   
+- ControlPlane   
+- Cyberduck   
+- Dark Boot  
+- Day-O   
+- Deeper   
+- Dropbox   
+- EtreCheck   
+- Evernote   
+- EyeTV   
+- facter   
+- FileZilla   
+- Firefox   
+- FirefoxAurora   
+- FirefoxNightly   
+- GeekTool   
+- GIMP   
+- GitHub   
+- Google Chrome  
+- Google Drive  
+- GPG Suite  
+- HandBrake   
+- Harvest   
+- hiera   
+- hr   
+- HyperSwitch   
+- iBrowse   
+- iMeme   
+- iTerm   
+- Itsycal   
+- iTubeDownloader   
+- kid3   
+- KnockKnock   
+- Komodo Edit 9 
+- LibreOffice   
+- LICEcap   
+- Loading   
+- Logitech Control Center 
+- LyX   
+- MacGameStore   
+- Macgo iPhone Explorer 
+- MacID   
+- macspice   
+- MacTerm   
+- Mactracker   
+- MPlayerX   
+- Murus   
+- MyTunesRSS   
+- NOYB   
+- OneDrive   
+- Onyx   
+- OpenEmu   
+- OpenOffice   
+- PrivateTunnel   
+- OpenZFS   
+- Opera   
+- Opera Next  
+- PDF Attributes  
+- PhantomJS   
+- Picasa   
+- PlayOnMac   
+- PrivateTunnel   
+- puppet   
+- Radiant Player  
+- RCDefaultApp   
+- RealPlayer   
+- Security Growler  
+- Semulov   
+- ServeToMe   
+- Shuttle   
+- Simple Comic  
+- Skype   
+- SourceTree   
+- Spectacle   
+- Splunk   
+- Spotifree   
+- Spotify   
+- Stellarium   
+- StreamToMe   
+- TakeAPause   
+- teleport   
+- Thunderbird   
+- TimeMachineEditor   
+- TinkerTool   
+- Transmission   
+- tubbler   
+- Tuck   
+- Tunnelblick   
+- VirtualBox   
+- Visual Studio Code 
+- VLC   
+- VMware Fusion  
+- WebKit   
+- WineBottler   
+- Wireshark   
+- World Ticker  
+- xCHM   
+- XMind   
+- XQuartz  
 
 Usage
 =====
