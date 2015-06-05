@@ -59,6 +59,7 @@ Supported Applications:
 - Audacity   
 - AudioMate   
 - avast   
+- bettertouchtool
 - Cakebrew   
 - Calibre   
 - Chromium   
