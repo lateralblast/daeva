@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.4.5
+# Version:      1.4.6
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -606,6 +606,8 @@ end
 def get_pkg_bin(app_name,tmp_dir,rem_ver)
   os_rel = %x[uname -r |cut -f1 -d.].chomp.to_i
   case app_name
+  when /Google Earth/
+    pkg_bin = tmp_dir+"/Install Google Earth.pkg"
   when /GPG Suite/
     pkg_bin = tmp_dir+"/Install.pkg"
   when /OpenVPN|PrivateTunnel/

@@ -82,7 +82,8 @@ Supported Applications:
 - GIMP   
 - GitHub   
 - Google Chrome  
-- Google Drive  
+- Google Drive
+- Google Earth  
 - GPG Suite  
 - HandBrake   
 - Harvest   
