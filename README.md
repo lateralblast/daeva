@@ -152,6 +152,7 @@ Supported Applications:
 - tubbler   
 - Tuck   
 - Tunnelblick   
+- typora
 - VirtualBox   
 - Visual Studio Code 
 - VLC   
