@@ -18,13 +18,13 @@ def get_mplayerx_app_url()
 end
 
 def get_mplayerx_pkg_url(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/zip/)[0].split(/"/)[1]
+  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/dmg/)[0].split(/"/)[1]
   return pkg_url
 end
 
 def get_mplayerx_rem_ver(app_name,app_url)
   pkg_url = get_mplayerx_pkg_url(app_name,app_url)
-  rem_ver = File.basename(pkg_url,".zip").split(/-/)[1]
+  rem_ver = File.basename(pkg_url,".dmg").split(/-/)[1]
   return rem_ver
 end
 
