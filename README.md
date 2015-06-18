@@ -92,6 +92,7 @@ Supported Applications:
 - hr   
 - HyperSwitch   
 - iBrowse   
+- Iceberg
 - iMeme   
 - iTerm   
 - Itsycal   

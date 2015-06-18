@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.4.9
+# Version:      1.5.0
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -603,36 +603,37 @@ def get_pkg_dir(app_name,tmp_dir)
   return pkg_dir
 end
 
-def get_pkg_bin(app_name,tmp_dir,rem_ver)
+def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
   os_rel = %x[uname -r |cut -f1 -d.].chomp.to_i
   case app_name
   when /Google Earth/
-    pkg_bin = tmp_dir+"/Install Google Earth.pkg"
+    pkg_bin = tmp_dir+"/Install Google Earth"
   when /GPG Suite/
-    pkg_bin = tmp_dir+"/Install.pkg"
+    pkg_bin = tmp_dir+"/Install"
   when /OpenVPN|PrivateTunnel/
-    pkg_bin = tmp_dir+"/PrivateTunnel.mpkg"
+    pkg_bin = tmp_dir+"/PrivateTunnel"
   when /avast/
-    pkg_bin = tmp_dir+"/"+app_name+"!.pkg"
+    pkg_bin = tmp_dir+"/"+app_name+"!"
   when /Splunk/
-    pkg_bin = tmp_dir+"/.payload/"+app_name+".pkg"
+    pkg_bin = tmp_dir+"/.payload/"+app_name
   when /puppet|facter|hiera/
-    pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+".pkg"
+    pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver
   when /Logitech/
-    pkg_bin = tmp_dir+"/LCC Installer.app"
+    pkg_bin = tmp_dir+"/LCC Installer"
   when /Citrix Receiver/
-    pkg_bin = tmp_dir+"/Install Citrix Receiver.pkg"
+    pkg_bin = tmp_dir+"/Install Citrix Receiver"
   when /Wireshark/
-    pkg_bin = tmp_dir+"/"+app_name+" "+rem_ver+" Intel 64.pkg"
+    pkg_bin = tmp_dir+"/"+app_name+" "+rem_ver+" Intel 64"
   when /OpenZFS/
     if os_rel >= 13
-      pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher.pkg"
+      pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher"
     else
-      pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mountain Lion.pkg"
+      pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mountain Lion"
     end
   else
-    pkg_bin = tmp_dir+"/"+app_name+".pkg"
+    pkg_bin = tmp_dir+"/"+app_name
   end
+  pkg_bin = pkg_bin+"."+app_type
   return pkg_bin
 end
 
@@ -648,7 +649,7 @@ def copy_app(app_name,tmp_dir,rem_ver)
     else
       pkg_dir = get_pkg_dir(app_name,tmp_dir)
     end
-    pkg_bin = get_pkg_bin(app_name,tmp_dir,rem_ver)
+    pkg_bin = get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
     if File.exist?(pkg_bin) or File.symlink?(pkg_bin)
       if $verbose == 1
         puts "Installing Application from "+pkg_bin+" to #{app_dir}"
