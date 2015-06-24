@@ -60,6 +60,7 @@ Supported Applications:
 - AudioMate   
 - avast   
 - bettertouchtool
+- Brackets
 - Cakebrew   
 - Calibre   
 - Chromium   

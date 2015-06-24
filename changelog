@@ -299,3 +299,5 @@
 # Fixed mplayerx
 # 1.5.0: Thu 18 Jun 2015 19:56:12 AEST
 # Added support for Iceberg and improved package installed support
+# 1.5.1: Thu 25 Jun 2015 08:07:22 AEST
+# Added support for Brackets
