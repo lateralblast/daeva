@@ -301,3 +301,5 @@
 # Added support for Iceberg and improved package installed support
 # 1.5.1: Thu 25 Jun 2015 08:07:22 AEST
 # Added support for Brackets
+# 1.5.2: Thu 25 Jun 2015 14:10:22 AEST
+# Added support for Node

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.5.1
+# Version:      1.5.2
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -634,6 +634,9 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
     pkg_bin = tmp_dir+"/"+app_name
   end
   pkg_bin = pkg_bin+"."+app_type
+  if !File.exist?(pkg_bin)
+    pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+"."+app_type
+  end
   return pkg_bin
 end
 
@@ -643,8 +646,10 @@ def copy_app(app_name,tmp_dir,rem_ver)
   app_type = get_app_type(app_name)
   remove_app(app_name)
   if File.directory?(tmp_dir)
-    app_pid = quit_app(app_name)
-    if app_type.match(/zip/)
+    if !app_type.match(/node/)
+      app_pid = quit_app(app_name)
+    end
+    if app_type.match(/zip|pkg/)
       pkg_dir = tmp_dir
     else
       pkg_dir = get_pkg_dir(app_name,tmp_dir)
@@ -735,6 +740,9 @@ def install_app(app_name,pkg_file,rem_ver)
   if File.exist?(pkg_file)
     file_type = %x[file #{pkg_file}].chomp
     case pkg_file
+    when /pkg/
+      tmp_dir = $work_dir
+      copy_app(app_name,tmp_dir,rem_ver)
     when /tar\.bz2$|tbz2$/
       if file_type =~ /bzip2 compressed data/
         app_pid = copy_tar(app_name,pkg_file)
@@ -772,8 +780,10 @@ def install_app(app_name,pkg_file,rem_ver)
         exit
       end
     end
-    if app_pid.match(/[0-9]/)
-      start_app(app_name)
+    if !app_name.match(/node/)
+      if app_pid.match(/[0-9]/)
+        start_app(app_name)
+      end
     end
   else
     puts "Package file "+pkg_file+" does not exist"

@@ -115,6 +115,7 @@ Supported Applications:
 - MPlayerX   
 - Murus   
 - MyTunesRSS   
+- Node
 - NOYB   
 - OneDrive   
 - Onyx   
