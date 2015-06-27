@@ -305,3 +305,5 @@
 # Added support for Node
 # 1.5.3: Sat 27 Jun 2015 11:48:40 AEST
 # Fixed bug with installing applications
+# 1.5.4: Sat 27 Jun 2015 13:11:01 AEST
+# Added support for MKVtoolnix

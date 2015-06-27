@@ -590,16 +590,20 @@ def get_dest_dir(app_name)
   return dest_dir
 end
 
-def get_pkg_dir(app_name,tmp_dir)
+def get_pkg_dir(app_name,tmp_dir,rem_ver,pkg_bin)
   app_type = get_app_type(app_name)
   pkg_type = get_pkg_type(app_name)
-  case app_type
-  when /bin/
-    pkg_dir = app_type
+  if app_name.match(/MKVtoolnix/)
+    pkg_dir = pkg_bin
   else
-    pkg_dir = app_name+"."+app_type
+    case app_type
+    when /bin/
+      pkg_dir = app_type
+    else
+      pkg_dir = app_name+"."+app_type
+    end
+    pkg_dir = tmp_dir+"/"+pkg_dir
   end
-  pkg_dir = tmp_dir+"/"+pkg_dir
   return pkg_dir
 end
 
@@ -624,6 +628,8 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
     pkg_bin = tmp_dir+"/Install Citrix Receiver"
   when /Wireshark/
     pkg_bin = tmp_dir+"/"+app_name+" "+rem_ver+" Intel 64"
+  when /MKVtoolnix/
+    pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+" - Old GUI"
   when /OpenZFS/
     if os_rel >= 13
       pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher"
@@ -646,15 +652,15 @@ def copy_app(app_name,tmp_dir,rem_ver)
   app_type = get_app_type(app_name)
   remove_app(app_name)
   if File.directory?(tmp_dir)
+    pkg_bin = get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
     if !app_type.match(/node/)
       app_pid = quit_app(app_name)
     end
     if app_type.match(/zip|pkg/)
       pkg_dir = tmp_dir
     else
-      pkg_dir = get_pkg_dir(app_name,tmp_dir)
+      pkg_dir = get_pkg_dir(app_name,tmp_dir,rem_ver,pkg_bin)
     end
-    pkg_bin = get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
     if pkg_bin.match(/pkg$/)
       if File.exist?(pkg_bin) or File.symlink?(pkg_bin)
         if $verbose == 1
