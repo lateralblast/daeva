@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.5.2
+# Version:      1.5.3
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -655,14 +655,16 @@ def copy_app(app_name,tmp_dir,rem_ver)
       pkg_dir = get_pkg_dir(app_name,tmp_dir)
     end
     pkg_bin = get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
-    if File.exist?(pkg_bin) or File.symlink?(pkg_bin)
-      if $verbose == 1
-        puts "Installing Application from "+pkg_bin+" to #{app_dir}"
-      end
-      if app_type.match(/run/) or app_name.match(/Logitech/)
-        system("open \"#{pkg_bin}\"")
-      else
-        system("sudo sh -c '/usr/sbin/installer -pkg \"#{pkg_bin}\" -target /'")
+    if pkg_bin.match(/pkg$/)
+      if File.exist?(pkg_bin) or File.symlink?(pkg_bin)
+        if $verbose == 1
+          puts "Installing Application from "+pkg_bin+" to #{app_dir}"
+        end
+        if app_type.match(/run/) or app_name.match(/Logitech/)
+          system("open \"#{pkg_bin}\"")
+        else
+          system("sudo sh -c '/usr/sbin/installer -pkg \"#{pkg_bin}\" -target /'")
+        end
       end
     else
       if File.directory?(pkg_dir)
