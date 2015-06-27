@@ -137,6 +137,7 @@ Supported Applications:
 - Radiant Player  
 - RCDefaultApp   
 - RealPlayer   
+- Second Life
 - Security Growler  
 - Semulov   
 - ServeToMe   
@@ -166,6 +167,7 @@ Supported Applications:
 - VMware Fusion  
 - WebKit   
 - WineBottler   
+- Winfo
 - Wireshark   
 - World Ticker  
 - xCHM   

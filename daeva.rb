@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.5.6
+# Version:      1.5.7
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -593,8 +593,11 @@ end
 def get_pkg_dir(app_name,tmp_dir,rem_ver,pkg_bin)
   app_type = get_app_type(app_name)
   pkg_type = get_pkg_type(app_name)
-  if app_name.match(/MKVtoolnix/)
+  case app_name
+  when /MKVtoolnix/
     pkg_dir = pkg_bin
+  when /Second Life/
+    pkg_dir = tmp_dir+"/Second Life Viewer."+app_type
   else
     case app_type
     when /bin/
@@ -610,6 +613,8 @@ end
 def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
   os_rel = %x[uname -r |cut -f1 -d.].chomp.to_i
   case app_name
+  when /Second Life/
+    pkg_bin = tmp_dir+"/Second Life Viewer"
   when /Google Earth/
     pkg_bin = tmp_dir+"/Install Google Earth"
   when /GPG Suite/
