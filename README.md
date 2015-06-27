@@ -94,6 +94,7 @@ Supported Applications:
 - HyperSwitch   
 - iBrowse   
 - Iceberg
+- Imago
 - iMeme   
 - iTerm   
 - Itsycal   
