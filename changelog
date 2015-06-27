@@ -307,3 +307,5 @@
 # Fixed bug with installing applications
 # 1.5.4: Sat 27 Jun 2015 13:11:01 AEST
 # Added support for MKVtoolnix
+# 1.5.5: Sat 27 Jun 2015 13:33:06 AEST
+# Added support for magnetiX

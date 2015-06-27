@@ -112,6 +112,7 @@ Supported Applications:
 - macspice   
 - MacTerm   
 - Mactracker
+- magnetiX
 - MKVtoolnix   
 - MPlayerX   
 - Murus   
