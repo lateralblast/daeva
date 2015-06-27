@@ -110,6 +110,7 @@ Supported Applications:
 - MacGameStore   
 - Macgo iPhone Explorer 
 - MacID   
+- MacPCLtoPDF
 - macspice   
 - MacTerm   
 - Mactracker

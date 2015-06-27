@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.5.8
+# Version:      1.5.9
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -793,7 +793,7 @@ def install_app(app_name,pkg_file,rem_ver)
         exit
       end
     end
-    if !app_name.match(/node/)
+    if app_pid
       if app_pid.match(/[0-9]/)
         start_app(app_name)
       end
