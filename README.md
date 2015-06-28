@@ -117,6 +117,7 @@ Supported Applications:
 - magnetiX
 - MKVtoolnix   
 - MPlayerX   
+- Mplayerx Settings GUI
 - Murus   
 - MyTunesRSS   
 - Node
