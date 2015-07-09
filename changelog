@@ -319,3 +319,5 @@
 # Added support for MacPCLtoPDF
 # 1.6.0: Sun 28 Jun 2015 11:39:08 AEST
 # Added support for Mplayerx Settings GUI
+# 1.6.1: Thu  9 Jul 2015 10:25:33 AEST
+# Added support for DiskMaker

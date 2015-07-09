@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.6.0
+# Version:      1.6.1
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -221,7 +221,8 @@ end
 
 def restart_app(app_name)
   app_type = get_app_type(app_name)
-  app_dir  = get_app_dir(app_name)
+  app_ver  = ""
+  app_dir  = get_app_dir(app_name,app_ver)
   case app_type
   when /prefPane/
     %x[pkill "System Preferences"]
@@ -247,15 +248,18 @@ end
 
 # Get the directory where the application is installed or is going to be installed
 
-def get_app_dir(app_name)
+def get_app_dir(app_name,app_ver)
   app_dir  = ""
   app_type = get_app_type(app_name)
   case app_type
   when /bin/
     app_dir = "/usr/local/"+app_type
   when /app|run/
-    if app_name.match(/avast/)
+    case app_name
+    when /avast/
       app_dir = "/Applications/"+app_name+"!."+app_type
+    when /DiskMaker/
+      app_dir = app_name+" "+app_ver.gsub(/0|\./,"")+"."+app_type
     else
       app_dir = "/Applications/"+app_name+"."+app_type
     end
@@ -277,7 +281,8 @@ end
 
 def get_min_ver(app_name)
   min_ver  = ""
-  app_dir  = get_app_dir(app_name)
+  app_ver  = ""
+  app_dir  = get_app_dir(app_name,app_ver)
   ver_file = app_dir+"/Contents/Info.plist"
   if File.exist?(ver_file)
     cf_check = %x[cat "#{ver_file}" | grep CFBundleVersion]
@@ -297,7 +302,7 @@ end
 
 def get_app_ver(app_name)
   app_ver  = ""
-  app_dir  = get_app_dir(app_name)
+  app_dir  = get_app_dir(app_name,app_ver)
   ver_file = app_dir+"/Contents/Info.plist"
   if File.exist?(ver_file)
     if app_name.match(/ServeToMe/)
@@ -338,7 +343,8 @@ end
 # For applications that are compared on date (e.g. nightly builds)
 
 def get_app_date(app_name)
-  app_dir = get_app_dir(app_name)
+  app_ver = ""
+  app_dir = get_app_dir(app_name,app_ver)
   app_bin = app_dir+"/Contents/MacOS/"+app_name
   if File.directory?(app_dir)
     if File.exist?(app_bin)
@@ -594,7 +600,7 @@ def get_pkg_dir(app_name,tmp_dir,rem_ver,pkg_bin)
   app_type = get_app_type(app_name)
   pkg_type = get_pkg_type(app_name)
   case app_name
-  when /MKVtoolnix/
+  when /MKVtoolnix|DiskMaker/
     pkg_dir = pkg_bin
   when /Second Life/
     pkg_dir = tmp_dir+"/Second Life Viewer."+app_type
@@ -635,6 +641,8 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
     pkg_bin = tmp_dir+"/"+app_name+" "+rem_ver+" Intel 64"
   when /MKVtoolnix/
     pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+" - Old GUI"
+  when /DiskMaker/
+    pkg_bin = tmp_dir+"/"+app_name+" "+rem_ver.gsub(/0|\./,"")
   when /OpenZFS/
     if os_rel >= 13
       pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher"
@@ -652,7 +660,8 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
 end
 
 def copy_app(app_name,tmp_dir,rem_ver)
-  app_dir  = get_app_dir(app_name)
+  app_ver  = ""
+  app_dir  = get_app_dir(app_name,app_ver)
   dest_dir = get_dest_dir(app_name)
   app_type = get_app_type(app_name)
   remove_app(app_name)
@@ -808,7 +817,8 @@ end
 def fix_gatekeeper(app_name)
   app_type = get_app_type(app_name)
   if app_type.match(/app|util|run/)
-    app_dir = get_app_dir(app_name)
+    app_ver = ""
+    app_dir = get_app_dir(app_name,app_ver)
     if File.directory?(app_dir)
       if $verbose == 1
         puts "Updating Gatekeeper and Quarantine information for "+app_dir
@@ -891,7 +901,8 @@ def download_and_install_app(app_name)
 end
 
 def remove_app(app_name)
-  app_dir  = get_app_dir(app_name)
+  app_ver  = ""
+  app_dir  = get_app_dir(app_name,app_ver)
   app_type = get_app_type(app_name)
   if File.directory?(app_dir)
     if app_dir.match(/#{app_name}/) and !app_type.match(/bin/)
@@ -931,7 +942,8 @@ end
 def add_login_item(app_name)
   login_items = get_login_items()
   if !login_items.match(/#{app_name}/)
-    app_dir = get_app_dir(app_name)
+    app_ver = ""
+    app_dir = get_app_dir(app_name,app_ver)
     if $verbose == 1
       puts "Adding "+app_name+" to login items"
     end
