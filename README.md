@@ -71,6 +71,7 @@ Supported Applications:
 - Dark Boot  
 - Day-O   
 - Deeper   
+- DetectX
 - DiskMaker
 - Dropbox   
 - EtreCheck   
