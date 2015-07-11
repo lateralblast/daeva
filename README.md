@@ -131,6 +131,7 @@ Supported Applications:
 - PrivateTunnel   
 - OpenZFS   
 - Opera   
+- Opera Beta
 - Opera Next  
 - PDF Attributes  
 - PhantomJS   
