@@ -81,6 +81,7 @@ Supported Applications:
 - FileZilla   
 - Firefox   
 - FirefoxAurora   
+- FirefoxDeveloperEdition
 - FirefoxNightly   
 - GeekTool   
 - GIMP   
