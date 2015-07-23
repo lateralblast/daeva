@@ -167,6 +167,7 @@ Supported Applications:
 - Tuck   
 - Tunnelblick   
 - typora
+- Vagrant
 - VirtualBox   
 - Visual Studio Code 
 - VLC   
