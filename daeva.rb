@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.6.5
+# Version:      1.6.6
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -534,8 +534,11 @@ def unzip_app(app_name,zip_file)
     puts "Zip file "+zip_file+" contains errors"
     exit
   end
-  if app_name.match(/Logitech/)
+  case app_name
+  when /Logitech/
     app_dir = zip_dir
+  when /packer/
+    app_dir = "/usr/local/bin"
   else
     app_dir = zip_dir+"/"+app_name+".app"
   end

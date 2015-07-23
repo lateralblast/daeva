@@ -327,3 +327,7 @@
 # Added support for Opera Beta
 # 1.6.4: Sat 11 Jul 2015 13:08:31 AEST
 # Added support for Firefox Developer Edition
+# 1.6.5: Thu 23 Jul 2015 09:59:16 AEST
+# Added support for vagrant
+# 1.6.6: Thu 23 Jul 2015 10:29:45 AEST
+# Initial support for Packer
