@@ -13,7 +13,7 @@ def get_brackets_app_type()
 end
 
 def get_brackets_app_url()
-  app_url = "http://brackets.io/"
+  app_url = "http://brackets.io"
   return app_url
 end
 
