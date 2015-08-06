@@ -153,7 +153,8 @@ Supported Applications:
 - Simple Comic  
 - Skype   
 - SourceTree   
-- Spectacle   
+- Spectacle
+- Speedy   
 - Splunk   
 - Spotifree   
 - Spotify   
