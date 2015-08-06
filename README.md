@@ -73,7 +73,8 @@ Supported Applications:
 - Deeper   
 - DetectX
 - DiskMaker
-- Dropbox   
+- Dropbox
+- Eddie   
 - EtreCheck   
 - Evernote   
 - EyeTV   
