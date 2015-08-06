@@ -8,7 +8,7 @@ def get_packer_app_name()
 end
 
 def get_packer_app_type()
-  app_type = "zip"
+  app_type = "bin"
   return app_type
 end
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.6.6
+# Version:      1.6.7
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -387,7 +387,9 @@ def get_rem_ver(app_name)
     puts "Remote build version (or date) not found"
     exit
   end
-  rem_ver = rem_ver.gsub(/\.$/,"")
+  if !rem_ver.class.to_s.match(/Date/)
+    rem_ver = rem_ver.gsub(/\.$/,"")
+  end
   return rem_ver
 end
 
@@ -524,11 +526,17 @@ def unzip_app(app_name,zip_file)
     puts "Zip file "+zip_file+" does not exist"
     exit
   end
+  case app_name
+  when /packer/
+    base_dir = "/usr/local"
+  else
+    base_dir = $work_dir
+  end
   if zip_test =~ /No errors/
     if $verbose == 1
-      %x[cd #{$work_dir} ; unzip -d "#{zip_dir}" -o #{zip_file}]
+      %x[cd #{base_dir} ; unzip -d "#{zip_dir}" -o #{zip_file}]
     else
-      %x[cd #{$work_dir} ; unzip -d "#{zip_dir}" -q -o #{zip_file} 2>&1 /dev/null]
+      %x[cd #{base_dir} ; unzip -d "#{zip_dir}" -q -o #{zip_file} 2>&1 /dev/null]
     end
   else
     puts "Zip file "+zip_file+" contains errors"
@@ -539,10 +547,11 @@ def unzip_app(app_name,zip_file)
     app_dir = zip_dir
   when /packer/
     app_dir = "/usr/local/bin"
+    zip_dir = $work_dir
   else
     app_dir = zip_dir+"/"+app_name+".app"
   end
-  if !File.directory?(app_dir)
+  if !File.directory?(app_dir) and !app_name.match(/packer/)
     if app_type.match(/bin/)
       if app_name.match(/ /)
         base_dir = %x[unzip -l "#{zip_file}" |tr '[:upper:]' '[:lower:]' |awk '{print $4" "$5"}' |grep "#{app_name.downcase}" |grep "/$" |head -1].chomp.split(/\//)[0..-2].join("/")
@@ -622,6 +631,8 @@ end
 def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
   os_rel = %x[uname -r |cut -f1 -d.].chomp.to_i
   case app_name
+  when /packer/
+    pkg_bin = tmp_dir+"/packer-"+rem_ver+".zip"
   when /Second Life/
     pkg_bin = tmp_dir+"/Second Life Viewer"
   when /Google Earth/
@@ -655,7 +666,9 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
   else
     pkg_bin = tmp_dir+"/"+app_name
   end
-  pkg_bin = pkg_bin+"."+app_type
+  if !app_name.match(/packer/)
+    pkg_bin = pkg_bin+"."+app_type
+  end
   if !File.exist?(pkg_bin)
     pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+"."+app_type
   end
@@ -673,7 +686,7 @@ def copy_app(app_name,tmp_dir,rem_ver)
     if !app_type.match(/node/)
       app_pid = quit_app(app_name)
     end
-    if app_type.match(/zip|pkg/)
+    if app_type.match(/zip|pkg|bin/)
       pkg_dir = tmp_dir
     else
       pkg_dir = get_pkg_dir(app_name,tmp_dir,rem_ver,pkg_bin)
@@ -690,7 +703,7 @@ def copy_app(app_name,tmp_dir,rem_ver)
         end
       end
     else
-      if File.directory?(pkg_dir)
+      if File.directory?(pkg_dir) and !app_name.match(/packer/)
         if $verbose == 1
           puts "Copying Package directory "+pkg_dir+" from "+tmp_dir+" to #{app_dir}"
         end
@@ -702,7 +715,11 @@ def copy_app(app_name,tmp_dir,rem_ver)
           %x[cd "#{tmp_dir}" ; sudo cp -rp "#{pkg_dir}" "#{dest_dir}" 2>&1]
         end
       else
-        puts "Could not find source directory "+pkg_dir
+        if app_name.match(/packer/)
+          unzip_app(app_name,pkg_bin)
+        else
+          puts "Could not find source directory "+pkg_dir
+        end
       end
     end
     user_id = %x[whoami].chomp

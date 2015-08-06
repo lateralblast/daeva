@@ -134,6 +134,7 @@ Supported Applications:
 - Opera   
 - Opera Beta
 - Opera Next  
+- Packer
 - PDF Attributes  
 - PhantomJS   
 - Picasa   
