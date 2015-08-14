@@ -13,23 +13,19 @@ def get_iterm_app_type()
 end
 
 def get_iterm_app_url()
-  app_url = "http://www.iterm.com/#/section/downloads"
+  app_url = "http://iterm2.com/downloads.html"
   return app_url
 end
 
 def get_iterm_pkg_url(app_name,app_url)
-  if !File.exist?("/usr/local/bin/lftp")
-    puts "Processing iTerm page requires lftp"
-    if File.exist?("/usr/local/bin/brew")
-      puts "Installing lftp with brew"
-      %x[brew install lftp]
-    else
-      exit
-    end
+  app_url = get_iterm_app_url()
+  arch    = %x[uname -m]
+  if arch.match(/x86/)
+    search = "Intel"
+  else
+    search = "PPC"
   end
-  pkg_url = `lftp http://www.iterm2.com/#/section/downloads -e "ls ; exit" 2>&1`
-  pkg_url = pkg_url.split(/\n/).grep(/beta/)[0].split(/ /)[-1]
-  pkg_url = app_url+"/"+pkg_url
+  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/#{search}/)[0].split(/"/)[1]
   return pkg_url
 end
 
