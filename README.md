@@ -70,7 +70,8 @@ Supported Applications:
 - Cyberduck   
 - Dark Boot  
 - Day-O   
-- Deeper   
+- Deeper  
+- DeSmuME 
 - DetectX
 - DiskMaker
 - Dropbox
