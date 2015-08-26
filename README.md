@@ -152,7 +152,8 @@ Supported Applications:
 - ServeToMe   
 - Shuttle   
 - Simple Comic  
-- Skype   
+- Skype
+- SL-NTFS   
 - SourceTree   
 - Spectacle
 - Speedy   
