@@ -145,7 +145,8 @@ Supported Applications:
 - puppet   
 - Radiant Player  
 - RCDefaultApp   
-- RealPlayer   
+- RealPlayer
+- Revisions   
 - Second Life
 - Security Growler  
 - Semulov   
