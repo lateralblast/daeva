@@ -13,19 +13,17 @@ def get_simple_comic_app_type()
 end
 
 def get_simple_comic_app_url()
-  app_url = "http://dancingtortoise.com/simplecomic/"
+  app_url = "http://www.macupdate.com/app/mac/21987/simple-comic"
   return app_url
 end
 
 def get_simple_comic_pkg_url(app_name,app_url)
-  pkg_url = Net::HTTP.get(URI.parse(app_url)).split("\n").grep(/zip/)[0].split(/"/)[3]
+  pkg_url = get_macupdate_url(app_name,app_url)
   return pkg_url
 end
 
 def get_simple_comic_rem_ver(app_name,app_url)
-  pkg_url = get_simple_comic_pkg_url(app_name,app_url)
-  rem_ver = File.basename(pkg_url,".zip")
-  rem_ver = rem_ver.split(/_/)[1..2].join(".")
+  rem_ver = "1.7.251"
   return rem_ver
 end
 
@@ -35,9 +33,8 @@ def get_simple_comic_pkg_type()
 end
 
 def get_simple_comic_loc_ver(app_name)
-  loc_ver  = get_app_ver(app_name)
-  min_ver  = get_min_ver(app_name)
-  loc_ver  = loc_ver+"."+min_ver
+  loc_ver = get_app_ver(app_name)
+  loc_ver = loc_ver.gsub(/ RC2/,".251")
   return loc_ver
 end
 
