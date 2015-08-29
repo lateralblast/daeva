@@ -28,7 +28,7 @@ def get_gimp_rem_ver(app_name,app_url)
 end
 
 def get_gimp_pkg_type()
-  pkg_type = "dmp"
+  pkg_type = "dmg"
   return pkg_type
 end
 
