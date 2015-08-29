@@ -147,6 +147,7 @@ Supported Applications:
 - RCDefaultApp   
 - RealPlayer
 - Revisions   
+- Satellite Eyes
 - Second Life
 - Security Growler  
 - Semulov   
