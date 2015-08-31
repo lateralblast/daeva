@@ -117,6 +117,7 @@ Supported Applications:
 - Macgo iPhone Explorer 
 - MacID   
 - MacPCLtoPDF
+- Macs Fan Control
 - macspice   
 - MacTerm   
 - Mactracker
