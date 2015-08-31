@@ -65,7 +65,8 @@ Supported Applications:
 - Calibre   
 - Chromium   
 - Citrix Receiver  
-- CloudyTabs   
+- CloudyTabs
+- Commander One   
 - ControlPlane   
 - Cyberduck   
 - Dark Boot  
