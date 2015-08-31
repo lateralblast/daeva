@@ -52,6 +52,7 @@ Packages
 
 Supported Applications:
 
+- ActiveTcl
 - Adium   
 - Alarm Clock  
 - AppCleaner   

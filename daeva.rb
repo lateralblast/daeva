@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.7.9
+# Version:      1.8.0
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -631,6 +631,8 @@ end
 def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
   os_rel = %x[uname -r |cut -f1 -d.].chomp.to_i
   case app_name
+  when /ActiveTcl/
+    pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver.split(/\./)[0..1].join(".")
   when /packer/
     pkg_bin = tmp_dir+"/packer-"+rem_ver+".zip"
   when /Second Life/
