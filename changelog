@@ -359,3 +359,5 @@
 # Added support for Macs Fan Control
 # 1.8.0: Mon 31 Aug 2015 22:52:17 AEST
 # Added support for ActiveTcl
+# 1.8.1: Fri 11 Sep 2015 10:38:14 AEST
+# Fixed available version detection for VirtualBox

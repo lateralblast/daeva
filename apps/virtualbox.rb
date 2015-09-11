@@ -25,8 +25,8 @@ def get_virtualbox_pkg_url(app_name,app_url)
 end
 
 def get_virtualbox_rem_ver(app_name,app_url)
-  ver_url = app_url+"LATEST.TXT"
-  rem_ver = Net::HTTP.get(URI.parse(ver_url)).chomp
+  wiki_url = "https://www.virtualbox.org/wiki/Downloads"
+  rem_ver  = Net::HTTP.get(URI.parse(wiki_url)).to_s.split("\n").grep(/OSX/)[0].split(/"/)[3].split(/\//)[4]
   return rem_ver
 end
 
