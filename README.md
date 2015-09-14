@@ -89,7 +89,8 @@ Supported Applications:
 - FirefoxNightly   
 - GeekTool   
 - GIMP   
-- GitHub   
+- GitHub
+- Go2Shell  
 - Google Chrome  
 - Google Drive
 - Google Earth  
