@@ -150,7 +150,8 @@ Supported Applications:
 - Radiant Player  
 - RCDefaultApp   
 - RealPlayer
-- Revisions   
+- Revisions
+- RStudio   
 - Satellite Eyes
 - Second Life
 - Security Growler  
