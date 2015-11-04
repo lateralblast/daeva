@@ -91,6 +91,7 @@ Supported Applications:
 - GIMP   
 - GitHub
 - Go2Shell  
+- Goofy
 - Google Chrome  
 - Google Drive
 - Google Earth  
