@@ -105,6 +105,7 @@ Supported Applications:
 - Iceberg
 - Imago
 - iMeme   
+- Insights
 - iTerm   
 - Itsycal   
 - iTubeDownloader   

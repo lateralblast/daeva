@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #
 # Name:         daeva (Download and Automatically Enable Various Applications)
-# Version:      1.8.3
+# Version:      1.8.4
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -659,6 +659,8 @@ def get_pkg_bin(app_name,tmp_dir,rem_ver,app_type)
     pkg_bin = tmp_dir+"/"+app_name+"-"+rem_ver+" - Old GUI"
   when /DiskMaker/
     pkg_bin = tmp_dir+"/"+app_name+" "+rem_ver.gsub(/0|\./,"")
+  when /Insights/
+    pkg_bin = tmp_dir+"/"+app_name+" v."+rem_ver
   when /OpenZFS/
     if os_rel >= 13
       pkg_bin = tmp_dir+"/OpenZFS on OS X "+rem_ver+" Mavericks or higher"
